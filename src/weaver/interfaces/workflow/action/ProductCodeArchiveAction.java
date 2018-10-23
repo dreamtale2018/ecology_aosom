@@ -205,7 +205,7 @@ public class ProductCodeArchiveAction implements Action {
 					itemContentMap.put("include_package_flag", sfyljbDetailA);
 					itemContentMap.put("item_version_enable", sfqdbbhDetailA);
 					
-					String usDetailA = detailAMap.get("US");			// US
+					/*String usDetailA = detailAMap.get("US");			// US
 					String usppDetailA = mainMap.get("USPP");			// US 品牌
 					String uspmDetailA = mainMap.get("USPM");			// US 清关英文品名
 					String caDetailA = detailAMap.get("CA");			// CA
@@ -292,12 +292,12 @@ public class ProductCodeArchiveAction implements Action {
 					}
 					if (!StringUtils.isBlank(esDetailA)) {
 						ouContentList.add(addOu("ES", WorkflowUtils.getFieldSelectName(workflowid, "ESPP", esppDetailA), espmDetailA, esjjsxDetailA, esjrsxDetailA));
-					}
+					}*/
 					
 					pc.setItemContentMap(itemContentMap);
 					pc.setBoxContentList(boxContentList);
 					if (glbomDetailA.equals("Y")) pc.setBomContentList(bomContentList);
-					pc.setOuContentList(ouContentList);
+					//pc.setOuContentList(ouContentList);
 					
 					pcList.add(pc);
 				}

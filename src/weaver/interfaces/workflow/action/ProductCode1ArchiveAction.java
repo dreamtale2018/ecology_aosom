@@ -60,6 +60,20 @@ public class ProductCode1ArchiveAction implements Action {
 					String frsl1DetailA = detailAMap.get("FR");		// FR 下单数量
 					String itsl1DetailA = detailAMap.get("IT");		// IT 下单数量
 					String essl1DetailA = detailAMap.get("ES");		// ES 下单数量
+					String usppDetailA = mainMap.get("USPP");		// US 品牌
+					String cappDetailA = mainMap.get("CAPP");		// CA 品牌
+					String ukppDetailA = mainMap.get("UKPP");		// UK 品牌
+					String deppDetailA = mainMap.get("DEPP");		// DE 品牌
+					String frppDetailA = mainMap.get("FRPP");		// FR 品牌
+					String itppDetailA = mainMap.get("ITPP");		// IT 品牌
+					String esppDetailA = mainMap.get("ESPP");		// ES 品牌
+					String uspmDetailA = mainMap.get("USPM");		// US 清关英文品名
+					String capmDetailA = mainMap.get("CAPM");		// CA 清关英文品名
+					String ukpmDetailA = mainMap.get("UKPM");		// UK 清关英文品名
+					String depmDetailA = mainMap.get("DEPM");		// DE 清关英文品名
+					String frpmDetailA = mainMap.get("FRPM");		// FR 清关英文品名
+					String itpmDetailA = mainMap.get("ITPM");		// IT 清关英文品名
+					String espmDetailA = mainMap.get("ESPM");		// ES 清关英文品名
 					String usjjsxDetailA = Util.null2String(WorkflowUtils.getFieldSelectName(workflowid, "USJJSX", mainMap.get("USJJSX")));		
 																		// US季节属性
 					usjjsxDetailA = oracleManager.getChineseMsg(usjjsxDetailA);
@@ -105,25 +119,25 @@ public class ProductCode1ArchiveAction implements Action {
 					// 内容处理
 					List<Map<String, String>> ouContentList = new ArrayList<Map<String, String>>(1);
 					if (ussl1DetailA!=null && !"".equals(ussl1DetailA)) {
-						ouContentList.add(addOu("US", usjjsxDetailA, usjrsxDetailA));
+						ouContentList.add(addOu("US", WorkflowUtils.getFieldSelectName(workflowid, "USPP", usppDetailA), uspmDetailA, usjjsxDetailA, usjrsxDetailA));
 					}
 					if (casl1DetailA!=null && !"".equals(casl1DetailA)) {
-						ouContentList.add(addOu("CA", cajjsxDetailA, cajrsxDetailA));
+						ouContentList.add(addOu("CA", WorkflowUtils.getFieldSelectName(workflowid, "CAPP", cappDetailA), capmDetailA, cajjsxDetailA, cajrsxDetailA));
 					}
 					if (uksl1DetailA!=null && !"".equals(uksl1DetailA)) {
-						ouContentList.add(addOu("GB", ukjjsxDetailA, ukjrsxDetailA));
+						ouContentList.add(addOu("GB", WorkflowUtils.getFieldSelectName(workflowid, "UKPP", ukppDetailA), ukpmDetailA, ukjjsxDetailA, ukjrsxDetailA));
 					}
 					if (desl1DetailA!=null && !"".equals(desl1DetailA)) {
-						ouContentList.add(addOu("DE", dejjsxDetailA, dejrsxDetailA));
+						ouContentList.add(addOu("DE", WorkflowUtils.getFieldSelectName(workflowid, "DEPP", deppDetailA), depmDetailA, dejjsxDetailA, dejrsxDetailA));
 					}
 					if (frsl1DetailA!=null && !"".equals(frsl1DetailA)) {
-						ouContentList.add(addOu("FR", frjjsxDetailA, frjrsxDetailA));
+						ouContentList.add(addOu("FR", WorkflowUtils.getFieldSelectName(workflowid, "FRPP", frppDetailA), frpmDetailA, frjjsxDetailA, frjrsxDetailA));
 					}
 					if (itsl1DetailA!=null && !"".equals(itsl1DetailA)) {
-						ouContentList.add(addOu("IT", itjjsxDetailA, itjrsxDetailA));
+						ouContentList.add(addOu("IT", WorkflowUtils.getFieldSelectName(workflowid, "ITPP", itppDetailA), itpmDetailA, itjjsxDetailA, itjrsxDetailA));
 					}
 					if (essl1DetailA!=null && !"".equals(essl1DetailA)) {
-						ouContentList.add(addOu("ES", esjjsxDetailA, esjrsxDetailA));
+						ouContentList.add(addOu("ES", WorkflowUtils.getFieldSelectName(workflowid, "ESPP", esppDetailA), espmDetailA, esjjsxDetailA, esjrsxDetailA));
 					}
 					
 					pc.setItemContentMap(itemContentMap);
@@ -169,14 +183,15 @@ public class ProductCode1ArchiveAction implements Action {
 	 * 					节日属性
 	 * @return 国别信息项
 	 */
-	private Map<String, String> addOu(String ouName, String seasonCode, String festivalAttribute1) {
+	private Map<String, String> addOu(String ouName, String brandCode, String customsName, String seasonCode, String festivalAttribute1) {
 		Map<String, String> ouContentMap = new HashMap<String, String>();
 		ouContentMap.put("ou_name", ouName);
 		ouContentMap.put("season_code", seasonCode);
 		ouContentMap.put("festival_attribute1", festivalAttribute1);
 		ouContentMap.put("festival_attribute2", null);
 		ouContentMap.put("festival_attribute3", null);
-		ouContentMap.put("brand_code", null);			
+		ouContentMap.put("brand_code", brandCode);
+		ouContentMap.put("customs_name", customsName);
 		ouContentMap.put("shiptype_code", null);		// 快递方式
 		ouContentMap.put("tariff", null);				// 关税
 		ouContentMap.put("item_status_code", null);		// 物料状态

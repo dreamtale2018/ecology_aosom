@@ -341,6 +341,10 @@ public class OracleManager {
 			String oaItemJson = createRequestJson1(list);
 			response = proxy.importOAORGItem(oaItemJson, username, password);
 			logger.info("response: " + response);
+			if (!isNumeric(response)) {
+				code = "-4";
+				message = response;
+			}
 		} catch (RemoteException e) {
 			logger.error(task + " Failure: ", e);
 			code = "-2";
