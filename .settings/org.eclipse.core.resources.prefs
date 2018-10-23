@@ -1,0 +1,20 @@
+#Fri Aug 17 14:36:03 CST 2018
+eclipse.preferences.version=1
+encoding//src/org/datacontract/schemas/_2004/_07/MH_EBSOAWcfService/GetItemQtyInfo.java=UTF-8
+encoding//src/org/datacontract/schemas/_2004/_07/MH_EBSOAWcfService/GetPoListInfo.java=UTF-8
+encoding//src/org/datacontract/schemas/_2004/_07/MH_EBSOAWcfService/GetProductInfo.java=UTF-8
+encoding//src/org/datacontract/schemas/_2004/_07/MH_EBSOAWcfService/GetVendorAddressInfo.java=UTF-8
+encoding//src/org/datacontract/schemas/_2004/_07/MH_EBSOAWcfService/GetVendorContactInfo.java=UTF-8
+encoding//src/org/datacontract/schemas/_2004/_07/MH_EBSOAWcfService/GetVendorInfo.java=UTF-8
+encoding//src/org/datacontract/schemas/_2004/_07/MH_EBSOAWcfService/ReturnOAItemSKUInfo.java=UTF-8
+encoding//src/org/datacontract/schemas/_2004/_07/MH_EBSOAWcfService/UpdatePoStatusInfo.java=UTF-8
+encoding//src/org/datacontract/schemas/_2004/_07/MH_EBSOAWcfService_DBDac/OAItemModelBom_Content.java=UTF-8
+encoding//src/org/datacontract/schemas/_2004/_07/MH_EBSOAWcfService_DBDac/OAItemModelBox_Content.java=UTF-8
+encoding//src/org/datacontract/schemas/_2004/_07/MH_EBSOAWcfService_DBDac/OAItemModelItem_Content.java=UTF-8
+encoding//src/org/datacontract/schemas/_2004/_07/MH_EBSOAWcfService_DBDac/OAItemModelOAItem.java=UTF-8
+encoding//src/org/datacontract/schemas/_2004/_07/MH_EBSOAWcfService_DBDac/OAItemModelOu_Content.java=UTF-8
+encoding//src/org/tempuri/BasicHttpBinding_OAServiceContractStub.java=UTF-8
+encoding//src/org/tempuri/OAService.java=UTF-8
+encoding//src/org/tempuri/OAServiceContract.java=UTF-8
+encoding//src/org/tempuri/OAServiceLocator.java=UTF-8
+encoding/<project>=UTF-8
