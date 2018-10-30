@@ -1,5 +1,7 @@
-#Fri Aug 17 14:36:03 CST 2018
+#Thu Oct 25 13:50:21 CST 2018
 eclipse.preferences.version=1
+encoding//WebRoot/ningb/conf/prop/hrm.properties=UTF-8
+encoding//WebRoot/ningb/conf/prop/oracle.properties=UTF-8
 encoding//src/org/datacontract/schemas/_2004/_07/MH_EBSOAWcfService/GetItemQtyInfo.java=UTF-8
 encoding//src/org/datacontract/schemas/_2004/_07/MH_EBSOAWcfService/GetPoListInfo.java=UTF-8
 encoding//src/org/datacontract/schemas/_2004/_07/MH_EBSOAWcfService/GetProductInfo.java=UTF-8
