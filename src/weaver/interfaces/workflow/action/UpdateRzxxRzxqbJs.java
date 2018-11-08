@@ -13,41 +13,42 @@ import weaver.soa.workflow.request.RequestInfo;
 import com.weaver.ningb.soa.workflow.action.support.ActionInfo;
 import com.weaver.ningb.soa.workflow.action.support.ActionUtils;
 /**
- * 货号申请表结束节点更新新品开发进度台帐<br>
+ * 认证需求表结束节点更新认证信息台账<br>
  * 
  * @author ycj
  *
  */
-public class UpdateXpkfjdHhsqJs implements Action
+public class UpdateRzxxRzxqbJs implements Action
 {
-  private Log logger = LogFactory.getLog(UpdateXpkfjdHhsqJs.class);
+  private Log logger = LogFactory.getLog(UpdateRzxxRzxqbJs.class);
   
   @Override
   public String execute(RequestInfo request)
   {
-	String requestid = request.getRequestid();
     
-	RecordSet rs = new RecordSet();
-    
-    String sql = "";
+	  RecordSet rs = new RecordSet();
+	    
+	  String requestid = request.getRequestid();
+
+	  String sql = "";
+
     try
     {
     	ActionInfo info = ActionUtils.getActionInfo(request);
-        
-    	// 获取明细表1信息
-	    List<Map<String, String>> detailAList = info.getDetailMap("1");
-	    if (detailAList != null && detailAList.size() > 0) {
+    	
+    	// 获取流程明细表 1
+		List<Map<String, String>> detailAList = info.getDetailMap("1");
+		if (detailAList != null && detailAList.size() > 0) {
 			for (int i = 0; i < detailAList.size(); i++) {
 				Map<String, String> detailAMap = detailAList.get(i);
-				String mxidDetailA = Util.null2String(detailAMap.get("id"));//明细ID
-				String hhDetailA = Util.null2String(detailAMap.get("HH"));//货号
-				sql = "update uf_XPKFRWGZB set HH = '" + hhDetailA + 
-						"' where HHSQBLC = '" + requestid + "' and MXID = '" + mxidDetailA + "'";
+				String mxidDetailA = Util.null2String(detailAMap.get("id"));		//明细ID
+				String zsbhDetailA = Util.null2String(detailAMap.get("ZSBH"));		//证书编号
+				String zsyxrqDetailA = Util.null2String(detailAMap.get("ZSYXRQ"));	//证书有效日期
+				sql = "update uf_RZXXB set zsbh = '" + zsbhDetailA + "',zsyxrq = '" + zsyxrqDetailA + 
+						"',zt = '1' where rzxqblc = '" + requestid + "' and mxid = '" + mxidDetailA + "'";
 				rs.execute(sql);
 			}
 		}
-        //this.logger.error("sql：" + sql);
-        
     }
     catch (Exception e)
     {

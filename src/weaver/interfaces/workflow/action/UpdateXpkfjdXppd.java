@@ -13,7 +13,12 @@ import weaver.soa.workflow.request.RequestInfo;
 import com.weaver.ningb.direct.manager.integration.OracleManager;
 import com.weaver.ningb.soa.workflow.action.support.ActionInfo;
 import com.weaver.ningb.soa.workflow.action.support.ActionUtils;
-
+/**
+ * 新品排单表供应链助理录入节点更新新品开发进度台帐<br>
+ * 
+ * @author ycj
+ *
+ */
 public class UpdateXpkfjdXppd implements Action
 {
   private OracleManager oracleManager = new OracleManager();

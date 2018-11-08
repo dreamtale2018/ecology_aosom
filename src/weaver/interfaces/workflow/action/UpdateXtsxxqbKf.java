@@ -11,10 +11,15 @@ import weaver.soa.workflow.request.RequestInfo;
 
 import com.weaver.ningb.soa.workflow.action.support.ActionInfo;
 import com.weaver.ningb.soa.workflow.action.support.ActionUtils;
-
-public class UpdatePzrwdSys implements Action
+/**
+ * IT系统实现需求单开发节点更新IT系统实现需求查询台帐<br>
+ * 
+ * @author ycj
+ *
+ */
+public class UpdateXtsxxqbKf implements Action
 {
-  private Log logger = LogFactory.getLog(UpdatePzrwdSys.class);
+  private Log logger = LogFactory.getLog(UpdateXtsxxqbKf.class);
   
   @Override
   public String execute(RequestInfo request)
@@ -22,30 +27,18 @@ public class UpdatePzrwdSys implements Action
     RecordSet rs = new RecordSet();
     
     String requestid = request.getRequestid();
-    String YPDD = "";	//样品地点 
-    String SFXYPZ = "";	//是否需拍照 
-    String YY = "";		//原因
-    String PZYQ = "";	//拍照要求
-    String SJXQ = "";	//实景需求
-    //String BYWCRQ = "";//备样完成日期
 
+    String KFY = "";	//开发员
     String sql = "";
     try
     {
     	ActionInfo info = ActionUtils.getActionInfo(request);
     	
-   	 	// 获取主表信息
-		Map<String, String> mainTable = info.getMainMap();
-		YPDD = Util.null2String(mainTable.get("YPDD"));
-		SFXYPZ = Util.null2String(mainTable.get("SFXPZ"));
-		YY = Util.null2String(mainTable.get("SM"));
-		PZYQ = Util.null2String(mainTable.get("HBYQ"));
-		SJXQ = Util.null2String(mainTable.get("SJ"));
-		//BYWCRQ = Util.null2String(mainTable.get("BYWCRQ"));
-        sql = "update formtable_main_159 set PZZT='1',YPDD='"+ YPDD + 
-        		"',SFXYPZ='" + SFXYPZ + "',YY='" + YY + "',PZYQ='" + PZYQ + 
-        		"',SJXQ='" + SJXQ + "' where lc = '" + requestid + "'";
-        rs.execute(sql);
+    	// 获取主表信息
+    	Map<String, String> mainTable = info.getMainMap();
+    	KFY = Util.null2String(mainTable.get("KFY"));
+		sql = "update uf_ITXTXQSXTZ set ZT='2',KFY = '" + KFY + "' where LC = '" + requestid + "'";
+		rs.execute(sql);
         //this.logger.error("sql：" + sql);
         
     }

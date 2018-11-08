@@ -14,34 +14,32 @@ import com.weaver.ningb.direct.manager.integration.OracleManager;
 import com.weaver.ningb.soa.workflow.action.support.ActionInfo;
 import com.weaver.ningb.soa.workflow.action.support.ActionUtils;
 /**
- * 新品排单反馈采购完善合同附页表节点更新新品开发进度台帐<br>
+ * 新品排单反馈表更新认证信息台账<br>
  * 
  * @author ycj
  *
  */
-public class UpdateXpkfjdXppdfk implements Action
+public class UpdateRzxxXppdfk implements Action
 {
-  private OracleManager oracleManager = new OracleManager();
-  private Log logger = LogFactory.getLog(UpdateXpkfjdXppdfk.class);
+  private Log logger = LogFactory.getLog(UpdateRzxxXppdfk.class);
   
   @Override
   public String execute(RequestInfo request)
   {
-	String requestid = request.getRequestid();
-	RecordSet rs = new RecordSet();
-	
-	String HTH = "";	//合同号
-	String JQ = "";		//交期
     
-    String sql = "";
+	  OracleManager oracleManager = new OracleManager();
+	  RecordSet rs = new RecordSet();
+	    
+	  String HTJQ = "";		//合同交期
+    
+	  String sql = "";
     try
     {
     	ActionInfo info = ActionUtils.getActionInfo(request);
     	
     	// 获取主表信息
 		Map<String, String> mainTable = info.getMainMap();
-		HTH = Util.null2String(mainTable.get("CGHTH2"));	
-		JQ = Util.null2String(mainTable.get("JQ"));			
+		HTJQ = Util.null2String(mainTable.get("JQ"));			
 		
     	// 获取明细表1信息
 	    List<Map<String, String>> detailAList = info.getDetailMap("1");
@@ -49,13 +47,11 @@ public class UpdateXpkfjdXppdfk implements Action
 			for (int i = 0; i < detailAList.size(); i++) {
 				Map<String, String> detailAMap = detailAList.get(i);
 				String hhDetailA = oracleManager.getHhmc(detailAMap.get("HH2"));//货号
-				sql = "update uf_XPKFRWGZB set HTH = '" + HTH + "',ZT = '1',JQ = '" + JQ + 
-						"',XPPDFKBLC = '" + requestid + "' where HH = '" + hhDetailA + "'";
+				sql = "update uf_RZXXB set ZT = '1',HTJQ = '" + HTJQ + "' where HH = '" + hhDetailA + "'";
 				rs.execute(sql);
 			}
 		}
         //this.logger.error("sql：" + sql);
-        
     }
     catch (Exception e)
     {
