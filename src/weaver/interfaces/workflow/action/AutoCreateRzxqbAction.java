@@ -37,8 +37,6 @@ public class AutoCreateRzxqbAction implements Action
   public String execute(RequestInfo request)
   {
 	RecordSet rs = new RecordSet();
-	RecordSet rs1 = new RecordSet();
-	RecordSet rs2 = new RecordSet();
 	  
 	String requestid = request.getRequestid();
 	String KFY = "";	//开发员 
@@ -50,8 +48,6 @@ public class AutoCreateRzxqbAction implements Action
     String CPTP = "";	//图片
     
     String sql = "";
-    String sql1 = "";
-    String sql2 = "";
 
     try
     {
@@ -66,23 +62,6 @@ public class AutoCreateRzxqbAction implements Action
 		CPTP = Util.null2String(mainTable.get("CPTP"));
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         SQRQ = sdf.format(new Date());
-        sql = "select c.id from hrmroles a left join hrmrolemembers b on a.id = b.roleid left join hrmresource c on c.id = b.resourceid where a.rolesmark like '%产品开发管理经理%'";
-        rs.execute(sql);
-        if(rs.next()){
-        	KFY = Util.null2String(rs.getString(1));
-        }
-        //获取开发员的二级组织。
-        sql1 = "select departmentid from HrmResource where id = '" + KFY + "'";
-        rs1.execute(sql1);
-        if(rs1.next()){
-        	EJZZ = Util.null2String(rs1.getString(1));
-        }
-        //获取开发员的一级组织。
-        sql2 = "select supdepid from HrmDepartment where id = '" + EJZZ + "'";
-        rs2.execute(sql2);
-        if(rs2.next()){
-        	YJZZ = Util.null2String(rs2.getString(1));
-        }
         // 获取流程明细表 1
 		List<Map<String, String>> detailAList = info.getDetailMap("1");
 		if (detailAList != null && detailAList.size() > 0) {
