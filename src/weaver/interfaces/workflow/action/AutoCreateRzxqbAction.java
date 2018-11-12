@@ -119,10 +119,11 @@ public class AutoCreateRzxqbAction implements Action
 				wrtri = new WorkflowRequestTableRecord[detailrows];
 				for (int i = 0; i < detailrows; i++) {
 					Map<String, String> createAMap = createAList.get(i);
-					String hhDetailA = Util.null2String(createAMap.get("HH"));		//货号
-					String gcxhDetailA = Util.null2String(createAMap.get("GCXH"));	//工厂型号
-					String gbDetailA = Util.null2String(createAMap.get("GB"));	//国别
-					wrti = new WorkflowRequestTableField[4]; //字段信息             
+					String hhDetailA = Util.null2String(createAMap.get("HH"));			//货号
+					String gcxhDetailA = Util.null2String(createAMap.get("GCXH"));		//工厂型号
+					String gbDetailA = Util.null2String(createAMap.get("GB"));			//国别
+					String rzspyjDetailA = Util.null2String(createAMap.get("RZSPYJ"));	//测试及认证要求
+					wrti = new WorkflowRequestTableField[5]; //字段信息             
 					wrti[0] = new WorkflowRequestTableField();             
 					wrti[0].setFieldName("hh");//货号             
 					wrti[0].setFieldValue(hhDetailA);            
@@ -142,10 +143,16 @@ public class AutoCreateRzxqbAction implements Action
 					wrti[2].setEdit(true);//字段是否可编辑
 					
 					wrti[3] = new WorkflowRequestTableField();             
-					wrti[3].setFieldName("gb");//工厂型号           
+					wrti[3].setFieldName("gb");//国别           
 					wrti[3].setFieldValue(gbDetailA);            
 					wrti[3].setView(true);//字段是否可见              
 					wrti[3].setEdit(true);//字段是否可编辑
+					
+					wrti[4] = new WorkflowRequestTableField();             
+					wrti[4].setFieldName("csjrzyq");//测试及认证要求         
+					wrti[4].setFieldValue(rzspyjDetailA);            
+					wrti[4].setView(true);//字段是否可见              
+					wrti[4].setEdit(true);//字段是否可编辑
 					
 					wrtri[i] = new WorkflowRequestTableRecord();
 					wrtri[i].setWorkflowRequestTableFields(wrti);
@@ -157,7 +164,7 @@ public class AutoCreateRzxqbAction implements Action
 				WorkflowDetailTableInfo[0].setWorkflowRequestTableRecords(wrtri);
 				//添加工作流id        
 				WorkflowBaseInfo wbi = new WorkflowBaseInfo();        
-				wbi.setWorkflowId("1323");//workflowid       
+				wbi.setWorkflowId("1743");//workflowid       
 				WorkflowRequestInfo wri = new WorkflowRequestInfo();//流程基本信息            
 				wri.setCreatorId(KFY);//创建人id        
 				wri.setRequestLevel("0");//0 正常，1重要，2紧急

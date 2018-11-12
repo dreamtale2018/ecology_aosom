@@ -45,6 +45,8 @@ public class AutoCreateGcspdAction implements Action
     String SPLY = "";	//索赔来源
     String ZT = "";		//状态
     String ZTHW = "";	//状态海外
+    String GB = "";		//国别
+    String YWST = "";	//业务实体
     
     String sql = "";
 
@@ -63,9 +65,27 @@ public class AutoCreateGcspdAction implements Action
 		SPLY = Util.null2String(mainTable.get("SPLY"));
 		ZT = Util.null2String(mainTable.get("ZTGNSP"));
 		ZTHW = Util.null2String(mainTable.get("ZTHWSP"));
+		YWST = Util.null2String(mainTable.get("YWST"));
+		GB = Util.null2String(mainTable.get("GN"));
+		//国别信息选择框转换成文本。
+		if("0".equals(GB)){
+			GB = "US";
+		}else if("1".equals(GB)){
+			GB = "CA";
+		}else if("2".equals(GB)){
+			GB = "UK";
+		}else if("3".equals(GB)){
+			GB = "DE";
+		}else if("4".equals(GB)){
+			GB = "FR";
+		}else if("5".equals(GB)){
+			GB = "IT";
+		}else if("6".equals(GB)){
+			GB = "ES";
+		}
 		
 		//主字段        
-		WorkflowRequestTableField[] wrti = new WorkflowRequestTableField[10]; //字段信息        
+		WorkflowRequestTableField[] wrti = new WorkflowRequestTableField[11]; //字段信息        
 		wrti[0] = new WorkflowRequestTableField();         
 		wrti[0].setFieldName("zdr");//制单人       
 		wrti[0].setFieldValue(ZDR);//        
@@ -116,6 +136,11 @@ public class AutoCreateGcspdAction implements Action
 		wrti[9].setFieldValue(requestid);//        
 		wrti[9].setView(true);//字段是否可见       
 		wrti[9].setEdit(true);//字段是否可编辑
+		wrti[10] = new WorkflowRequestTableField();         
+		wrti[10].setFieldName("ywst");//业务实体     
+		wrti[10].setFieldValue(YWST);//        
+		wrti[10].setView(true);//字段是否可见       
+		wrti[10].setEdit(true);//字段是否可编辑
 		
 		WorkflowRequestTableRecord[] wrtri = new WorkflowRequestTableRecord[1];//主字段只有一行数据        
 		wrtri[0] = new WorkflowRequestTableRecord();        
@@ -138,7 +163,7 @@ public class AutoCreateGcspdAction implements Action
 				String rkcbDetailA = Util.null2String(detailAMap.get("RKCB"));	//入库成本
 				String rujeDetailA = Util.null2String(detailAMap.get("RUJE"));	//入库金额
 				String wtDetailA = Util.null2String(detailAMap.get("WT"));		//问题备注
-				wrti = new WorkflowRequestTableField[8]; //字段信息             
+				wrti = new WorkflowRequestTableField[10]; //字段信息             
 				wrti[0] = new WorkflowRequestTableField();             
 				wrti[0].setFieldName("hh");//货号             
 				wrti[0].setFieldValue(hhDetailA);            
@@ -179,6 +204,16 @@ public class AutoCreateGcspdAction implements Action
 				wrti[7].setFieldValue(wtDetailA);            
 				wrti[7].setView(true);//字段是否可见              
 				wrti[7].setEdit(true);//字段是否可编辑
+				wrti[8] = new WorkflowRequestTableField();             
+				wrti[8].setFieldName("gb");//国别       
+				wrti[8].setFieldValue(GB);            
+				wrti[8].setView(true);//字段是否可见              
+				wrti[8].setEdit(true);//字段是否可编辑
+				wrti[9] = new WorkflowRequestTableField();             
+				wrti[9].setFieldName("gwch");//海外存货       
+				wrti[9].setFieldValue(slDetailA);            
+				wrti[9].setView(true);//字段是否可见              
+				wrti[9].setEdit(true);//字段是否可编辑
 				
 				wrtri[i] = new WorkflowRequestTableRecord();
 				wrtri[i].setWorkflowRequestTableFields(wrti);
@@ -190,7 +225,7 @@ public class AutoCreateGcspdAction implements Action
 			WorkflowDetailTableInfo[0].setWorkflowRequestTableRecords(wrtri);
 			//添加工作流id        
 			WorkflowBaseInfo wbi = new WorkflowBaseInfo();        
-			wbi.setWorkflowId("1403");//workflowid       
+			wbi.setWorkflowId("1323");//workflowid       
 			WorkflowRequestInfo wri = new WorkflowRequestInfo();//流程基本信息            
 			wri.setCreatorId(ZDR);//创建人id        
 			wri.setRequestLevel("0");//0 正常，1重要，2紧急

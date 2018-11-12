@@ -8,7 +8,7 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import weaver.formmode.webservices.ModeDataServiceImpl;
+import weaver.conn.RecordSet;
 import weaver.general.Util;
 import weaver.soa.workflow.request.RequestInfo;
 
@@ -28,17 +28,21 @@ public class UpdateRzxxRzxqbSh implements Action
   public String execute(RequestInfo request)
   {
     
-    String requestid = request.getRequestid();
+	RecordSet rs = new RecordSet();
+	    
+	String requestid = request.getRequestid();
+
+	String sql = "";
     String TJRQ = "";	//提交日期
-    String KFY = "";	//开发员 
+    //String KFY = "";	//开发员 
 
     try
     {
     	ActionInfo info = ActionUtils.getActionInfo(request);
     	
     	// 获取主表信息
-		Map<String, String> mainTable = info.getMainMap();
-		KFY = Util.null2String(mainTable.get("KFY"));
+		//Map<String, String> mainTable = info.getMainMap();
+		//KFY = Util.null2String(mainTable.get("KFY"));
 		
     	// 获取流程明细表 1
 		List<Map<String, String>> detailAList = info.getDetailMap("1");
@@ -52,11 +56,16 @@ public class UpdateRzxxRzxqbSh implements Action
 				String gcxhDetailA = Util.null2String(detailAMap.get("GCXH"));			//工厂型号
 				String gbDetailA = Util.null2String(detailAMap.get("GB"));				//国别
 				String csjrzyqDetailA = Util.null2String(detailAMap.get("CSJRZYQ"));	//测试及认证要求
-				String xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" +
+				sql = "update uf_RZXXB set HH = '" + hhDetailA + "',PM = '" + pmDetailA + 
+						"',GCXH = '" + gcxhDetailA + "',GB = '" + gbDetailA + "',TJRQ = '" + TJRQ + 
+						"',CSJRZYQ = '" + csjrzyqDetailA + "',zt = '0'" +
+						" where rzxqblc = '" + requestid + "' and mxid = '" + mxidDetailA + "'";
+				rs.execute(sql);
+				/*String xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" +
 				"<ROOT>" +
 				  "<header>" +
 				    "<userid>"+KFY+"</userid>" +
-				    "<modeid>603</modeid>" +
+				    "<modeid>663</modeid>" +
 				    "<id/>" +
 				  "</header>" +
 				  "<search>" +
@@ -66,8 +75,12 @@ public class UpdateRzxxRzxqbSh implements Action
 				  "<data id=\"\">" +
 				    "<maintable>" +
 				      "<field>" +
-				        "<filedname>RZXQBLC</filedname>" +
-				        "<filedvalue>"+requestid+"</filedvalue>" +
+				        "<filedname>KFY</filedname>" +
+				        "<filedvalue>"+KFY+"</filedvalue>" +
+				      "</field>" +
+				      "<field>" +
+					      "<filedname>RZXQBLC</filedname>" +
+					      "<filedvalue>"+requestid+"</filedvalue>" +
 				      "</field>" +
 				      "<field>" +
 				        "<filedname>HH</filedname>" +
@@ -97,6 +110,10 @@ public class UpdateRzxxRzxqbSh implements Action
 					      "<filedname>MXID</filedname>" +
 					      "<filedvalue>"+mxidDetailA+"</filedvalue>" +
 				      "</field>" +
+				      "<field>" +
+					      "<filedname>ZT</filedname>" +
+					      "<filedvalue>2</filedvalue>" +
+				      "</field>" +
 				    "</maintable>" +
 				  "</data>" +
 				"</ROOT>";
@@ -109,7 +126,7 @@ public class UpdateRzxxRzxqbSh implements Action
 				xml = xml.replaceAll("<br>", ";");
 				ModeDataServiceImpl mdsi = new ModeDataServiceImpl();
 				String returncode = mdsi.saveModeData(xml);
-				this.logger.info(returncode);
+				this.logger.info(returncode);*/
 		        //this.logger.error("sql：" + sql);
 			}
 		}
