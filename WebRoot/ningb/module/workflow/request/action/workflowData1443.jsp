@@ -51,27 +51,36 @@
 	}
 	
 	JSONObject data = new JSONObject();							// 返回的数据
-	String hh = Util.null2String(request.getParameter("hh"));	// 货号
-	if (hh == null || "".equals(hh)) {
+	String hth = Util.null2String(request.getParameter("hth"));	// 合同号
+	String gys = Util.null2String(request.getParameter("gys"));	// 供应商
+	if (gys == null || "".equals(gys) || hth == null || "".equals(hth)) {
 		out.print(callback(code, message, data));
 		return;
 	}
 	
-	String gbname = "";		// 国别, 多个逗号隔开
-	String sql = "select a.segment1,c.org_information5 "
-			+ "from uf_product a "
-			+ "inner join uf_seasproduct b on a.standard_item_id=b.standard_item_id and b.ou_item_status_code!='STOPPED'"
-			+ "inner join uf_gb c on b.org_id = c.organization_id "
-			+ "where a.id = ?";
-	rs.executeQuery(sql, hh);
+	String hhIDList = "";		// 货号ID, 多个逗号隔开
+	String hhNameList = "";		// 货号名称, 多个逗号隔开
+	String pmList = "";			// 产品品名, 多个逗号隔开
+	String sql = "select b.id,b.segment1,b.item_name_cn "
+			+ "from uf_photo a "
+			+ "join uf_product b on b.segment1 = a.hh "
+			+ "join uf_vendor c on c.vendor_name = a.gys "
+			+ "where a.pzzt = '0' and a.gxhth = ? and c.id = ?";
+	rs.executeQuery(sql, hth, gys);
 	while (rs.next()) {
-		if ("".equals(gbname)) {
-			gbname = rs.getString("org_information5");
+		if ("".equals(hhIDList)) {
+			hhIDList = rs.getString(1);
+			hhNameList = rs.getString(2);
+			pmList = rs.getString(3);
 		} else {
-			gbname += "," + rs.getString("org_information5");
+			hhIDList += "," + rs.getString(1);
+			hhNameList += "," + rs.getString(2);
+			pmList += "," + rs.getString(3);
 		}
 	}
-	data.put("gbname", gbname);
+	data.put("hhIDList", hhIDList);
+	data.put("hhNameList", hhNameList);
+	data.put("pmList", pmList);
 	
 	out.print(callback(code, message, data));					// 有返回数据
 %>

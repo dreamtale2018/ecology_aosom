@@ -2,7 +2,12 @@
 <%@ page language="java" import="java.util.*,weaver.general.*" %>
 <%@ page language="java" import="net.sf.json.JSONArray,net.sf.json.JSONObject"%>
 <%@ page language="java" import="weaver.hrm.*" %>
-<jsp:useBean id="rs" class="weaver.conn.RecordSet" scope="page"/>
+<%@ page language="java" import="org.apache.commons.logging.Log" %>
+<%@ page language="java" import="com.weaver.ningb.logging.LogFactory" %>
+<%@ page language="java" import="weaver.interfaces.workflow.action.PurchaseRejectAction" %>
+<%@ page language="java" import="java.util.regex.Pattern" %>
+<%@ page language="java" import="java.util.regex.Matcher" %>
+<%@ page language="java" import="weaver.conn.RecordSet" %>
 <jsp:useBean id="basebean" class="weaver.general.BaseBean" scope="page" />
 <%!
 	/**
@@ -36,6 +41,45 @@
 		if (data != null) result.put("data", data);
 		return result.toString();
 	}
+	
+	private JSONArray getJSONArray(String remark, RecordSet rs){
+		Pattern pattern = Pattern.compile("[a-zA-Z]{2,3}\\—([\u4e00-\u9fa5]{2,5}[、]?)+");
+	    Matcher matcher = pattern.matcher(remark);
+	    JSONArray jsonArray = new JSONArray();
+	 	while(matcher.find()){
+	    	JSONObject jsonObj = new JSONObject();
+	    	String gb = matcher.group().split("—")[0];
+	    	String name = matcher.group().split("—")[1];
+	        jsonObj.put("gb", gb);
+	        jsonObj.put("name", name);
+	        String sql = "select id from hrmresource where lastname like ?";
+	        String id = "";		// 人员ID, 多个、隔开
+	    	if(name.indexOf("、")!=-1){
+	    		String[] nameList = name.split("、");
+	    	    for(int i=0; i<nameList.length; i++){
+					rs.executeQuery(sql, "%"+nameList[i]+"%");
+					if(rs.next()){
+						if(i==nameList.length-1){
+							id += rs.getString(1);
+						}else{
+							id += rs.getString(1) + "、";
+						}
+					}
+	    	    }
+	    	    jsonObj.put("id", id);
+	    	}else{
+	    	    rs.executeQuery(sql, "%"+name+"%");
+	    	    if(rs.next()){
+					id = rs.getString(1);
+				}
+		        jsonObj.put("id", id);
+	    	}
+	    	jsonArray.add(jsonObj);
+	    }
+	    return jsonArray;
+	}
+	
+	private static final Log logger = LogFactory.getLog(PurchaseRejectAction.class);
 %>
 <%
 	String code = "0";								// 返回编码：0.成功   -1.未登录
@@ -50,8 +94,11 @@
 		return;
 	}
 	
-	JSONObject data = new JSONObject();							// 返回的数据
-	String hh = Util.null2String(request.getParameter("hh"));	// 货号
+	JSONObject data = new JSONObject();									// 返回的数据
+	String hh = Util.null2String(request.getParameter("hh"));			// 货号
+	String remarks = Util.null2String(request.getParameter("remarks"));	// 备注
+	RecordSet rs = new RecordSet();
+	JSONArray bjArray = getJSONArray(remarks, rs);
 	if (hh == null || "".equals(hh)) {
 		out.print(callback(code, message, data));
 		return;
@@ -72,6 +119,7 @@
 		}
 	}
 	data.put("gbname", gbname);
+	data.put("bjArray", bjArray);
 	
 	out.print(callback(code, message, data));					// 有返回数据
 %>
