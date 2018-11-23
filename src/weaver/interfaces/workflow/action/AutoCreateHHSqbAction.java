@@ -33,13 +33,14 @@ public class AutoCreateHHSqbAction implements Action
 	RecordSet rs = new RecordSet();
 	  
 	String requestid = request.getRequestid();
-    String SQR = "";//申请人 
-    String SQRXM = "";//申请姓名 
-    String YJZZ = "";//一级组织
-    String EJZZ = "";//二级组织
-    String SQRQ = "";//申请日期
-    String CPXXDH = "";//产品选型单号
-    String GJC = "";//关键词
+    String SQR = "";	//申请人 
+    String SQRXM = "";	//申请姓名 
+    String KFYGH = "";	//开发员工号 
+    String YJZZ = "";	//一级组织
+    String EJZZ = "";	//二级组织
+    String SQRQ = "";	//申请日期
+    String CPXXDH = "";	//产品选型单号
+    String GJC = "";	//关键词
     
     String sql = "";
 
@@ -56,6 +57,11 @@ public class AutoCreateHHSqbAction implements Action
 		GJC = Util.null2String(mainTable.get("GJC"));
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         SQRQ = sdf.format(new Date());
+        sql = "select workcode from hrmresource where id = '" + SQR + "'";
+		rs.execute(sql);
+		if(rs.next()){
+			KFYGH = Util.null2String(rs.getString("workcode"));
+		}
         // 获取流程明细表 1
 		List<Map<String, String>> detailAList = info.getDetailMap("1");
 		if (detailAList != null && detailAList.size() > 0) {
@@ -98,7 +104,7 @@ public class AutoCreateHHSqbAction implements Action
 				String tpDetailA = Util.null2String(detailAMap.get("TP"));				// 产品图片
 				if(flag){
 					//主字段        
-					WorkflowRequestTableField[] wrti = new WorkflowRequestTableField[23]; //字段信息        
+					WorkflowRequestTableField[] wrti = new WorkflowRequestTableField[24]; //字段信息        
 					wrti[0] = new WorkflowRequestTableField();         
 					wrti[0].setFieldName("sqr");//申请人       
 					wrti[0].setFieldValue(SQR);//        
@@ -110,7 +116,7 @@ public class AutoCreateHHSqbAction implements Action
 					wrti[1].setView(true);//字段是否可见       
 					wrti[1].setEdit(true);//字段是否可编辑
 					wrti[2] = new WorkflowRequestTableField();         
-					wrti[2].setFieldName("ejzz");//二级组织       
+					wrti[2].setFieldName("rjzz");//二级组织       
 					wrti[2].setFieldValue(EJZZ);//        
 					wrti[2].setView(true);//字段是否可见       
 					wrti[2].setEdit(true);//字段是否可编辑
@@ -214,6 +220,11 @@ public class AutoCreateHHSqbAction implements Action
 					wrti[22].setFieldValue(requestid);//      
 					wrti[22].setView(true);//字段是否可见       
 					wrti[22].setEdit(true);//字段是否可编辑
+					wrti[23] = new WorkflowRequestTableField();         
+					wrti[23].setFieldName("kfygh");//开发员工号      
+					wrti[23].setFieldValue(KFYGH);//      
+					wrti[23].setView(true);//字段是否可见       
+					wrti[23].setEdit(true);//字段是否可编辑
 					
 					WorkflowRequestTableRecord[] wrtri = new WorkflowRequestTableRecord[1];//主字段只有一行数据        
 					wrtri[0] = new WorkflowRequestTableRecord();        

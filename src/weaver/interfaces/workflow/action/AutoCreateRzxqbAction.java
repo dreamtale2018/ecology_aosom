@@ -57,7 +57,7 @@ public class AutoCreateRzxqbAction implements Action
 		Map<String, String> mainTable = info.getMainMap();
 		KFY = Util.null2String(mainTable.get("SQR"));
 		YJZZ = Util.null2String(mainTable.get("YJZZ"));
-		EJZZ = Util.null2String(mainTable.get("EJZZ"));
+		EJZZ = Util.null2String(mainTable.get("RJZZ"));
 		PM = Util.null2String(mainTable.get("ZWPM"));
 		CPTP = Util.null2String(mainTable.get("CPTP"));
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -121,8 +121,18 @@ public class AutoCreateRzxqbAction implements Action
 					Map<String, String> createAMap = createAList.get(i);
 					String hhDetailA = Util.null2String(createAMap.get("HH"));			//货号
 					String gcxhDetailA = Util.null2String(createAMap.get("GCXH"));		//工厂型号
-					String gbDetailA = Util.null2String(createAMap.get("GB"));			//国别
 					String rzspyjDetailA = Util.null2String(createAMap.get("RZSPYJ"));	//测试及认证要求
+					List<String> gbList = new ArrayList<String>();
+					String[] gbstr = {"US","CA","UK","DE","FR","IT","ES"};
+					//判断数量不为空的国别加入gbList中。
+					for(int j=0; j<gbstr.length; j++){
+						String SL = Util.null2String(createAMap.get(gbstr[j]));			//国别数量
+						if(!"".equals(SL)){
+							gbList.add(gbstr[j]);
+						}
+					}
+					//将list装成字符串，多个国别用逗号隔开。
+					String gb = StringUtils.join(gbList.toArray(), ",");
 					wrti = new WorkflowRequestTableField[5]; //字段信息             
 					wrti[0] = new WorkflowRequestTableField();             
 					wrti[0].setFieldName("hh");//货号             
@@ -144,7 +154,7 @@ public class AutoCreateRzxqbAction implements Action
 					
 					wrti[3] = new WorkflowRequestTableField();             
 					wrti[3].setFieldName("gb");//国别           
-					wrti[3].setFieldValue(gbDetailA);            
+					wrti[3].setFieldValue(gb);            
 					wrti[3].setView(true);//字段是否可见              
 					wrti[3].setEdit(true);//字段是否可编辑
 					

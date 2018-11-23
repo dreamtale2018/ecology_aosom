@@ -37,7 +37,7 @@ public class UpdateXtsxxqbKf implements Action
     	// 获取主表信息
     	Map<String, String> mainTable = info.getMainMap();
     	KFY = Util.null2String(mainTable.get("KFY"));
-		sql = "update uf_ITXTXQSXTZ set ZT='2',KFY = '" + KFY + "' where LC = '" + requestid + "'";
+		sql = "update uf_ITXTXQSXTZ set ZT='3',KFY = '" + KFY + "' where LCLJ = '" + requestid + "'";
 		rs.execute(sql);
         //this.logger.error("sql：" + sql);
         

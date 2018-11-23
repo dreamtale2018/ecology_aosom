@@ -15,9 +15,9 @@ import weaver.conn.RecordSet;
 import weaver.general.Util;
 import weaver.soa.workflow.request.RequestInfo;
 
-public class UpdateYprkgl implements Action
+public class UpdateYprkglHt implements Action
 {
-  private Log logger = LogFactory.getLog(UpdateYprkgl.class);
+  private Log logger = LogFactory.getLog(UpdateYprkglHt.class);
   
   @Override
   public String execute(RequestInfo request)
@@ -41,26 +41,38 @@ public class UpdateYprkgl implements Action
 		rs.execute(sql);
 		
 		ActionInfo info = ActionUtils.getActionInfo(request);
+		
     	// 获取流程明细表 1
 		List<Map<String, String>> detailAList = info.getDetailMap("1");
 		if (detailAList != null && detailAList.size() > 0) {
 			for (int i = 0; i < detailAList.size(); i++) {
 				Map<String, String> detailAMap = detailAList.get(i);
-				String hhDetailA = Util.null2String(detailAMap.get("HH"));//明细表中的货号,此货号为ID
-				sql1 = "select segment1 from uf_product where id = '"+ hhDetailA +"'";
-				rs1.execute(sql1);
-				if (rs1.next()){
-					hhDetailA = rs1.getString("segment1");
-		        }
-				if(hhDetailA!=null && !"".equals(hhDetailA)){
-					sql2 = "select id from formtable_main_159 where hh = '"+ hhDetailA +"' " +
-							"order by modedatacreatedate desc,modedatacreatetime desc";
-					rs2.execute(sql2);
-					if (rs2.next()){
-						String id = rs2.getString("id");
-						sql3 = "update formtable_main_159 set YPZT='0',BYWCRQ='"+ RKRQ +"' where id = '"+ id +"'";
-						rs3.execute(sql3);
-			        }
+				String pztzIDDetailA = Util.null2String(detailAMap.get("PZTZID"));	//拍照台账ID
+				String pzxqbIDDetailA = Util.null2String(detailAMap.get("PZXQBID"));//拍照需求表流程ID
+				if(!pzxqbIDDetailA.equals("")){
+					sql = "update formtable_main_157 set BYWCRQ='"+ RKRQ +"' where id = '"+ pzxqbIDDetailA +"'";
+					rs.execute(sql);
+				}
+				if (!pztzIDDetailA.equals("")){
+					sql = "update formtable_main_159 set YPZT='0',BYWCRQ='"+ RKRQ +"' where id = '"+ pztzIDDetailA +"'";
+					rs.execute(sql);
+				}else{
+					String hhDetailA = Util.null2String(detailAMap.get("HH"));//明细表中的货号,此货号为ID
+					sql1 = "select segment1 from uf_product where id = '"+ hhDetailA +"'";
+					rs1.execute(sql1);
+					if (rs1.next()){
+						hhDetailA = rs1.getString("segment1");
+					}
+					if(hhDetailA!=null && !"".equals(hhDetailA)){
+						sql2 = "select id from formtable_main_159 where hh = '"+ hhDetailA +"' " +
+						"order by modedatacreatedate desc,modedatacreatetime desc";
+						rs2.execute(sql2);
+						if (rs2.next()){
+							String id = rs2.getString("id");
+							sql3 = "update formtable_main_159 set YPZT='0',BYWCRQ='"+ RKRQ +"' where id = '"+ id +"'";
+							rs3.execute(sql3);
+						}
+					}
 				}
 			}
 		}

@@ -61,8 +61,11 @@
 	String hhIDList = "";		// 货号ID, 多个逗号隔开
 	String hhNameList = "";		// 货号名称, 多个逗号隔开
 	String pmList = "";			// 产品品名, 多个逗号隔开
-	String sql = "select b.id,b.segment1,b.item_name_cn "
-			+ "from uf_photo a "
+	String pztzIDList = "";		// 拍照台账ID, 多个逗号隔开
+	String pzxqbIDList = "";	// 拍照需求表ID, 多个逗号隔开
+	String pzddList = "";		// 样品地点, 多个逗号隔开
+	String sql = "select b.id,b.segment1,b.item_name_cn,a.id,a.lc,a.ypdd "
+			+ "from formtable_main_159 a "
 			+ "join uf_product b on b.segment1 = a.hh "
 			+ "join uf_vendor c on c.vendor_name = a.gys "
 			+ "where a.pzzt = '0' and a.gxhth = ? and c.id = ?";
@@ -71,16 +74,25 @@
 		if ("".equals(hhIDList)) {
 			hhIDList = rs.getString(1);
 			hhNameList = rs.getString(2);
-			pmList = rs.getString(3);
+			pmList = rs.getString(3).replaceAll(",","，");
+			pztzIDList = rs.getString(4);
+			pzxqbIDList = rs.getString(5);
+			pzddList = rs.getString(6);
 		} else {
 			hhIDList += "," + rs.getString(1);
 			hhNameList += "," + rs.getString(2);
-			pmList += "," + rs.getString(3);
+			pmList += "," + rs.getString(3).replaceAll(",","，");
+			pztzIDList += "," + rs.getString(4);
+			pzxqbIDList += "," + rs.getString(5);
+			pzddList += "," + rs.getString(6);
 		}
 	}
 	data.put("hhIDList", hhIDList);
 	data.put("hhNameList", hhNameList);
 	data.put("pmList", pmList);
+	data.put("pztzIDList", pztzIDList);
+	data.put("pzxqbIDList", pzxqbIDList);
+	data.put("pzddList", pzddList);
 	
 	out.print(callback(code, message, data));					// 有返回数据
 %>

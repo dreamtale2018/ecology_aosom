@@ -2,9 +2,6 @@
 <%@ page language="java" import="java.util.*,weaver.general.*" %>
 <%@ page language="java" import="net.sf.json.JSONArray,net.sf.json.JSONObject"%>
 <%@ page language="java" import="weaver.hrm.*" %>
-<%@ page language="java" import="org.apache.commons.logging.Log" %>
-<%@ page language="java" import="com.weaver.ningb.logging.LogFactory" %>
-<%@ page language="java" import="weaver.interfaces.workflow.action.PurchaseRejectAction" %>
 <%@ page language="java" import="java.util.regex.Pattern" %>
 <%@ page language="java" import="java.util.regex.Matcher" %>
 <%@ page language="java" import="weaver.conn.RecordSet" %>
@@ -78,8 +75,6 @@
 	    }
 	    return jsonArray;
 	}
-	
-	private static final Log logger = LogFactory.getLog(PurchaseRejectAction.class);
 %>
 <%
 	String code = "0";								// 返回编码：0.成功   -1.未登录

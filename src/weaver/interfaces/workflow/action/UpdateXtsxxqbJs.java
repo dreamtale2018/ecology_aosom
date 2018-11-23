@@ -31,7 +31,7 @@ public class UpdateXtsxxqbJs implements Action
     {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		WCRQ = sdf.format(new Date());
-		sql = "update uf_ITXTXQSXTZ set ZT='4',WCRQ = '"+ WCRQ + "'  where LC = '" + requestid + "'";
+		sql = "update uf_ITXTXQSXTZ set ZT='5',WCRQ = '"+ WCRQ + "'  where LCLJ = '" + requestid + "'";
 		rs.execute(sql);
         //this.logger.error("sql：" + sql);
         

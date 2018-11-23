@@ -25,7 +25,7 @@ public class UpdateXtsxxqbCs implements Action
     String sql = "";
     try
     {
-		sql = "update uf_ITXTXQSXTZ set ZT='3' where LC = '" + requestid + "'";
+		sql = "update uf_ITXTXQSXTZ set ZT='4' where LCLJ = '" + requestid + "'";
 		rs.execute(sql);
         //this.logger.error("sql：" + sql);
         
