@@ -127,6 +127,12 @@ public class OAServiceContractProxy implements org.tempuri.OAServiceContract {
 	  return oAServiceContract.importOAQuote(OAQuoteJson, name, pwd);
   }
   
+  public java.lang.String getPoQuoteList(org.datacontract.schemas._2004._07.MH_EBSOAWcfService.GetPoQuoteListInfo poQuoteInfo, java.lang.String name, java.lang.String pwd) throws java.rmi.RemoteException{
+	  if (oAServiceContract == null)
+		  _initOAServiceContractProxy();
+	  return oAServiceContract.getPoQuoteList(poQuoteInfo, name, pwd);
+  }
+  
   public java.lang.String importOAVendor(java.lang.String OAVendorJson, java.lang.String name, java.lang.String pwd) throws java.rmi.RemoteException{
     if (oAServiceContract == null)
       _initOAServiceContractProxy();
