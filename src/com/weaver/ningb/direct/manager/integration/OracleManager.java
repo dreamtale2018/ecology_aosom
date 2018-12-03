@@ -26,6 +26,7 @@ import net.sf.json.JSONObject;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
+import org.datacontract.schemas._2004._07.MH_EBSOAWcfService.Electronic;
 import org.datacontract.schemas._2004._07.MH_EBSOAWcfService.UpdatePoStatusInfo;
 import org.datacontract.schemas._2004._07.MH_EBSOAWcfService_DBDac.OAItemModelBom_Content;
 import org.datacontract.schemas._2004._07.MH_EBSOAWcfService_DBDac.OAItemModelBox_Content;
@@ -387,6 +388,84 @@ public class OracleManager {
 			response = proxy.importOAQuote(oaItemJson, username, password);
 			logger.info("response: " + response);
 			if (response.length()>20) {
+				code = "-4";
+				message = response;
+			}
+		} catch (RemoteException e) {
+			logger.error(task + " Failure: ", e);
+			code = "-2";
+			message = "RemoteException.";
+		} catch (Exception e) {
+			logger.error(task + " Failure: ", e);
+			code = "-1";
+			message = "Failure.";
+		}
+		return callback(null, task, code, message, request, response);
+	}
+	
+	/**
+	 * 退税通流程更新行信息
+	 * 
+	 * @param list
+	 * 					报关单号和分提单号
+	 * @return 推送结果
+	 * @author ycj@20181129
+	 */
+	public OracleResult<String, String> pushElectronicLineStates(List<Map<String, String>> list) {
+		String task = "pushElectronicLineStates";
+		String code = "0";
+		String message = "成功";
+		String request = null;
+		String response = null;
+		try {
+			String username = Util.null2String(envMap.get("username"));
+			String password = Util.null2String(envMap.get("password"));
+			
+			request = list.toString();
+			
+			Electronic[] electronicLineStates = electronicToArray(list);
+			response = proxy.updateElectronicLineStates(electronicLineStates, username, password);
+			logger.info("response: " + response);
+			if (response.indexOf("False")!=-1) {
+				code = "-4";
+				message = response;
+			}
+		} catch (RemoteException e) {
+			logger.error(task + " Failure: ", e);
+			code = "-2";
+			message = "RemoteException.";
+		} catch (Exception e) {
+			logger.error(task + " Failure: ", e);
+			code = "-1";
+			message = "Failure.";
+		}
+		return callback(null, task, code, message, request, response);
+	}
+	
+	/**
+	 * 退税通流程更新临时表信息
+	 * 
+	 * @param list
+	 * 					报关单号和分提单号
+	 * @return 推送结果
+	 * @author ycj@20181129
+	 */
+	public OracleResult<String, String> pushElectronicIsCreateSo(List<Map<String, String>> list) {
+		String task = "pushElectronicIsCreateSo";
+		String code = "0";
+		String message = "成功";
+		String request = null;
+		String response = null;
+		try {
+			String username = Util.null2String(envMap.get("username"));
+			String password = Util.null2String(envMap.get("password"));
+			
+			request = list.toString();
+			
+			Electronic[] electronicIsCreateSo = electronicToArray(list);
+			response = proxy.updateElectronicIsCreateSo(electronicIsCreateSo, username, password);
+			logger.info("response: " + response);
+			if (response.indexOf("False")!=-1) {
 				code = "-4";
 				message = response;
 			}
@@ -1107,6 +1186,28 @@ public class OracleManager {
 			logger.error(task + " Exception: ", e);
 		}
 		return result;
+	}
+	
+	/**
+	 * 将报价单错误信息List转成数组。
+	 * 
+	 * @param id
+	 * 					报价单错误信息List
+	 * @return 报价单错误信息数组
+	 * @author ycj@20181130
+	 */
+	public Electronic[] electronicToArray(List<Map<String, String>> list) {
+		Electronic[] electronics = new Electronic[list.size()];
+		for(int i=0;i<list.size();i++){
+			Map<String, String> map = list.get(i);
+			String CUSTOMS_NO = map.get("CUSTOMS_NO");
+			String SUB_BL_NO = map.get("SUB_BL_NO");
+			Electronic electronic = new Electronic();
+			electronic.setCUSTOMS_NO(CUSTOMS_NO);
+			electronic.setSUB_BL_NO(SUB_BL_NO);
+			electronics[i] = electronic;
+		}
+		return electronics;
 	}
 	
 	

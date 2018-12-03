@@ -133,6 +133,18 @@ public class OAServiceContractProxy implements org.tempuri.OAServiceContract {
 	  return oAServiceContract.getPoQuoteList(poQuoteInfo, name, pwd);
   }
   
+  public java.lang.String updateElectronicLineStates(org.datacontract.schemas._2004._07.MH_EBSOAWcfService.Electronic[] electronicInfo, java.lang.String name, java.lang.String pwd) throws java.rmi.RemoteException{
+	  if (oAServiceContract == null)
+		  _initOAServiceContractProxy();
+	  return oAServiceContract.updateElectronicLineStates(electronicInfo, name, pwd);
+  }
+  
+  public java.lang.String updateElectronicIsCreateSo(org.datacontract.schemas._2004._07.MH_EBSOAWcfService.Electronic[] electronicInfo, java.lang.String name, java.lang.String pwd) throws java.rmi.RemoteException{
+	  if (oAServiceContract == null)
+		  _initOAServiceContractProxy();
+	  return oAServiceContract.updateElectronicIsCreateSo(electronicInfo, name, pwd);
+  }
+  
   public java.lang.String importOAVendor(java.lang.String OAVendorJson, java.lang.String name, java.lang.String pwd) throws java.rmi.RemoteException{
     if (oAServiceContract == null)
       _initOAServiceContractProxy();
