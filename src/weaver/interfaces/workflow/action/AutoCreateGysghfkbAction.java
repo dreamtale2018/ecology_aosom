@@ -40,6 +40,7 @@ public class AutoCreateGysghfkbAction implements Action
 	String requestid = request.getRequestid();
 	String SQR = "";	//申请人
 	String SQRXM = "";	//申请姓名
+	String GHHGYS = "";	//更换后供应商
     String SQRQ = "";	//申请日期 
     
     String sql = "";
@@ -51,10 +52,11 @@ public class AutoCreateGysghfkbAction implements Action
    	 	// 获取主表信息
 		Map<String, String> mainTable = info.getMainMap();
 		SQR = Util.null2String(mainTable.get("SQR"));
+		GHHGYS = Util.null2String(mainTable.get("GHHGYS"));
 		SQRQ = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 		
 		//主字段        
-		WorkflowRequestTableField[] wrti = new WorkflowRequestTableField[3]; //字段信息        
+		WorkflowRequestTableField[] wrti = new WorkflowRequestTableField[4]; //字段信息        
 		wrti[0] = new WorkflowRequestTableField();         
 		wrti[0].setFieldName("cg");//采购     
 		wrti[0].setFieldValue(SQR);//        
@@ -66,10 +68,15 @@ public class AutoCreateGysghfkbAction implements Action
 		wrti[1].setView(true);//字段是否可见       
 		wrti[1].setEdit(true);//字段是否可编辑
 		wrti[2] = new WorkflowRequestTableField();         
-		wrti[2].setFieldName("gysghlc");//供应商更换流程   
-		wrti[2].setFieldValue(requestid);//        
+		wrti[2].setFieldName("gys");//供应商   
+		wrti[2].setFieldValue(GHHGYS);//        
 		wrti[2].setView(true);//字段是否可见       
 		wrti[2].setEdit(true);//字段是否可编辑
+		wrti[3] = new WorkflowRequestTableField();         
+		wrti[3].setFieldName("gysghlc");//供应商更换流程   
+		wrti[3].setFieldValue(requestid);//        
+		wrti[3].setView(true);//字段是否可见       
+		wrti[3].setEdit(true);//字段是否可编辑
 		
 		WorkflowRequestTableRecord[] wrtri = new WorkflowRequestTableRecord[1];//主字段只有一行数据        
 		wrtri[0] = new WorkflowRequestTableRecord();        
@@ -92,19 +99,37 @@ public class AutoCreateGysghfkbAction implements Action
 			wrtri = new WorkflowRequestTableRecord[detailrows];
 			for (int i = 0; i < detailrows; i++) {
 				Map<String, String> detailMap = detailList.get(i);
-				String hhDetailA = Util.null2String(detailMap.get("HH"));		//货号
-				String pmDetailA = Util.null2String(detailMap.get("CPMC"));		//品名
-				wrti = new WorkflowRequestTableField[2]; //字段信息             
+				String hhDetail = Util.null2String(detailMap.get("HH"));		//货号
+				String pmDetail = Util.null2String(detailMap.get("CPMC"));		//品名
+				String gbDetail = Util.null2String(detailMap.get("XYGB"));		//国别
+				String ggDetail = Util.null2String(detailMap.get("GG"));		//规格
+				String sx1Detail = Util.null2String(detailMap.get("SX1"));		//属性1
+				wrti = new WorkflowRequestTableField[5]; //字段信息             
 				wrti[0] = new WorkflowRequestTableField();             
 				wrti[0].setFieldName("hh");//货号             
-				wrti[0].setFieldValue(hhDetailA);            
+				wrti[0].setFieldValue(hhDetail);            
 				wrti[0].setView(true);//字段是否可见              
 				wrti[0].setEdit(true);//字段是否可编辑
 				wrti[1] = new WorkflowRequestTableField();             
 				wrti[1].setFieldName("pm");//品名          
-				wrti[1].setFieldValue(pmDetailA);            
+				wrti[1].setFieldValue(pmDetail);            
 				wrti[1].setView(true);//字段是否可见              
 				wrti[1].setEdit(true);//字段是否可编辑
+				wrti[2] = new WorkflowRequestTableField();             
+				wrti[2].setFieldName("gb");//国别          
+				wrti[2].setFieldValue(gbDetail);            
+				wrti[2].setView(true);//字段是否可见              
+				wrti[2].setEdit(true);//字段是否可编辑
+				wrti[3] = new WorkflowRequestTableField();             
+				wrti[3].setFieldName("gg");//规格         
+				wrti[3].setFieldValue(ggDetail);            
+				wrti[3].setView(true);//字段是否可见              
+				wrti[3].setEdit(true);//字段是否可编辑
+				wrti[4] = new WorkflowRequestTableField();             
+				wrti[4].setFieldName("sx1");//属性1        
+				wrti[4].setFieldValue(sx1Detail);            
+				wrti[4].setView(true);//字段是否可见              
+				wrti[4].setEdit(true);//字段是否可编辑
 				
 				wrtri[i] = new WorkflowRequestTableRecord();
 				wrtri[i].setWorkflowRequestTableFields(wrti);
@@ -116,7 +141,7 @@ public class AutoCreateGysghfkbAction implements Action
 			WorkflowDetailTableInfo[0].setWorkflowRequestTableRecords(wrtri);
 			//添加工作流id        
 			WorkflowBaseInfo wbi = new WorkflowBaseInfo();        
-			wbi.setWorkflowId("1543");//workflowid       
+			wbi.setWorkflowId("1823");//workflowid       
 			WorkflowRequestInfo wri = new WorkflowRequestInfo();//流程基本信息            
 			wri.setCreatorId(SQR);//创建人id        
 			wri.setRequestLevel("0");//0 正常，1重要，2紧急
