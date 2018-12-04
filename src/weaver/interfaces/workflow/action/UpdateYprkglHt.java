@@ -50,7 +50,7 @@ public class UpdateYprkglHt implements Action
 				String pztzIDDetailA = Util.null2String(detailAMap.get("PZTZID"));	//拍照台账ID
 				String pzxqbIDDetailA = Util.null2String(detailAMap.get("PZXQBID"));//拍照需求表流程ID
 				if(!pzxqbIDDetailA.equals("")){
-					sql = "update formtable_main_157 set BYWCRQ='"+ RKRQ +"' where id = '"+ pzxqbIDDetailA +"'";
+					sql = "update formtable_main_157 set BYWCRQ='"+ RKRQ +"',RKDLC='"+ requestid +"' where requestid = '"+ pzxqbIDDetailA +"'";
 					rs.execute(sql);
 				}
 				if (!pztzIDDetailA.equals("")){
