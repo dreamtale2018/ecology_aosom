@@ -127,6 +127,17 @@ public class OAServiceContractProxy implements org.tempuri.OAServiceContract {
 	  return oAServiceContract.importOAQuote(OAQuoteJson, name, pwd);
   }
   
+  /**
+   * 更新报价单到Oracle
+   * 
+   * @author ycj@20180814
+   */
+  public java.lang.String updateOAQuote(java.lang.String OAQuoteJson, java.lang.String name, java.lang.String pwd) throws java.rmi.RemoteException{
+	  if (oAServiceContract == null)
+		  _initOAServiceContractProxy();
+	  return oAServiceContract.updateOAQuote(OAQuoteJson, name, pwd);
+  }
+  
   public java.lang.String getPoQuoteList(org.datacontract.schemas._2004._07.MH_EBSOAWcfService.GetPoQuoteListInfo poQuoteInfo, java.lang.String name, java.lang.String pwd) throws java.rmi.RemoteException{
 	  if (oAServiceContract == null)
 		  _initOAServiceContractProxy();

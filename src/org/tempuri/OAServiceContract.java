@@ -21,6 +21,7 @@ public interface OAServiceContract extends java.rmi.Remote {
     public java.lang.String returnOAItemSKU(org.datacontract.schemas._2004._07.MH_EBSOAWcfService.ReturnOAItemSKUInfo OAItemSKUInfo, java.lang.String name, java.lang.String pwd) throws java.rmi.RemoteException;
     public java.lang.String importOAORGItem(java.lang.String OAORGItemJson, java.lang.String name, java.lang.String pwd) throws java.rmi.RemoteException;
     public java.lang.String importOAQuote(java.lang.String OAQuoteJson, java.lang.String name, java.lang.String pwd) throws java.rmi.RemoteException;
+    public java.lang.String updateOAQuote(java.lang.String OAQuoteJson, java.lang.String name, java.lang.String pwd) throws java.rmi.RemoteException;
     public java.lang.String importOAVendor(java.lang.String OAVendorJson, java.lang.String name, java.lang.String pwd) throws java.rmi.RemoteException;
     public java.lang.String createPhotoWorkflow() throws java.rmi.RemoteException;
     public java.lang.String returnSKU() throws java.rmi.RemoteException;

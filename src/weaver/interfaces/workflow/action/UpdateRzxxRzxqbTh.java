@@ -1,7 +1,5 @@
 package weaver.interfaces.workflow.action;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -15,14 +13,14 @@ import weaver.soa.workflow.request.RequestInfo;
 import com.weaver.ningb.soa.workflow.action.support.ActionInfo;
 import com.weaver.ningb.soa.workflow.action.support.ActionUtils;
 /**
- * 认证需求表审核节点更新认证信息台账<br>
+ * 认证需求表审核节点退回更新认证信息台账<br>
  * 
  * @author ycj
  *
  */
-public class UpdateRzxxRzxqbSh implements Action
+public class UpdateRzxxRzxqbTh implements Action
 {
-  private Log logger = LogFactory.getLog(UpdateRzxxRzxqbSh.class);
+  private Log logger = LogFactory.getLog(UpdateRzxxRzxqbTh.class);
   
   @Override
   public String execute(RequestInfo request)
@@ -31,7 +29,6 @@ public class UpdateRzxxRzxqbSh implements Action
 	RecordSet rs = new RecordSet();
 	
 	String requestid = request.getRequestid();
-    String TJRQ = "";	//提交日期
     
     String sql = "";
     try
@@ -41,13 +38,12 @@ public class UpdateRzxxRzxqbSh implements Action
     	// 获取流程明细表 1
 		List<Map<String, String>> detailAList = info.getDetailMap("1");
 		if (detailAList != null && detailAList.size() > 0) {
-			TJRQ = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 			for (int i = 0; i < detailAList.size(); i++) {
 				Map<String, String> detailAMap = detailAList.get(i);
 				String mxidDetailA = Util.null2String(detailAMap.get("id"));		//明细ID
-				sql = "update uf_RZXXB set tjrq = '" + TJRQ + "',zt = '1'" +
-						" where rzxqblc = '" + requestid + "' and mxid = '" + mxidDetailA + "'";
-				rs.execute(sql);
+				sql = "update uf_RZXXB set tjrq = '',zt = '0'" +
+				" where rzxqblc = '" + requestid + "' and mxid = '" + mxidDetailA + "'";
+		rs.execute(sql);
 			}
 		}	
     }

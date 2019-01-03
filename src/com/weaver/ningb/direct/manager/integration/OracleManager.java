@@ -404,6 +404,51 @@ public class OracleManager {
 	}
 	
 	/**
+	 * 更新 Oracle报价单
+	 * 
+	 * @param list
+	 * 					货号信息
+	 * @return 推送结果
+	 * @author ycj@20181231
+	 */
+	public OracleResult<String, String> updateProductOrder(List<OracleProductOrder> list) {
+		String task = "updateProductOrder";
+		String code = "0";
+		String message = "成功";
+		String request = null;
+		String response = null;
+		try {
+			String username = Util.null2String(envMap.get("username"));
+			String password = Util.null2String(envMap.get("password"));
+			
+			request = createRequestJson2(list);
+			logger.info("request: " + request);
+			if (StringUtils.isBlank(request)) {
+				code = "-3";
+				message = "创建请求信息失败";
+				return callback(null, task, code, message, request, response);
+			}
+			
+			String oaItemJson = createRequestJson2(list);
+			response = proxy.updateOAQuote(oaItemJson, username, password);
+			logger.info("response: " + response);
+			if (response.length()>20) {
+				code = "-4";
+				message = response;
+			}
+		} catch (RemoteException e) {
+			logger.error(task + " Failure: ", e);
+			code = "-2";
+			message = "RemoteException.";
+		} catch (Exception e) {
+			logger.error(task + " Failure: ", e);
+			code = "-1";
+			message = "Failure.";
+		}
+		return callback(null, task, code, message, request, response);
+	}
+	
+	/**
 	 * 退税通流程更新行信息
 	 * 
 	 * @param list
@@ -752,6 +797,8 @@ public class OracleManager {
 					value = value.replaceAll("\r", " ");
 					value = value.replaceAll("\n", " ");
 					value = value.replaceAll("<br>", " ");
+					value = value.replaceAll("&quot;", "\"");
+					value = value.replaceAll("'", "''");
 				}
 				if(!StringUtils.isBlank(value) && doubleSet.contains(key)){
 					resultJsonObject.put(key, Double.parseDouble(value));
@@ -876,6 +923,8 @@ public class OracleManager {
 							tempData = tempData.replaceAll("\r", " ");
 							tempData = tempData.replaceAll("\n", " ");
 							tempData = tempData.replaceAll("<br>", " ");
+							tempData = tempData.replaceAll("&quot;", "\"");
+							tempData = tempData.replaceAll("'", "''");
 						}
 						// Explicitly extract typed value, as far as possible.
 						if (String.class.equals(requiredType)) {

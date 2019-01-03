@@ -21,15 +21,15 @@ import com.weaver.ningb.soa.workflow.action.support.ActionInfo;
 import com.weaver.ningb.soa.workflow.action.support.ActionUtils;
 
 /**
- * 新品排单流程<br>
+ * 供应商更换单流程结束节点推送报价单数据到oracle<br>
  * 归档, 将数据推送给 Oracle
  * 
  * @author ycj
  *
  */
-public class ProductOrderArchiveAction implements Action {
+public class ProductOrderGysghArchiveAction implements Action {
 	
-	private static final Log logger = LogFactory.getLog(ProductOrderArchiveAction.class);
+	private static final Log logger = LogFactory.getLog(ProductOrderGysghArchiveAction.class);
 
 	private OracleManager oracleManager = new OracleManager();
 	private ProductCodeDao dao = new ProductCodeDaoImpl();
@@ -50,17 +50,12 @@ public class ProductOrderArchiveAction implements Action {
 				ywst = "HKI";
 			}
 			String bjdlx = "标准报价单";																						// 报价单类型
-			String bz = Util.null2String(WorkflowUtils.getFieldSelectName(workflowid, "BZ", mainMap.get("BZ")));			// 币种
-			if(bz.indexOf("人民币")!=-1){
-				bz = "CNY";
-			}else if(bz.indexOf("美元")!=-1){
-				bz = "USD";
-			}
-			String gys = oracleManager.getGysmc(mainMap.get("GYS"));														// 供应商
+			String bz = null;																								// 币种
+			String gys = oracleManager.getGysmc(mainMap.get("GHHGYS"));														// 供应商
 			String dd = null;																								// 地点
 			String lxr = null;																								// 联系人
 			String zt = "Active";																							// 状态
-			String sqrq = Util.null2String(mainMap.get("SQRQ"));															// 申请日期
+			String sqrq = Util.null2String(mainMap.get("TBRQ"));															// 申请日期
 			String cg = oracleManager.getRymc(mainMap.get("CG"));	
 			cg = oracleManager.getChineseMsg(cg);																			// 采购
 			String yxrqc = null;																							// 有效日期从
@@ -75,7 +70,6 @@ public class ProductOrderArchiveAction implements Action {
 			Map<String, String> headContentMap = new HashMap<String, String>();
 			headContentMap.put("ou_name", ywst);
 			headContentMap.put("quotation_type", bjdlx);
-			headContentMap.put("currency_code", bz);
 			headContentMap.put("vendor_name", gys);
 			headContentMap.put("vendor_site", dd);
 			headContentMap.put("vendor_contact", lxr);
@@ -97,11 +91,19 @@ public class ProductOrderArchiveAction implements Action {
 					String dwDetailA = null;											// 单位
 					String jgDetailA = Util.null2String(detailAMap.get("JG"));			// 价格
 					String gyswlDetailA = null;											// 供应商物料
-					String jqDetailA = Util.null2String(detailAMap.get("JHTS"));		// 交期
+					String jqDetailA = Util.null2String(WorkflowUtils.getDetailFieldSelectName(workflowid, 1, "XGCJQ", detailAMap.get("XGCJQ")));		
+																						// 交期
 					String sfmrgysDetailA = "Y";										// 是否默认供应商
 					String zxqdlDetailA = Util.null2String(detailAMap.get("ZXQDL"));	// 最小起订量
 					String zdqdlDetailA = Util.null2String(detailAMap.get("ZDQDL"));	// 最大起订量
 					String gysfzDetailA = Util.null2String(detailAMap.get("GYSFZ"));	// 供应商附注
+					if(bz==null || "".equals(bz)){
+						bz = Util.null2String(WorkflowUtils.getDetailFieldSelectName(workflowid, 1, "BZCGJGTZ", detailAMap.get("BZCGJGTZ")));	
+																						// 币种
+					}
+					if(bz.indexOf("RMB")!=-1){
+						bz = "CNY";
+					}
 					
 					Map<String, String> detailContentMap = new HashMap<String, String>();
 					detailContentMap.put("item_code", hhDetailA);
@@ -119,6 +121,7 @@ public class ProductOrderArchiveAction implements Action {
 					
 				}
 			}
+			headContentMap.put("currency_code", bz);
 			po.setHeadContentMap(headContentMap);
 			po.setDetailContentList(detailContentList);
 			

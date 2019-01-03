@@ -103,7 +103,7 @@ public class AutoCreateRzxqbAction implements Action
 				wrti[4].setView(true);//字段是否可见       
 				wrti[4].setEdit(true);//字段是否可编辑
 				wrti[5] = new WorkflowRequestTableField();         
-				wrti[5].setFieldName("cptp");//申请日期       
+				wrti[5].setFieldName("cptp");//产品图片       
 				wrti[5].setFieldValue(CPTP);//        
 				wrti[5].setView(true);//字段是否可见       
 				wrti[5].setEdit(true);//字段是否可编辑

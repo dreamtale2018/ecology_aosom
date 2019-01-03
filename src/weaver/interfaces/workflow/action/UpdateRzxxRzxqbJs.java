@@ -31,10 +31,15 @@ public class UpdateRzxxRzxqbJs implements Action
 	  String requestid = request.getRequestid();
 
 	  String sql = "";
+	  String BZ = "";			//备注
 
     try
     {
     	ActionInfo info = ActionUtils.getActionInfo(request);
+    	
+    	// 获取主表信息
+		Map<String, String> mainTable = info.getMainMap();
+		BZ = Util.null2String(mainTable.get("YY"));
     	
     	// 获取流程明细表 1
 		List<Map<String, String>> detailAList = info.getDetailMap("1");
@@ -45,7 +50,7 @@ public class UpdateRzxxRzxqbJs implements Action
 				String zsbhDetailA = Util.null2String(detailAMap.get("ZSBH"));		//证书编号
 				String zsyxrqDetailA = Util.null2String(detailAMap.get("ZSYXRQ"));	//证书有效日期
 				sql = "update uf_RZXXB set zsbh = '" + zsbhDetailA + "',zsyxrq = '" + zsyxrqDetailA + 
-						"',zt = '1' where rzxqblc = '" + requestid + "' and mxid = '" + mxidDetailA + "'";
+						"',bz = '" + BZ + "',zt = '3' where rzxqblc = '" + requestid + "' and mxid = '" + mxidDetailA + "'";
 				rs.execute(sql);
 			}
 		}

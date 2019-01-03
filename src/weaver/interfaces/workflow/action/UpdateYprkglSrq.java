@@ -25,6 +25,7 @@ public class UpdateYprkglSrq implements Action
     RecordSet rs2 = new RecordSet();
     RecordSet rs3 = new RecordSet();
     
+    String requestid = request.getRequestid();
     String sql = "";
     String sql1 = "";
     String sql2 = "";
@@ -38,6 +39,11 @@ public class UpdateYprkglSrq implements Action
 			for (int i = 0; i < detailAList.size(); i++) {
 				Map<String, String> detailAMap = detailAList.get(i);
 				String pztzIDDetailA = Util.null2String(detailAMap.get("PZTZID"));	//拍照台账ID
+				String pzxqbIDDetailA = Util.null2String(detailAMap.get("PZXQBID"));//拍照需求表流程ID
+				if(!pzxqbIDDetailA.equals("")){
+					sql = "update formtable_main_157 set RKDLC='" + requestid + "' where requestid = '"+ pzxqbIDDetailA + "'";
+					rs.execute(sql);
+				}
 				if (!pztzIDDetailA.equals("")){
 					sql = "update formtable_main_159 set YPZT='1' where id = '"+ pztzIDDetailA +"'";
 					rs.execute(sql);

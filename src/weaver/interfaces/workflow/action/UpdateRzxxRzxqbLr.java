@@ -43,7 +43,7 @@ public class UpdateRzxxRzxqbLr implements Action
 				Map<String, String> detailAMap = detailAList.get(i);
 				String mxidDetailA = Util.null2String(detailAMap.get("id"));		//明细ID
 				String zslyDetailA = Util.null2String(detailAMap.get("ZSLY"));		//证书来源
-				sql = "update uf_RZXXB set zsly = '" + zslyDetailA + "',zt = '0'" +
+				sql = "update uf_RZXXB set zsly = '" + zslyDetailA + "',zt = '2'" +
 						" where rzxqblc = '" + requestid + "' and mxid = '" + mxidDetailA + "'";
 				rs.execute(sql);
 			}

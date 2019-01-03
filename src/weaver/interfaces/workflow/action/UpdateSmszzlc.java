@@ -31,8 +31,10 @@ public class UpdateSmszzlc implements Action
 	RecordSet rs = new RecordSet();
 	    
 	String sql = "";
-	String XPPDFKLC = "";	//新品排单反馈流程
-	String GYSGHLC = "";	//供应商更换反馈流程
+	String XPPDFKLC = "";		//新品排单反馈流程
+	String XPPDFKLCMAIN = "";	//新品排单反馈流程MAIN
+	String GYSGHLC = "";		//供应商更换反馈流程
+	String GYSGHLCMAIN = "";	//供应商更换反馈流程MAIN
 	String WCRQ = "";		//完成日期
     try
     {
@@ -53,9 +55,9 @@ public class UpdateSmszzlc implements Action
 					sql = "select id from formtable_main_105 where requestid = '" + XPPDFKLC + "'";
 					rs.execute(sql);
 					if(rs.next()){
-						XPPDFKLC = Util.null2String(rs.getString("id"));
+						XPPDFKLCMAIN = Util.null2String(rs.getString("id"));
 						sql = "update formtable_main_105_dt1 set sfxyzz = '" + sfxyzzDetailA + "',smslczt = '4'," +
-						"smsqrrq = '" + WCRQ + "' where mainid = '" + XPPDFKLC + "' and HH3 = '" + hhDetailA + "'";
+						"smsqrrq = '" + WCRQ + "' where mainid = '" + XPPDFKLCMAIN + "' and HH3 = '" + hhDetailA + "'";
 						rs.execute(sql);
 					}
 				}
@@ -63,9 +65,9 @@ public class UpdateSmszzlc implements Action
 					sql = "select id from formtable_main_218 where requestid = '" + GYSGHLC + "'";
 					rs.execute(sql);
 					if(rs.next()){
-						GYSGHLC = Util.null2String(rs.getString("id"));
+						GYSGHLCMAIN = Util.null2String(rs.getString("id"));
 						sql = "update formtable_main_218_dt1 set sfxyzz = '" + sfxyzzDetailA + "',smszt = '4'," +
-						"smsqrrq = '" + WCRQ + "' where mainid = '" + GYSGHLC + "' and HH = '" + hhDetailA + "'";
+						"smsqrrq = '" + WCRQ + "' where mainid = '" + GYSGHLCMAIN + "' and HH = '" + hhDetailA + "'";
 						rs.execute(sql);
 					}
 				}
