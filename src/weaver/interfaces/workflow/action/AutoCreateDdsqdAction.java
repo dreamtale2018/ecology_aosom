@@ -65,11 +65,12 @@ public class AutoCreateDdsqdAction implements Action
 		DREJZZ = Util.null2String(mainTable.get("JSFZZ"));
 		DRGW = Util.null2String(mainTable.get("JSGW"));
 		SQR = Util.null2String(mainTable.get("RSZY"));
+		DCSYB = Util.null2String(mainTable.get("SYB"));
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         SQRQ = sdf.format(new Date());
         
 		//主字段        
-		WorkflowRequestTableField[] wrti = new WorkflowRequestTableField[11]; //字段信息        
+		WorkflowRequestTableField[] wrti = new WorkflowRequestTableField[12]; //字段信息        
 		wrti[0] = new WorkflowRequestTableField();         
 		wrti[0].setFieldName("ddry");//调岗人      
 		wrti[0].setFieldValue(DGR);//        
@@ -125,6 +126,11 @@ public class AutoCreateDdsqdAction implements Action
 		wrti[10].setFieldValue(requestid);//        
 		wrti[10].setView(true);//字段是否可见       
 		wrti[10].setEdit(true);//字段是否可编辑
+		wrti[11] = new WorkflowRequestTableField();         
+		wrti[11].setFieldName("sqrq");//申请日期
+		wrti[11].setFieldValue(SQRQ);//        
+		wrti[11].setView(true);//字段是否可见       
+		wrti[11].setEdit(true);//字段是否可编辑
 		
 		WorkflowRequestTableRecord[] wrtri = new WorkflowRequestTableRecord[1];//主字段只有一行数据        
 		wrtri[0] = new WorkflowRequestTableRecord();        
@@ -134,7 +140,7 @@ public class AutoCreateDdsqdAction implements Action
 		
 		//添加工作流id        
 		WorkflowBaseInfo wbi = new WorkflowBaseInfo();        
-		wbi.setWorkflowId("1603");//workflowid       
+		wbi.setWorkflowId("145");//workflowid       
 		WorkflowRequestInfo wri = new WorkflowRequestInfo();//流程基本信息            
 		wri.setCreatorId(SQR);//创建人id        
 		wri.setRequestLevel("0");//0 正常，1重要，2紧急

@@ -432,7 +432,7 @@ public class OracleManager {
 			String oaItemJson = createRequestJson2(list);
 			response = proxy.updateOAQuote(oaItemJson, username, password);
 			logger.info("response: " + response);
-			if (response.length()>20) {
+			if (!"S".equals(response)) {
 				code = "-4";
 				message = response;
 			}

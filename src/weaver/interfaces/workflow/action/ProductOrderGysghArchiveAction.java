@@ -91,8 +91,7 @@ public class ProductOrderGysghArchiveAction implements Action {
 					String dwDetailA = null;											// 单位
 					String jgDetailA = Util.null2String(detailAMap.get("JG"));			// 价格
 					String gyswlDetailA = null;											// 供应商物料
-					String jqDetailA = Util.null2String(WorkflowUtils.getDetailFieldSelectName(workflowid, 1, "XGCJQ", detailAMap.get("XGCJQ")));		
-																						// 交期
+					String jqDetailA = Util.null2String(detailAMap.get("XGCJQ"));		// 交期
 					String sfmrgysDetailA = "Y";										// 是否默认供应商
 					String zxqdlDetailA = Util.null2String(detailAMap.get("ZXQDL"));	// 最小起订量
 					String zdqdlDetailA = Util.null2String(detailAMap.get("ZDQDL"));	// 最大起订量

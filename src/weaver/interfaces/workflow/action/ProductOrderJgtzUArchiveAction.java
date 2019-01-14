@@ -43,39 +43,35 @@ public class ProductOrderJgtzUArchiveAction implements Action {
 			// 获取流程主表数据
 			ActionInfo info = ActionUtils.getActionInfo(request);
 			Map<String, String> mainMap = info.getMainMap();
-			String bjdbh = Util.null2String(mainMap.get("BJDBH"));															// 报价单编号
 			String ywst = Util.null2String(WorkflowUtils.getFieldSelectName(workflowid, "YWST", mainMap.get("YWST")));		// 业务实体
 			if(ywst.indexOf("遨森电子商务股份有限公司")!=-1){
 				ywst = "CHN";
 			}else if(ywst.indexOf("遨森国际发展有限公司")!=-1){
 				ywst = "HKI";
 			}
-			String bz = null;																								// 币种
 			
 			// 货号信息
 			List<OracleProductOrder> poList = new ArrayList<OracleProductOrder>();
-			OracleProductOrder po = new OracleProductOrder();
-			List<Map<String, String>> detailContentList = new ArrayList<Map<String, String>>();
-			Map<String, String> headContentMap = new HashMap<String, String>();
-			headContentMap.put("ou_name", ywst);
-			headContentMap.put("quotation_doc_num", bjdbh);
 			
 			// 获取流程明细表 1
 			List<Map<String, String>> detailAList = info.getDetailMap("1");
 			if (detailAList != null && detailAList.size() > 0) {
 				for (int i = 0; i < detailAList.size(); i++) {
+					OracleProductOrder po = new OracleProductOrder();
+					List<Map<String, String>> detailContentList = new ArrayList<Map<String, String>>();
+					Map<String, String> headContentMap = new HashMap<String, String>();
+					headContentMap.put("ou_name", ywst);
 					Map<String, String> detailAMap = detailAList.get(i);
 					
 					String hhDetailA = oracleManager.getHhmc(detailAMap.get("HH"));		// 货号名
 					String jgDetailA = Util.null2String(detailAMap.get("BGHCGJG"));		// 价格
+					String ybjdbhDetailA = Util.null2String(detailAMap.get("YBJDBH"));	// 原报价单编号
 					String jqDetailA = null;											// 交期
+					String bz = null;													// 币种
 					String sfmrgysDetailA = "Y";										// 是否默认供应商
 					String zxqdlDetailA = null;											// 最小起订量
 					String zdqdlDetailA = null;											// 最大起订量
-					if(bz==null || "".equals(bz)){
-						bz = Util.null2String(WorkflowUtils.getDetailFieldSelectName(workflowid, 1, "BGHBZ", detailAMap.get("BGHBZ")));	
-																						// 币种
-					}
+					bz = Util.null2String(WorkflowUtils.getDetailFieldSelectName(workflowid, 1, "BGHBZ", detailAMap.get("BGHBZ")));	
 					if(bz.indexOf("RMB")!=-1){
 						bz = "CNY";
 					}
@@ -90,13 +86,14 @@ public class ProductOrderJgtzUArchiveAction implements Action {
 					
 					detailContentList.add(detailContentMap);
 					
+					headContentMap.put("currency_code", bz);
+					headContentMap.put("quotation_doc_num", ybjdbhDetailA);
+					po.setHeadContentMap(headContentMap);
+					po.setDetailContentList(detailContentList);
+					poList.add(po);
 				}
 			}
-			headContentMap.put("currency_code", bz);
-			po.setHeadContentMap(headContentMap);
-			po.setDetailContentList(detailContentList);
 			
-			poList.add(po);
 			
 			if (poList == null || poList.size() <= 0) {
 				request.getRequestManager().setMessage("操作失败 (-2)");
@@ -113,16 +110,7 @@ public class ProductOrderJgtzUArchiveAction implements Action {
 							result.getMessage()));
 				}
 				return Action.FAILURE_AND_CONTINUE;
-			} else {
-				// 更新 Oracle 生成报价单编号到 OA 流程中
-				String tablename = WorkflowUtils.getTablename(workflowid);
-				boolean flag = dao.update(tablename, requestid, "BJDBH", result.getResponse());
-				if (!flag) {
-					request.getRequestManager().setMessage("操作失败 (-4)");
-					request.getRequestManager().setMessagecontent("数据更新失败, {Oracle 报价单编号更新失败}; 如有疑问, 请联系系统管理员.");
-					return Action.FAILURE_AND_CONTINUE;
-				}
-			}
+			} 
 		} catch (Exception e) {
 			logger.error("Failure: ", e);
 			request.getRequestManager().setMessage("操作失败 (-1)");

@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import weaver.conn.RecordSet;
 import weaver.formmode.webservices.ModeDataServiceImpl;
 import weaver.general.Util;
 import weaver.soa.workflow.request.RequestInfo;
@@ -25,6 +26,8 @@ public class UpdateCghtpsdFqrlk implements Action
     String requestid = request.getRequestid();
 
     String FQR = "";//发起人
+    String YJZZ = "";//一级组织
+    String EJZZ = "";//二级组织
     String CGHTH = "";//采购合同号
     String GYS = "";//供应商
     String PSRQ = "";//发起日期
@@ -40,6 +43,7 @@ public class UpdateCghtpsdFqrlk implements Action
 		CGHTH = Util.null2String(mainTable.get("CGHTH"));
 		GYS = Util.null2String(mainTable.get("GYS"));
 		PSRQ = Util.null2String(mainTable.get("PSRQ"));
+		EJZZ = Util.null2String(mainTable.get("EJZZ"));
 		
     	// 获取明细表1信息
 	    List<Map<String, String>> detailAList = info.getDetailMap("1");
@@ -59,6 +63,21 @@ public class UpdateCghtpsdFqrlk implements Action
 //					"('" + FQR + "','" + CGHTH + "','" + GYS + "','" + PSRQ + "','" + hhDetailA + "','" + cppmDetailA + "','"+ thlDetailA + 
 //					"','" + zrrDetailA + "','" + FQR + "','" + wtlyDetailA + "','" + wtlxDetailA + "','" + requestid + "','0')";
 //					rs.execute(sql);
+					RecordSet rs = new RecordSet();
+					String sql = " select * from hrmdepartment  where id = (select SUPDEPID from hrmdepartment where id = '"+EJZZ+"' )";
+
+					rs.executeSql(sql);
+
+					if(rs.next()){
+						YJZZ = rs.getString("id");
+						
+					}else{		
+						rs.executeSql("select * from hrmdepartment where id="+EJZZ);
+						if(rs.next()){
+							YJZZ = rs.getString("id");
+						}
+						
+					}
 					String xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" +
 					"<ROOT>" +
 						"<header>" +
@@ -76,6 +95,14 @@ public class UpdateCghtpsdFqrlk implements Action
 									"<filedname>SQR</filedname>" +
 									"<filedvalue>"+FQR+"</filedvalue>" +
 								"</field>" +
+								"<field>" +
+								    "<filedname>YJZZ</filedname>" +
+								    "<filedvalue>"+YJZZ+"</filedvalue>" +
+							    "</field>" +
+							    "<field>" +
+								    "<filedname>EJZZ</filedname>" +
+								    "<filedvalue>"+EJZZ+"</filedvalue>" +
+							    "</field>" +
 								"<field>" +
 									"<filedname>HTH</filedname>" +
 									"<filedvalue>"+CGHTH+"</filedvalue>" +
