@@ -156,6 +156,12 @@ public class OAServiceContractProxy implements org.tempuri.OAServiceContract {
 	  return oAServiceContract.updateElectronicIsCreateSo(electronicInfo, name, pwd);
   }
   
+  public java.lang.String OAUpdatePaymentStatus(java.lang.String paymentStatusJson, java.lang.String name, java.lang.String pwd) throws java.rmi.RemoteException{
+	  if (oAServiceContract == null)
+		  _initOAServiceContractProxy();
+	  return oAServiceContract.OAUpdatePaymentStatus(paymentStatusJson, name, pwd);
+  }
+  
   public java.lang.String importOAVendor(java.lang.String OAVendorJson, java.lang.String name, java.lang.String pwd) throws java.rmi.RemoteException{
     if (oAServiceContract == null)
       _initOAServiceContractProxy();

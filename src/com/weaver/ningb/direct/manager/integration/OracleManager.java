@@ -526,6 +526,51 @@ public class OracleManager {
 		return callback(null, task, code, message, request, response);
 	}
 	
+	/**
+	 * 预付款申请信息回传到Oracle
+	 * 
+	 * @param list
+	 * 					报关单号和分提单号
+	 * @return 推送结果
+	 * @author ycj@20190115
+	 */
+	public OracleResult<String, String> pushProductApply(List<OracleProductOrder> list) {
+		String task = "pushProductApply";
+		String code = "0";
+		String message = "成功";
+		String request = null;
+		String response = null;
+		try {
+			String username = Util.null2String(envMap.get("username"));
+			String password = Util.null2String(envMap.get("password"));
+			
+			request = createRequestJson2(list);
+			logger.info("request: " + request);
+			if (StringUtils.isBlank(request)) {
+				code = "-3";
+				message = "创建请求信息失败";
+				return callback(null, task, code, message, request, response);
+			}
+			
+			String oaItemJson = createRequestJson2(list);
+			response = proxy.OAUpdatePaymentStatus(oaItemJson, username, password);
+			logger.info("response: " + response);
+			if (response.indexOf("False")!=-1) {
+				code = "-4";
+				message = response;
+			}
+		} catch (RemoteException e) {
+			logger.error(task + " Failure: ", e);
+			code = "-2";
+			message = "RemoteException.";
+		} catch (Exception e) {
+			logger.error(task + " Failure: ", e);
+			code = "-1";
+			message = "Failure.";
+		}
+		return callback(null, task, code, message, request, response);
+	}
+	
 	
 	/**
 	 * 通过反射创建对象, 并设置对应的字段值

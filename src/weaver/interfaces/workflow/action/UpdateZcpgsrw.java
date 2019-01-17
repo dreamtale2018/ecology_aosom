@@ -55,13 +55,13 @@ public class UpdateZcpgsrw implements Action
 				gsfaDetailA = gsfaDetailA.replaceAll("&quot;", "\"");
 				gsfaDetailA = gsfaDetailA.replaceAll("'", "''");
 				String mainid = "";
-				sql = "select id from formtable_main_207 where requestid = '" + ZBLJ + "'";
+				sql = "select id from formtable_main_225 where requestid = '" + ZBLJ + "'";
 				rs.execute(sql);
 				if (rs.next()){
 					mainid = rs.getString("id");
 		        }
 				if(mainid!=null && !"".equals(mainid)){
-					sql = "update formtable_main_207_dt1 set GSFA='"+ gsfaDetailA + "',GSFAFJ='" + gsfafjDetailA +
+					sql = "update formtable_main_225_dt1 set GSFA='"+ gsfaDetailA + "',GSFAFJ='" + gsfafjDetailA +
 					"',WCRQ='"+ wcrqDetailA + "',GSJG='" + gsjgDetailA + "' where mainid = '" + mainid + "' and id='"+ zbmxidDetailA +"'";
 					rs.execute(sql);
 				}

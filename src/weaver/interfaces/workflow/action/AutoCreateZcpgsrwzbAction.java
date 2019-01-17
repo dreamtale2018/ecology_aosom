@@ -196,7 +196,7 @@ public class AutoCreateZcpgsrwzbAction implements Action
 			WorkflowDetailTableInfo[0].setWorkflowRequestTableRecords(wrtri);
 			//添加工作流id        
 			WorkflowBaseInfo wbi = new WorkflowBaseInfo();        
-			wbi.setWorkflowId("1783");//workflowid       
+			wbi.setWorkflowId("1964");//workflowid       
 			WorkflowRequestInfo wri = new WorkflowRequestInfo();//流程基本信息            
 			wri.setCreatorId(zrr);//创建人id        
 			wri.setRequestLevel("0");//0 正常，1重要，2紧急
