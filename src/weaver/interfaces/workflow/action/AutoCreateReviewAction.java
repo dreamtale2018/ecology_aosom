@@ -25,6 +25,13 @@ import weaver.workflow.webservices.WorkflowServiceImpl;
 import com.weaver.ningb.soa.workflow.action.support.ActionInfo;
 import com.weaver.ningb.soa.workflow.action.support.ActionUtils;
 
+/**
+ * 采购合同审批流程<br>
+ * 归档, 自动创建采购合同评审单
+ * 
+ * @author ycj
+ *
+ */
 public class AutoCreateReviewAction implements Action
 {
   private Log logger = LogFactory.getLog(AutoCreateReviewAction.class);
@@ -118,7 +125,7 @@ public class AutoCreateReviewAction implements Action
 		        }else{
 		        	nineMonth = false;
 		        }
-	            if(thl<8.00 || nineMonth){
+	            if(thl<7.00 || nineMonth){
 	            	continue;
 	            }else{
 	            	Map<String, String> hhMap = new HashMap<String, String>();

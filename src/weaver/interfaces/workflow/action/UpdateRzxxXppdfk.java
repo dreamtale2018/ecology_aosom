@@ -47,7 +47,7 @@ public class UpdateRzxxXppdfk implements Action
 			for (int i = 0; i < detailAList.size(); i++) {
 				Map<String, String> detailAMap = detailAList.get(i);
 				String hhDetailA = oracleManager.getHhmc(detailAMap.get("HH2"));//货号
-				sql = "update uf_RZXXB set ZT = '1',HTJQ = '" + HTJQ + "' where HH = '" + hhDetailA + "'";
+				sql = "update uf_RZXXB set HTJQ = '" + HTJQ + "' where HH = '" + hhDetailA + "'";
 				rs.execute(sql);
 			}
 		}

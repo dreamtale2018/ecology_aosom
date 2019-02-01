@@ -6,9 +6,6 @@
 <%@ page language="java" import="java.util.regex.Matcher" %>
 <%@ page language="java" import="weaver.conn.RecordSet" %>
 <%@ page language="java" import="org.apache.commons.lang.StringUtils" %>
-<%@ page language="java" import="org.apache.commons.logging.Log" %>
-<%@ page language="java" import="org.apache.commons.logging.LogFactory" %>
-<%@ page language="java" import="weaver.interfaces.workflow.action.AutoCreateRzxqbAction" %>
 <jsp:useBean id="basebean" class="weaver.general.BaseBean" scope="page" />
 <%!
 	/**
@@ -42,8 +39,6 @@
 		if (data != null) result.put("data", data);
 		return result.toString();
 	}
-	
-	private Log logger = LogFactory.getLog(AutoCreateRzxqbAction.class);
 	
 	private JSONArray getJSONArray(String remark, RecordSet rs){
 		Pattern pattern = Pattern.compile("[a-zA-Z]{2,3}\\—([\u4e00-\u9fa5]{2,5}[、]?)+");

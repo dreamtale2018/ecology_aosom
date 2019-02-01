@@ -9,6 +9,7 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 
+import weaver.conn.RecordSet;
 import weaver.soa.workflow.request.RequestInfo;
 
 import com.weaver.general.Util;
@@ -26,27 +27,40 @@ import com.weaver.ningb.soa.workflow.action.support.ActionUtils;
  * @author ycj
  *
  */
-public class ProductApplyArchiveAction implements Action {
+public class ProductApplyTgArchiveAction implements Action {
 	
-	private static final Log logger = LogFactory.getLog(ProductCode1ArchiveAction.class);
+	private static final Log logger = LogFactory.getLog(ProductApplyTgArchiveAction.class);
 
 	private OracleManager oracleManager = new OracleManager();
 	
 	@Override
 	public String execute(RequestInfo request) {
+	    RecordSet rs = new RecordSet();
+	    
+	    String SQR = "";
 		String SPSJ = "";			//审批时间
 		try {
-			
 			// 获取流程主表数据
 			ActionInfo info = ActionUtils.getActionInfo(request);
 			Map<String, String> mainMap = info.getMainMap();
 			SPSJ = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
 			String ywst = Util.null2String(mainMap.get("YWST"));															// 业务实体
+			if(ywst.indexOf("遨森电子商务股份有限公司")!=-1 || ywst.indexOf("Aosom E-Commerce Inc")!=-1){
+				ywst = "CHN";
+			}else if(ywst.indexOf("遨森国际发展有限公司")!=-1 || ywst.indexOf("AOSOM INTERNATIONAL DEVELOPMENT CO.,LIMITED")!=-1){
+				ywst = "HKI";
+			}
 			String bz = Util.null2String(mainMap.get("BZ"));																// 币种
 			String lcbh = Util.null2String(mainMap.get("LCBH"));															// 流程编号
 			String fklx = Util.null2String(mainMap.get("FKLX"));															// 付款类型
-			String sqr = Util.null2String(mainMap.get("SQR"));																// 付款类型
-			String zt = Util.null2String(mainMap.get("ZT"));																// 状态
+			String sqr = Util.null2String(mainMap.get("SQR"));																// 申请人
+			if(!"".equals(sqr)){
+	        	String sql = "select loginid from hrmresource where id = '" + sqr + "'";
+		        rs.execute(sql);
+		        if (rs.next()) {
+		        	SQR = Util.null2String(rs.getString("loginid"));
+		        }
+	        }
 			
 			// 预付款申请信息
 			List<OracleProductOrder> poList = new ArrayList<OracleProductOrder>();
@@ -57,9 +71,9 @@ public class ProductApplyArchiveAction implements Action {
 			headContentMap.put("oa_payment_doc_num", lcbh);
 			headContentMap.put("currency_code", bz);
 			headContentMap.put("payment_doc_type", fklx);
-			headContentMap.put("approved_user_name", sqr);
+			headContentMap.put("approved_user_name", SQR);
 			headContentMap.put("approved_date", SPSJ);
-			headContentMap.put("status_name", zt);
+			headContentMap.put("status_name", "APPOVAL");
 			
 			// 获取流程明细表 1
 			List<Map<String, String>> detailAList = info.getDetailMap("1");

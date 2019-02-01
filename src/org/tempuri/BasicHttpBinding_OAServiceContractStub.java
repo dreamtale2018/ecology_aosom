@@ -18,7 +18,7 @@ public class BasicHttpBinding_OAServiceContractStub extends org.apache.axis.clie
     static org.apache.axis.description.OperationDesc [] _operations;
 
     static {
-        _operations = new org.apache.axis.description.OperationDesc[20];
+        _operations = new org.apache.axis.description.OperationDesc[21];
         _initOperationDesc1();
         _initOperationDesc2();
         _initOperationDesc3();
@@ -1382,7 +1382,7 @@ public class BasicHttpBinding_OAServiceContractStub extends org.apache.axis.clie
             throw new org.apache.axis.NoEndPointException();
         }
         org.apache.axis.client.Call _call = createCall();
-        _call.setOperation(_operations[19]);
+        _call.setOperation(_operations[20]);
         _call.setUseSOAPAction(true);
         _call.setSOAPActionURI("http://tempuri.org/OAServiceContract/OAUpdatePaymentStatus");
         _call.setEncodingStyle(null);

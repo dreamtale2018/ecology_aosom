@@ -555,7 +555,7 @@ public class OracleManager {
 			String oaItemJson = createRequestJson2(list);
 			response = proxy.OAUpdatePaymentStatus(oaItemJson, username, password);
 			logger.info("response: " + response);
-			if (response.indexOf("False")!=-1) {
+			if (!"S".equals(response)) {
 				code = "-4";
 				message = response;
 			}

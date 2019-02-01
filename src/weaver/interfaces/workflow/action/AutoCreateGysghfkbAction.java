@@ -90,7 +90,7 @@ public class AutoCreateGysghfkbAction implements Action
 			for (int i = 0; i < detailAList.size(); i++) {
 				Map<String, String> detailAMap = detailAList.get(i);
 				String ghyyDetailA = Util.null2String(detailAMap.get("GHYY"));		//更换原因
-				if(!"0".equals(ghyyDetailA)){
+				if(!"15".equals(ghyyDetailA)){
 					detailList.add(detailAList.get(i));
 				}
 			}

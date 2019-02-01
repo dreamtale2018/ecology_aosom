@@ -36,6 +36,7 @@ public class ProductCodeDaoImpl implements ProductCodeDao {
 		String task = "updateDetail";
 		try {
 			String sql = "update " + tablename + " set " + key + " = ? where id = ? ";
+			logger.info(task + ": " + sql);
 			int iFlag = jdbcTemplate.update(sql, value, detailid);
 			flag = iFlag > 0;
 		} catch (DataAccessException e) {

@@ -59,7 +59,7 @@ public class AutoCreateZcpgsrwzbAction implements Action
 				Map<String, String> detailAMap = detailAList.get(i);
 				String mxhhDetailA = Util.null2String(detailAMap.get("id"));				// 行号
 				String cpmcDetailA = Util.null2String(detailAMap.get("CPMC"));				// 产品名称
-				String cpzcpplnrDetailA = Util.null2String(detailAMap.get("CPZCPPLNR"));	// 产品中差评评论内容
+				String plnrDetailA = Util.null2String(detailAMap.get("PLNR"));				// 产品中差评评论内容
 				String dyskuDetailA = Util.null2String(detailAMap.get("DYSKU"));			// 对应SKU
 				String fsrqDetailA = Util.null2String(detailAMap.get("FSRQ"));				// 发生日期
 				String gbDetailA = Util.null2String(detailAMap.get("GB"));					// 国别
@@ -71,7 +71,7 @@ public class AutoCreateZcpgsrwzbAction implements Action
 				if("0".equals(sffprwDetailA)){
 					TaskAssignedReview taskAssignedReview = new TaskAssignedReview();
 					taskAssignedReview.setCpmc(cpmcDetailA);
-					taskAssignedReview.setCpzcpplnr(cpzcpplnrDetailA);
+					taskAssignedReview.setCpzcpplnr(plnrDetailA);
 					taskAssignedReview.setDysku(dyskuDetailA);
 					taskAssignedReview.setFsrq(fsrqDetailA);
 					taskAssignedReview.setGb(gbDetailA);
@@ -139,7 +139,7 @@ public class AutoCreateZcpgsrwzbAction implements Action
 				wrti[1].setEdit(true);//字段是否可编辑
 				
 				wrti[2] = new WorkflowRequestTableField();             
-				wrti[2].setFieldName("cpzcpplnr");//产品中差评评论内容           
+				wrti[2].setFieldName("plnr");//产品中差评评论内容           
 				wrti[2].setFieldValue(task.getCpzcpplnr());            
 				wrti[2].setView(true);//字段是否可见              
 				wrti[2].setEdit(true);//字段是否可编辑
