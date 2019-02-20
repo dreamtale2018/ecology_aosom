@@ -46,7 +46,7 @@ public class UpdateRzxxXppdfk implements Action
 	    if (detailAList != null && detailAList.size() > 0) {
 			for (int i = 0; i < detailAList.size(); i++) {
 				Map<String, String> detailAMap = detailAList.get(i);
-				String hhDetailA = oracleManager.getHhmc(detailAMap.get("HH2"));//货号
+				String hhDetailA = oracleManager.getHhmc(detailAMap.get("HH3"));//货号
 				sql = "update uf_RZXXB set HTJQ = '" + HTJQ + "' where HH = '" + hhDetailA + "'";
 				rs.execute(sql);
 			}

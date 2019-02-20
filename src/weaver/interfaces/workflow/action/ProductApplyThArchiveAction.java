@@ -55,10 +55,10 @@ public class ProductApplyThArchiveAction implements Action {
 			String fklx = Util.null2String(mainMap.get("FKLX"));															// 付款类型
 			String sqr = Util.null2String(mainMap.get("SQR"));																// 申请人
 			if(!"".equals(sqr)){
-	        	String sql = "select loginid from hrmresource where id = '" + sqr + "'";
+	        	String sql = "select workcode from hrmresource where id = '" + sqr + "'";
 		        rs.execute(sql);
 		        if (rs.next()) {
-		        	SQR = Util.null2String(rs.getString("loginid"));
+		        	SQR = Util.null2String(rs.getString("workcode"));
 		        }
 	        }
 			

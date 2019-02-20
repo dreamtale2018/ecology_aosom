@@ -27,6 +27,26 @@ public class HrmInfoServiceImpl extends BaseBean implements HrmInfoService {
 	}
 	
 	/**
+	 * 获取离职人员ID
+	 * @param code 工号
+	 * @return
+	 * @throws Exception
+	 */
+	public String getHrmResignedID(String code) throws Exception {
+		
+		String id = "";
+		RecordSet rs = new RecordSet();
+		String sql = "select id from hrmresource " +
+				"where workcode = '" + code + "'";
+		rs.execute(sql);
+		if(rs.next()){
+			id = Util.null2String(rs.getString("id"));
+		}
+		
+		return id;
+	}
+	
+	/**
 	 * 获取部门ID
 	 * @param code 工号
 	 * @return

@@ -11,6 +11,14 @@ public interface HrmInfoService {
 	public String getHrmID(String code) throws Exception;
 	
 	/**
+	 * 获取离职人员ID
+	 * @param code 工号
+	 * @return
+	 * @throws Exception
+	 */
+	public String getHrmResignedID(String code) throws Exception;
+	
+	/**
 	 * 获取部门ID
 	 * @param code 工号
 	 * @return
