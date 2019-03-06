@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 
 import weaver.general.Util;
@@ -57,6 +56,14 @@ public class ProductCodeArchiveAction implements Action {
 			String sfzswl = Util.null2String(mainMap.get("SFZSWL"), "N");
 														// 是否招商物料：默认 N
 			String sfyljb = mainMap.get("SFYLJB");		// 是否有零件包
+			String sfys = WorkflowUtils.getFieldSelectName(workflowid, "SFYS", mainMap.get("SFYS"));			
+														// 易碎
+			String sfxs = WorkflowUtils.getFieldSelectName(workflowid, "SFXS", mainMap.get("SFXS"));			
+														// 向上
+			String sfce = WorkflowUtils.getFieldSelectName(workflowid, "SFCE", mainMap.get("SFCE"));			
+														// CE
+			String sfkxjsb = WorkflowUtils.getFieldSelectName(workflowid, "SFKXJSB", mainMap.get("SFKXJSB"));	
+														// 开箱警示标
 			
 			
 			List<Map<String, String>> boxContentList = new ArrayList<Map<String, String>>();
@@ -163,6 +170,10 @@ public class ProductCodeArchiveAction implements Action {
 					String zwcpsxBDetailA = zwcpsxB;					// 中文产品属性 2
 					String gcxhDetailA = detailAMap.get("GCXH");		// 工厂型号
 					String sfzswlDetailA = sfzswl;						// 是否招商物料
+					String sfysDetailA = sfys;							// 易碎
+					String sfxsDetailA = sfxs;							// 向上
+					String sfceDetailA = sfce;							// CE
+					String sfkxjsbDetailA = sfkxjsb;					// 开箱警示标
 					String sfyljbDetailA = WorkflowUtils.getFieldSelectName(workflowid, "SFYLJB", sfyljb);
 																		// 是否有零件包
 					String sfqdbbhDetailA = WorkflowUtils.getDetailFieldSelectName(workflowid, 1, "SFQDBBH", detailAMap.get("SFQDBBH"));
@@ -193,6 +204,10 @@ public class ProductCodeArchiveAction implements Action {
 					itemContentMap.put("selling_point", cpmdDetailA);
 					itemContentMap.put("product_id", cphDetailA);
 					itemContentMap.put("include_bom_flag", glbomDetailA);
+					itemContentMap.put("is_fragile_flag", sfysDetailA);
+					itemContentMap.put("is_up_flag", sfxsDetailA);
+					itemContentMap.put("l_is_ce_flag", sfceDetailA);
+					itemContentMap.put("is_warning_flag", sfkxjsbDetailA);
 					if (glbomDetailA.equals("N")) {
 						itemContentMap.put("hs_code", hgbmDetailA);
 						itemContentMap.put("declared_item_name_cn", bgpmDetailA);

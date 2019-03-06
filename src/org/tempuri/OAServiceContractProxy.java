@@ -168,6 +168,12 @@ public class OAServiceContractProxy implements org.tempuri.OAServiceContract {
 	  return oAServiceContract.OAPoLineClose(poLineCloseJson, name, pwd);
   }
   
+  public java.lang.String OAUpdateQCTaskStatus(java.lang.String QCTaskStatusJson, java.lang.String name, java.lang.String pwd) throws java.rmi.RemoteException{
+	  if (oAServiceContract == null)
+		  _initOAServiceContractProxy();
+	  return oAServiceContract.OAUpdateQCTaskStatus(QCTaskStatusJson, name, pwd);
+  }
+  
   public java.lang.String importOAVendor(java.lang.String OAVendorJson, java.lang.String name, java.lang.String pwd) throws java.rmi.RemoteException{
     if (oAServiceContract == null)
       _initOAServiceContractProxy();

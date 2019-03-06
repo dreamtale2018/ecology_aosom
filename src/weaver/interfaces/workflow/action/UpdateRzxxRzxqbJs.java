@@ -47,9 +47,10 @@ public class UpdateRzxxRzxqbJs implements Action
 			for (int i = 0; i < detailAList.size(); i++) {
 				Map<String, String> detailAMap = detailAList.get(i);
 				String mxidDetailA = Util.null2String(detailAMap.get("id"));		//明细ID
+				String zslyDetailA = Util.null2String(detailAMap.get("ZSLY"));		//证书来源
 				String zsbhDetailA = Util.null2String(detailAMap.get("ZSBH"));		//证书编号
 				String zsyxrqDetailA = Util.null2String(detailAMap.get("ZSYXRQ"));	//证书有效日期
-				sql = "update uf_RZXXB set zsbh = '" + zsbhDetailA + "',zsyxrq = '" + zsyxrqDetailA + 
+				sql = "update uf_RZXXB set zsbh = '" + zsbhDetailA + "',zsly = '" + zslyDetailA + "',zsyxrq = '" + zsyxrqDetailA + 
 						"',bz = '" + BZ + "',zt = '3' where rzxqblc = '" + requestid + "' and mxid = '" + mxidDetailA + "'";
 				rs.execute(sql);
 			}

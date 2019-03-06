@@ -30,5 +30,5 @@ public interface OAServiceContract extends java.rmi.Remote {
     public java.lang.String updateElectronicIsCreateSo(org.datacontract.schemas._2004._07.MH_EBSOAWcfService.Electronic[] electronicInfo, java.lang.String name, java.lang.String pwd) throws java.rmi.RemoteException;
     public java.lang.String OAUpdatePaymentStatus(java.lang.String paymentStatusJson, java.lang.String name, java.lang.String pwd) throws java.rmi.RemoteException;
     public java.lang.String OAPoLineClose(java.lang.String poLoneCloseJson, java.lang.String name, java.lang.String pwd) throws java.rmi.RemoteException;
-
+    public java.lang.String OAUpdateQCTaskStatus(java.lang.String QCTaskStatusJson, java.lang.String name, java.lang.String pwd) throws java.rmi.RemoteException;
 }
