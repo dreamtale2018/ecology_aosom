@@ -60,8 +60,6 @@ public class ProductCodeArchiveAction implements Action {
 														// 易碎
 			String sfxs = WorkflowUtils.getFieldSelectName(workflowid, "SFXS", mainMap.get("SFXS"));			
 														// 向上
-			String sfce = WorkflowUtils.getFieldSelectName(workflowid, "SFCE", mainMap.get("SFCE"));			
-														// CE
 			String sfkxjsb = WorkflowUtils.getFieldSelectName(workflowid, "SFKXJSB", mainMap.get("SFKXJSB"));	
 														// 开箱警示标
 			
@@ -172,7 +170,8 @@ public class ProductCodeArchiveAction implements Action {
 					String sfzswlDetailA = sfzswl;						// 是否招商物料
 					String sfysDetailA = sfys;							// 易碎
 					String sfxsDetailA = sfxs;							// 向上
-					String sfceDetailA = sfce;							// CE
+					String sfceDetailA = WorkflowUtils.getDetailFieldSelectName(workflowid, 1, "SFCE", detailAMap.get("SFCE"));			
+																		// CE
 					String sfkxjsbDetailA = sfkxjsb;					// 开箱警示标
 					String sfyljbDetailA = WorkflowUtils.getFieldSelectName(workflowid, "SFYLJB", sfyljb);
 																		// 是否有零件包

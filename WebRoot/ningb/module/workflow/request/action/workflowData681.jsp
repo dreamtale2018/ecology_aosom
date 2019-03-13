@@ -83,7 +83,7 @@
 		return;
 	}
 	
-	String sql = "select gb,zz,hwkf,cs,zg from uf_CPXXCLR where zb = ?";
+	String sql = "select gb,zz,hwkf,cs,zg from uf_CPXXCLR where zb = ? and sfyx = '0'";
 	rs.executeQuery(sql, tjlb);
 	JSONArray shrArray = new JSONArray();
 	while (rs.next()) {

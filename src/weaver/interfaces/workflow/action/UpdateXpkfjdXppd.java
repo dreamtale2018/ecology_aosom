@@ -47,6 +47,7 @@ public class UpdateXpkfjdXppd implements Action
 			for (int i = 0; i < detailAList.size(); i++) {
 				Map<String, String> detailAMap = detailAList.get(i);
 				String hhDetailA = oracleManager.getHhmc(detailAMap.get("HH"));//货号
+				String fyDetailA = Util.null2String(detailAMap.get("FY"));//封样
 				String usDetailA = Util.null2String(detailAMap.get("USSL1"));//US数量
 				String caDetailA = Util.null2String(detailAMap.get("CASL1"));//CA数量
 				String ukDetailA = Util.null2String(detailAMap.get("UKSL1"));//UK数量
@@ -58,7 +59,8 @@ public class UpdateXpkfjdXppd implements Action
 						"',UK = '" + ukDetailA + "',DE = '" + deDetailA + 
 						"',FR = '" + frDetailA + "',IT = '" + itDetailA + 
 						"',ES = '" + esDetailA + "',XPPDBLC = '" + requestid + 
-						"',PDSJ = '" + PDSJ + "' where HH = '" + hhDetailA + "'";
+						"',PDSJ = '" + PDSJ + "',FY = '" + fyDetailA + 
+						"' where HH = '" + hhDetailA + "'";
 				rs.execute(sql);
 			}
 		}

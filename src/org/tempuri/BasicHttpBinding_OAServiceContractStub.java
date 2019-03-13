@@ -466,8 +466,12 @@ public class BasicHttpBinding_OAServiceContractStub extends org.apache.axis.clie
         _operations[21] = oper;
         
         oper = new org.apache.axis.description.OperationDesc();
-        oper.setName("OAUpdateQCTaskStatus");
-        param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("http://tempuri.org/", "QCTaskStatusJson"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+        oper.setName("UpdateStatus");
+        param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("http://tempuri.org/", "Json"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+        param.setOmittable(true);
+        param.setNillable(true);
+        oper.addParameter(param);
+        param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("http://tempuri.org/", "UpdateType"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
         param.setOmittable(true);
         param.setNillable(true);
         oper.addParameter(param);
@@ -481,7 +485,7 @@ public class BasicHttpBinding_OAServiceContractStub extends org.apache.axis.clie
         oper.addParameter(param);
         oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
         oper.setReturnClass(java.lang.String.class);
-        oper.setReturnQName(new javax.xml.namespace.QName("http://tempuri.org/", "OAUpdateQCTaskStatusResult"));
+        oper.setReturnQName(new javax.xml.namespace.QName("http://tempuri.org/", "UpdateStatusResult"));
         oper.setStyle(org.apache.axis.constants.Style.WRAPPED);
         oper.setUse(org.apache.axis.constants.Use.LITERAL);
         _operations[22] = oper;
@@ -1487,23 +1491,23 @@ public class BasicHttpBinding_OAServiceContractStub extends org.apache.axis.clie
 }
     }
     
-    public java.lang.String OAUpdateQCTaskStatus(java.lang.String QCTaskStatusJson, java.lang.String name, java.lang.String pwd) throws java.rmi.RemoteException {
+    public java.lang.String updateStatus(java.lang.String json, java.lang.String updateType, java.lang.String name, java.lang.String pwd) throws java.rmi.RemoteException {
         if (super.cachedEndpoint == null) {
             throw new org.apache.axis.NoEndPointException();
         }
         org.apache.axis.client.Call _call = createCall();
         _call.setOperation(_operations[22]);
         _call.setUseSOAPAction(true);
-        _call.setSOAPActionURI("http://tempuri.org/OAServiceContract/OAUpdateQCTaskStatus");
+        _call.setSOAPActionURI("http://tempuri.org/OAServiceContract/UpdateStatus");
         _call.setEncodingStyle(null);
         _call.setProperty(org.apache.axis.client.Call.SEND_TYPE_ATTR, Boolean.FALSE);
         _call.setProperty(org.apache.axis.AxisEngine.PROP_DOMULTIREFS, Boolean.FALSE);
         _call.setSOAPVersion(org.apache.axis.soap.SOAPConstants.SOAP11_CONSTANTS);
-        _call.setOperationName(new javax.xml.namespace.QName("http://tempuri.org/", "OAUpdateQCTaskStatus"));
+        _call.setOperationName(new javax.xml.namespace.QName("http://tempuri.org/", "UpdateStatus"));
 
         setRequestHeaders(_call);
         setAttachments(_call);
- try {        java.lang.Object _resp = _call.invoke(new java.lang.Object[] {QCTaskStatusJson, name, pwd});
+ try {        java.lang.Object _resp = _call.invoke(new java.lang.Object[] {json, updateType, name, pwd});
 
         if (_resp instanceof java.rmi.RemoteException) {
             throw (java.rmi.RemoteException)_resp;

@@ -37,12 +37,11 @@ public class ProductCheckArchiveAction implements Action {
 	public String execute(RequestInfo request) {
 		try {
 			String workflowid = request.getWorkflowid();
-			String requestid = request.getRequestid();
 			
 			// 获取流程主表数据
 			ActionInfo info = ActionUtils.getActionInfo(request);
 			Map<String, String> mainMap = info.getMainMap();
-			String jydh = Util.null2String(mainMap.get("JYDH"));															// 检验单号 
+			String tid = Util.null2String(mainMap.get("TID"));																// 头ID 
 			String sqr = Util.null2String(mainMap.get("SQR"));	
 			if(!"".equals(sqr)){
 	        	String sql = "select workcode from hrmresource where id = '" + sqr + "'";
@@ -58,8 +57,7 @@ public class ProductCheckArchiveAction implements Action {
 			OracleProductOrder po = new OracleProductOrder();
 			List<Map<String, String>> detailContentList = new ArrayList<Map<String, String>>();
 			Map<String, String> headContentMap = new HashMap<String, String>();
-			headContentMap.put("oa_qc_doc_id", requestid);
-			headContentMap.put("oa_qc_doc_num", jydh);
+			headContentMap.put("oa_qc_doc_num", tid);
 			headContentMap.put("approved_user_name", sqr);
 			headContentMap.put("approved_date", jyrq);
 			headContentMap.put("status_name", "已分配");
@@ -70,18 +68,38 @@ public class ProductCheckArchiveAction implements Action {
 				for (int i = 0; i < detailAList.size(); i++) {
 					Map<String, String> detailAMap = detailAList.get(i);
 					
-					String hhDetailA = Util.null2String(detailAMap.get("HANGH"));		// 检验单号
+					String headidDetailA = Util.null2String(detailAMap.get("HEADID"));	// 采购头ID
+					String lineidDetailA = Util.null2String(detailAMap.get("LINEID"));	// 采购行ID
+					String hhidDetailA = Util.null2String(detailAMap.get("HHID"));		// 质检单行号ID
 					String jyjgDetailA = Util.null2String(WorkflowUtils.getDetailFieldSelectName(workflowid, 1, "JYJG", detailAMap.get("JYJG")));		
 																						// 检验结果
-					String pdjgDetailA = Util.null2String(detailAMap.get("PDJG"));		// 判定结果
+					//String pdjgDetailA = Util.null2String(detailAMap.get("PDJG"));	// 判定结果
+					String pdjgDetailA = "";											// 判定结果
+					if("已免检".equals(jyjgDetailA)){
+						jyjgDetailA = "EXEMPTION";
+						pdjgDetailA = "NULL";
+					}else if("不合格".equals(jyjgDetailA)){
+						jyjgDetailA = "FAIL";
+						pdjgDetailA = "REWORK";
+					}else if("未质检".equals(jyjgDetailA)){
+						jyjgDetailA = "NULL";
+						pdjgDetailA = "NOTHING";
+					}else if("合格".equals(jyjgDetailA)){
+						jyjgDetailA = "STANDARD";
+						pdjgDetailA = "RCV";
+					}
 					String wcslDetailA = Util.null2String(detailAMap.get("WCSL"));		// 完成数量
 					String bzDetailA = Util.null2String(detailAMap.get("BZ"));			// 备注
 					
 					Map<String, String> detailContentMap = new HashMap<String, String>();
-					detailContentMap.put("qc_doc_num_detail", hhDetailA);
+					detailContentMap.put("po_header_id", headidDetailA);
+					detailContentMap.put("po_line_id", lineidDetailA);
+					detailContentMap.put("qc_doc_num_detail", hhidDetailA);
 					detailContentMap.put("qc_result_code", jyjgDetailA);
 					detailContentMap.put("qc_treatment_code", pdjgDetailA);
 					detailContentMap.put("qc_confirmed_qty", wcslDetailA);
+					detailContentMap.put("start_date_active_str", jyrq);
+					detailContentMap.put("end_date_active_str", jyrq);
 					detailContentMap.put("task_Date_str", jyrq);
 					detailContentMap.put("memo", bzDetailA);
 					

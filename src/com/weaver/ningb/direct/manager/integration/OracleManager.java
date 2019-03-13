@@ -643,7 +643,7 @@ public class OracleManager {
 			}
 			
 			String oaItemJson = createRequestJson2(list);
-			response = proxy.OAUpdateQCTaskStatus(oaItemJson, username, password);
+			response = proxy.updateStatus(oaItemJson, "QC", username, password);
 			logger.info("response: " + response);
 			if (!"S".equals(response)) {
 				code = "-4";
@@ -909,6 +909,8 @@ public class OracleManager {
 			doubleSet.add("unit_price");
 			doubleSet.add("delivery_num");
 			doubleSet.add("oa_item_line_seq");
+			doubleSet.add("oa_qc_doc_num");
+			doubleSet.add("qc_doc_num_detail");
 			doubleSet.add("box_number");
 			doubleSet.add("box_quantity");
 			doubleSet.add("box_length");
