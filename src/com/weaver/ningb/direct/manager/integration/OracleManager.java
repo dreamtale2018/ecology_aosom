@@ -1354,6 +1354,27 @@ public class OracleManager {
 	}
 	
 	/**
+	 * 获取部门名称, 根据部门 id
+	 * 
+	 * @param id
+	 * 					人员 id
+	 * @return 人员名称
+	 * @author ycj@20190313
+	 */
+	public String getBmmc(String id) {
+		String result = "";
+		String task = "getBmmc";
+		try {
+			if (StringUtils.isBlank(id)) return result;
+			rs.executeQuery("select departmentname from hrmdepartment where id = ?", id);
+			if (rs.next()) result = rs.getString(1);
+		} catch (Exception e) {
+			logger.error(task + " Exception: ", e);
+		}
+		return result;
+	}
+	
+	/**
 	 * 获取供应商名称, 根据供应商 id
 	 * 
 	 * @param id

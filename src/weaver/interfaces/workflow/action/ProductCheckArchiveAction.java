@@ -42,6 +42,12 @@ public class ProductCheckArchiveAction implements Action {
 			ActionInfo info = ActionUtils.getActionInfo(request);
 			Map<String, String> mainMap = info.getMainMap();
 			String tid = Util.null2String(mainMap.get("TID"));																// 头ID 
+			String zt = Util.null2String(WorkflowUtils.getFieldSelectName(workflowid, "ZT", mainMap.get("ZT")));																// 状态
+			if("正常".equals(zt)){
+				zt = "APPOVAL";
+			}else if("手动关闭".equals(zt)){
+				zt = "WITHDRAW";
+			}
 			String sqr = Util.null2String(mainMap.get("SQR"));	
 			if(!"".equals(sqr)){
 	        	String sql = "select workcode from hrmresource where id = '" + sqr + "'";
@@ -60,7 +66,7 @@ public class ProductCheckArchiveAction implements Action {
 			headContentMap.put("oa_qc_doc_num", tid);
 			headContentMap.put("approved_user_name", sqr);
 			headContentMap.put("approved_date", jyrq);
-			headContentMap.put("status_name", "已分配");
+			headContentMap.put("status_name", zt);
 			
 			// 获取流程明细表 1
 			List<Map<String, String>> detailAList = info.getDetailMap("1");
@@ -88,7 +94,7 @@ public class ProductCheckArchiveAction implements Action {
 						jyjgDetailA = "STANDARD";
 						pdjgDetailA = "RCV";
 					}
-					String wcslDetailA = Util.null2String(detailAMap.get("WCSL"));		// 完成数量
+					String hgslDetailA = Util.null2String(detailAMap.get("HGSL"));		// 完成数量
 					String bzDetailA = Util.null2String(detailAMap.get("BZ"));			// 备注
 					
 					Map<String, String> detailContentMap = new HashMap<String, String>();
@@ -97,7 +103,7 @@ public class ProductCheckArchiveAction implements Action {
 					detailContentMap.put("qc_doc_num_detail", hhidDetailA);
 					detailContentMap.put("qc_result_code", jyjgDetailA);
 					detailContentMap.put("qc_treatment_code", pdjgDetailA);
-					detailContentMap.put("qc_confirmed_qty", wcslDetailA);
+					detailContentMap.put("qc_confirmed_qty", hgslDetailA);
 					detailContentMap.put("start_date_active_str", jyrq);
 					detailContentMap.put("end_date_active_str", jyrq);
 					detailContentMap.put("task_Date_str", jyrq);

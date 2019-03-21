@@ -11,33 +11,37 @@ import weaver.formmode.webservices.ModeDataServiceImpl;
 import weaver.general.Util;
 import weaver.soa.workflow.request.RequestInfo;
 
+import com.weaver.ningb.core.util.WorkflowUtils;
 import com.weaver.ningb.direct.manager.integration.OracleManager;
 import com.weaver.ningb.soa.workflow.action.support.ActionInfo;
 import com.weaver.ningb.soa.workflow.action.support.ActionUtils;
 /**
- * 个人费用报销单结束节点新建费用支付台账<br>
+ * 公司费用报销单结束节点新建费用支付台账<br>
  * 
  * @author ycj
  *
  */
-public class UpdateFyzfGrfy implements Action
+public class UpdateFyzfGsfy implements Action
 {
   private OracleManager oracleManager = new OracleManager();
-  private Log logger = LogFactory.getLog(UpdateFyzfGrfy.class);
+  private Log logger = LogFactory.getLog(UpdateFyzfGsfy.class);
   
   @Override
   public String execute(RequestInfo request)
   {
     String requestid = request.getRequestid();
-    String DJM = "个人费用报销单";					//单据名 
+    String workflowid = request.getWorkflowid();
+    String DJM = "公司费用报销单";					//单据名 
     String BXDH = "";							//流程号 
+    String FYXDL = "";							//费用项-大类 
     String RQ = "";								//日期 
     String SQR = "";							//申请人
     String SQRXM = "";							//申请人姓名
+    String SKDWR = "";							//收款单位/人
     String YJZZ = "";							//一级组织
     String YJZZMC = "";							//一级组织名称
-    String FKZT = "遨森电子商务股份有限公司";			//付款主体
-    String FKBZ = "CNY";						//付款币种
+    String FKZT = "";							//付款主体
+    String FKBZ = "";							//付款币种
     RecordSet rs = new RecordSet();
     String sql = "";
     try
@@ -47,7 +51,21 @@ public class UpdateFyzfGrfy implements Action
     	// 获取主表信息
 		Map<String, String> mainTable = info.getMainMap();
 		BXDH = Util.null2String(mainTable.get("BXDH"));
+		SKDWR = Util.null2String(mainTable.get("SKDWR"));
+		FYXDL = Util.null2String(mainTable.get("FYXDL"));
+		sql = "select fyxdl from uf_FYXKMDM where xh = '" + FYXDL + "'";
+		rs.execute(sql);
+		if (rs.next()){
+			FYXDL = rs.getString("fyxdl");
+        }
 		RQ = Util.null2String(mainTable.get("BXRQ"));
+		FKZT = WorkflowUtils.getFieldSelectName(workflowid, "FKDW", mainTable.get("FKDW"));
+		FKBZ = WorkflowUtils.getFieldSelectName(workflowid, "BZ", mainTable.get("BZ"));
+		if("人民币".equals(FKBZ)){
+			FKBZ = "CNY";
+		}else if("美元".equals(FKBZ)){
+			FKBZ = "USD";
+		}
 		SQR = Util.null2String(mainTable.get("SQR"));
 		SQRXM = oracleManager.getRymc(SQR);
 		SQRXM = oracleManager.getChineseMsg(SQRXM);
@@ -59,12 +77,12 @@ public class UpdateFyzfGrfy implements Action
 			for (int i = 0; i < detailAList.size(); i++) {
 				Map<String, String> detailAMap = detailAList.get(i);
 				String mxidDetailA = Util.null2String(detailAMap.get("id"));						//明细ID
-				String jeDetailA = Util.null2String(detailAMap.get("BXJE"));						//金额
-				String fyxdlDetailA = Util.null2String(detailAMap.get("FYXDL"));					//费用项大类
-				sql = "select fyxdl from uf_FYXKMDM where xh = '" + fyxdlDetailA + "'";
+				String jeDetailA = Util.null2String(detailAMap.get("JE"));							//金额
+				String fyxxlDetailA = Util.null2String(detailAMap.get("FYXXL"));					//费用项-小类
+				sql = "select fyxxl from uf_FYXKMDM where xh = '" + fyxxlDetailA + "'";
 				rs.execute(sql);
 				if (rs.next()){
-					fyxdlDetailA = rs.getString("fyxdl");
+					fyxxlDetailA = rs.getString("fyxxl");
 		        }
 				String jfkmDetailA = Util.null2String(detailAMap.get("JFKM"));						//借方科目
 				String jfkmdmDetailA = Util.null2String(detailAMap.get("JFKMDM"));					//借方科目代码
@@ -90,8 +108,8 @@ public class UpdateFyzfGrfy implements Action
 											.append(".0.0.0").toString();							//贷方会计科目代码
 				
 				String zyDetailA = new StringBuilder().append("申请人：").append(SQRXM).append(" 费用大类：")
-									.append(fyxdlDetailA).append(" 费用小类：").append("").append(" 收款单位：")
-									.append(SQRXM).append(" 流程号：").append(BXDH).toString();		//摘要
+									.append(FYXDL).append(" 费用小类：").append(fyxxlDetailA).append(" 收款单位：")
+									.append(SKDWR).append(" 流程号：").append(BXDH).toString();		//摘要
 				String xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" +
 				"<ROOT>" +
 				  "<header>" +
@@ -119,7 +137,11 @@ public class UpdateFyzfGrfy implements Action
 				      "</field>" +
 				      "<field>" +
 					    "<filedname>FYXDL</filedname>" +
-					    "<filedvalue>"+fyxdlDetailA+"</filedvalue>" +
+					    "<filedvalue>"+FYXDL+"</filedvalue>" +
+				      "</field>" +
+				      "<field>" +
+				        "<filedname>FYXXL</filedname>" +
+				        "<filedvalue>"+fyxxlDetailA+"</filedvalue>" +
 				      "</field>" +
 				      "<field>" +
 				        "<filedname>RQ</filedname>" +
@@ -143,7 +165,7 @@ public class UpdateFyzfGrfy implements Action
 				      "</field>" +
 				      "<field>" +
 					    "<filedname>SKDW</filedname>" +
-					    "<filedvalue>"+SQRXM+"</filedvalue>" +
+					    "<filedvalue>"+SKDWR+"</filedvalue>" +
 				      "</field>" +
 				      "<field>" +
 					    "<filedname>JE</filedname>" +

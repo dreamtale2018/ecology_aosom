@@ -11,6 +11,7 @@ import weaver.conn.RecordSet;
 import weaver.soa.workflow.request.RequestInfo;
 
 import com.weaver.general.Util;
+import com.weaver.ningb.core.util.WorkflowUtils;
 import com.weaver.ningb.direct.entity.integration.OracleProductOrder;
 import com.weaver.ningb.direct.entity.integration.OracleResult;
 import com.weaver.ningb.direct.manager.integration.OracleManager;
@@ -39,6 +40,7 @@ public class ProductCghtCloseArchiveAction implements Action {
 	public String execute(RequestInfo request) {
 	    
 		try {
+			String workflowid = request.getWorkflowid();
 			// 获取流程主表数据
 			ActionInfo info = ActionUtils.getActionInfo(request);
 			Map<String, String> mainMap = info.getMainMap();
@@ -81,7 +83,8 @@ public class ProductCghtCloseArchiveAction implements Action {
 						}else if("2".equals(hztDetailA)){
 							hztDetailA = "RECEIVE CLOSED";
 						}
-						String qxyyDetailA = Util.null2String(detailAMap.get("QKBH"));							// 取消原因
+						String qxyyDetailA = Util.null2String(WorkflowUtils.getDetailFieldSelectName(workflowid, 1, "QXYY", detailAMap.get("QXYY")));								
+																												// 取消原因
 						String qxyybzDetailA = Util.null2String(detailAMap.get("BZ"));							// 取消原因备注
 						
 						Map<String, String> detailContentMap = new HashMap<String, String>();
