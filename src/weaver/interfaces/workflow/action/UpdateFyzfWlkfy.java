@@ -76,6 +76,11 @@ public class UpdateFyzfWlkfy implements Action
 			FYXDL = rs.getString("fyxdl");
         }
 		JFKM = Util.null2String(mainTable.get("JFKM"));										//借方科目
+		sql = "select kmmc from uf_KJKMDM where sfyx = '0' and xh = '" + JFKM + "'";
+		rs.execute(sql);
+		if (rs.next()){
+			JFKM = rs.getString("kmmc");
+        }
 		JFKMDM = Util.null2String(mainTable.get("JFKMDM"));									//借方科目代码
 		DFKM = Util.null2String(mainTable.get("DFKM"));										//贷方科目
 		DFKMDM = Util.null2String(mainTable.get("DFKMDM"));									//贷方科目代码
@@ -98,14 +103,14 @@ public class UpdateFyzfWlkfy implements Action
 		String DFKJKMKM = new StringBuilder().append(fkstdm).append(".0.").append(DFKMDM)
 									.append(".0.0.0").toString();							//贷方会计科目代码
 		
-		String zyDetailA = new StringBuilder().append("申请人：").append(SQRXM).append(" 费用大类：")
-							.append(FYXDL).append(" 费用小类：").append("").append(" 收款单位：")
+		String zyDetailA = new StringBuilder().append(SQRXM).append("-")
+							.append(FYXDL).append(" 收款单位：")
 							.append(SKDW).append(" 流程号：").append(BXDH).toString();		//摘要
 		String xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" +
 		"<ROOT>" +
 		  "<header>" +
 		    "<userid>"+SQR+"</userid>" +
-		    "<modeid>723</modeid>" +
+		    "<modeid>783</modeid>" +
 		    "<id/>" +
 		  "</header>" +
 		  "<search>" +

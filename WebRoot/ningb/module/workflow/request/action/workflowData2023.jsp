@@ -62,7 +62,17 @@
 	String cghtsplc = "";				// 采购合同审批流程
 	String currentnodetype = "";		// 节点类型
 	String gchcj = "";					// 工厂回传件
-	String sql = "select requestid,currentnodetype,gchcj from (select a.requestid,b.currentnodetype,a.gchcj from " +
+	String htqdsj = "";					// 合同签订时间
+	String sql = "select operatedate from (select c.operatedate from formtable_main_73 a left join " +
+				"workflow_requestbase b on a.requestid = b.requestid left join workflow_requestoperatelog c " +
+				"on a.requestid = c.requestid where a.sghth = ? and c.nodeid = '4014' " +
+				"order by b.createdate desc,b.createtime desc) where rownum<=1";
+	rs.executeQuery(sql, gxhth);
+	if (rs.next()) {
+		htqdsj = rs.getString("operatedate");
+	}
+	data.put("htqdsj", htqdsj);
+	sql = "select requestid,currentnodetype,gchcj from (select a.requestid,b.currentnodetype,a.gchcj from " +
 				"formtable_main_73 a left join workflow_requestbase b on a.requestid = b.requestid " +
 				"where a.sghth = ? order by b.createdate desc,b.createtime desc) where rownum<=1";
 	rs.executeQuery(sql, gxhth);

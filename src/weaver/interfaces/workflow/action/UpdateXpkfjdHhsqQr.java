@@ -36,6 +36,7 @@ public class UpdateXpkfjdHhsqQr implements Action
     String PM = "";			//品名
     String TJLY = "";		//推荐来源
     String XXDH = "";		//选型单号
+    String TJZLCH = "";		//推荐子流程号
     
     RecordSet rs = new RecordSet();
     
@@ -54,6 +55,7 @@ public class UpdateXpkfjdHhsqQr implements Action
 		TP = Util.null2String(mainTable.get("CPTP"));
 		PM = Util.null2String(mainTable.get("ZWPM"));
 		XXDH = Util.null2String(mainTable.get("XXDH"));
+		TJZLCH = Util.null2String(mainTable.get("TJZLCH"));
 		sql = "select TJLL from formtable_main_103 where requestid = '" + CPXXBLC + "'";
 		rs.execute(sql);
 		if(rs.next()){
@@ -117,6 +119,10 @@ public class UpdateXpkfjdHhsqQr implements Action
 							"<field>" +
 								"<filedname>HHSQBLC</filedname>" +
 								"<filedvalue>"+requestid+"</filedvalue>" +
+							"</field>" +
+							"<field>" +
+								"<filedname>TJZLCH</filedname>" +
+								"<filedvalue>"+TJZLCH+"</filedvalue>" +
 							"</field>" +
 							"<field>" +
 								"<filedname>ZT</filedname>" +

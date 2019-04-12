@@ -96,7 +96,7 @@ public class HrmScheduleDiffManager extends HrmReportManager {
 				String signTime = StringUtil.vString(map.get("signTime"));
 				// 处理时间类似为 8:05 与 8:05:00 比较的问题
 				if (signTime != null && !"".equals(signTime) && signTime.length() == 5) signTime += ":00";
-				// 不算迟到：8:00 到 8:05 (不包括 8:05); 大于 8:05 才算迟到
+				/*// 不算迟到：8:00 到 8:05 (不包括 8:05); 大于 8:05 才算迟到
 				if (signTime.compareTo("08:05:00") >= 0) {
 					resetValue(scheduleMap, "beLateCusA");
 				}
@@ -107,6 +107,24 @@ public class HrmScheduleDiffManager extends HrmReportManager {
 				} 
 				// 迟到 (超过 20) 8:20 以后
 				if (signTime.compareTo("08:20:00") > 0) {
+					resetValue(scheduleMap, "beLateCusC");
+				}*/
+				String signDate = StringUtil.vString(map.get("signDate"));
+				// 4月15号以后迟到 (超过 30) 8:30 以后
+				if (signDate.compareTo("2019-04-10") > 0 && signTime.compareTo("08:10:00") > 0) {
+					resetValue(scheduleMap, "beLateCusA");
+				}
+				// 4月15号以前不算迟到：8:00 到 8:05 (不包括 8:05); 大于 8:05 才算迟到
+				if (signDate.compareTo("2019-04-10") <= 0 && signTime.compareTo("08:05:00") >= 0) {
+					resetValue(scheduleMap, "beLateCusA");
+				}
+				// 4月15号以前迟到 (20以内) 8:05 到 8:20
+				if (signDate.compareTo("2019-04-10") <= 0 && signTime.compareTo("08:05:00") >= 0
+						&& signTime.compareTo("08:20:00") <= 0) {
+					resetValue(scheduleMap, "beLateCusB");
+				} 
+				// 4月15号以前迟到 (超过 20) 8:20 以后
+				if (signDate.compareTo("2019-04-10") <= 0 && signTime.compareTo("08:20:00") > 0) {
 					resetValue(scheduleMap, "beLateCusC");
 				}
 			}

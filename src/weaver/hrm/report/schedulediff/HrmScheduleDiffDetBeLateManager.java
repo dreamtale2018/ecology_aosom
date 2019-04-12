@@ -48,7 +48,10 @@ public class HrmScheduleDiffDetBeLateManager extends HrmReportManager {
 				String signTime = StringUtil.vString(m.get("signTime"));
 				// 处理时间类似为 8:05 与 8:05:00 比较的问题
 				if (signTime != null && !"".equals(signTime) && signTime.length() == 5) signTime += ":00";
-				if (signTime.compareTo("08:05:00") < 0) continue;
+				//if (signTime.compareTo("08:05:00") < 0) continue;
+				String signDate = StringUtil.vString(m.get("signDate"));
+				if (signDate.compareTo("2019-04-02") > 0 && signTime.compareTo("08:10:00") < 0) continue;
+				if (signDate.compareTo("2019-04-02") <= 0 && signTime.compareTo("08:05:00") < 0) continue;
 				
 				relList.add(m);
 			}

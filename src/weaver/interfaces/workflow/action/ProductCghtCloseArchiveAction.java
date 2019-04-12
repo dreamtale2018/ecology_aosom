@@ -75,7 +75,7 @@ public class ProductCghtCloseArchiveAction implements Action {
 						headContentMap.put("ou_name", ywst);
 						headContentMap.put("po_num", qxhthDetailA);
 						String hanghDetailA = Util.null2String(detailAMap.get("HANGH"));						// 行号
-						String hhDetailA = oracleManager.getHhmc(Util.null2String(detailAMap.get("HH")));		// 货号文本
+						String hhDetailA = Util.null2String(detailAMap.get("HHWB"));							// 货号文本
 						if("0".equals(hztDetailA)){
 							hztDetailA = "CLOSED";
 						}else if("1".equals(hztDetailA)){

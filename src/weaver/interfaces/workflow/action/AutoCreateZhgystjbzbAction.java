@@ -31,9 +31,9 @@ import com.weaver.ningb.soa.workflow.action.support.ActionUtils;
  * @author ycj
  *
  */
-public class AutoCreateZcpgsrwzbAction implements Action
+public class AutoCreateZhgystjbzbAction implements Action
 {
-  private Log logger = LogFactory.getLog(AutoCreateZcpgsrwzbAction.class);
+  private Log logger = LogFactory.getLog(AutoCreateZhgystjbzbAction.class);
   
   @Override
   public String execute(RequestInfo request)

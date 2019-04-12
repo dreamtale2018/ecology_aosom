@@ -41,6 +41,7 @@ public class AutoCreateHHSqbAction implements Action
     String SQRQ = "";	//申请日期
     String CPXXDH = "";	//产品选型单号
     String GJC = "";	//关键词
+    String TJLCH = "";	//推荐子流程号
     
     String sql = "";
 
@@ -55,6 +56,7 @@ public class AutoCreateHHSqbAction implements Action
 		EJZZ = Util.null2String(mainTable.get("EJZZ"));
 		CPXXDH = Util.null2String(mainTable.get("CPXXDH"));
 		GJC = Util.null2String(mainTable.get("GJC"));
+		TJLCH = Util.null2String(mainTable.get("TJLCH"));
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         SQRQ = sdf.format(new Date());
         sql = "select workcode from hrmresource where id = '" + SQR + "'";
@@ -104,7 +106,7 @@ public class AutoCreateHHSqbAction implements Action
 				String tpDetailA = Util.null2String(detailAMap.get("TP"));				// 产品图片
 				if(flag){
 					//主字段        
-					WorkflowRequestTableField[] wrti = new WorkflowRequestTableField[24]; //字段信息        
+					WorkflowRequestTableField[] wrti = new WorkflowRequestTableField[25]; //字段信息        
 					wrti[0] = new WorkflowRequestTableField();         
 					wrti[0].setFieldName("sqr");//申请人       
 					wrti[0].setFieldValue(SQR);//        
@@ -225,6 +227,11 @@ public class AutoCreateHHSqbAction implements Action
 					wrti[23].setFieldValue(KFYGH);//      
 					wrti[23].setView(true);//字段是否可见       
 					wrti[23].setEdit(true);//字段是否可编辑
+					wrti[24] = new WorkflowRequestTableField();         
+					wrti[24].setFieldName("tjzlch");//推荐子流程号     
+					wrti[24].setFieldValue(TJLCH);//      
+					wrti[24].setView(true);//字段是否可见       
+					wrti[24].setEdit(true);//字段是否可编辑
 					
 					WorkflowRequestTableRecord[] wrtri = new WorkflowRequestTableRecord[1];//主字段只有一行数据        
 					wrtri[0] = new WorkflowRequestTableRecord();        

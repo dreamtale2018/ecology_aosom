@@ -107,14 +107,14 @@ public class UpdateFyzfGsfy implements Action
 				String dfkjkmkmDetailA = new StringBuilder().append(fkstdm).append(".0.").append(dfkmdmDetailA)
 											.append(".0.0.0").toString();							//贷方会计科目代码
 				
-				String zyDetailA = new StringBuilder().append("申请人：").append(SQRXM).append(" 费用大类：")
-									.append(FYXDL).append(" 费用小类：").append(fyxxlDetailA).append(" 收款单位：")
+				String zyDetailA = new StringBuilder().append(SQRXM).append("-")
+									.append(FYXDL).append("-").append(fyxxlDetailA).append(" 收款单位：")
 									.append(SKDWR).append(" 流程号：").append(BXDH).toString();		//摘要
 				String xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" +
 				"<ROOT>" +
 				  "<header>" +
 				    "<userid>"+SQR+"</userid>" +
-				    "<modeid>723</modeid>" +
+				    "<modeid>783</modeid>" +
 				    "<id/>" +
 				  "</header>" +
 				  "<search>" +

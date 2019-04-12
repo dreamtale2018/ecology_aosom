@@ -598,7 +598,7 @@ public class OracleManager {
 			}
 			
 			String oaItemJson = createRequestJson2(list);
-			response = proxy.OAPoLineClose(oaItemJson, username, password);
+			response = proxy.updateStatus(oaItemJson, "POL", username, password);
 			logger.info("response: " + response);
 			if (!"S".equals(response)) {
 				code = "-4";

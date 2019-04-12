@@ -20,7 +20,12 @@ import weaver.workflow.webservices.WorkflowServiceImpl;
 
 import com.weaver.ningb.soa.workflow.action.support.ActionInfo;
 import com.weaver.ningb.soa.workflow.action.support.ActionUtils;
-
+/**
+ * 新品排单表流程结束自动创建产前样封样单<br>
+ * 
+ * @author ycj
+ *
+ */
 public class AutoCreateSealFormAction implements Action
 {
   private Log logger = LogFactory.getLog(AutoCreateSealFormAction.class);
@@ -37,6 +42,7 @@ public class AutoCreateSealFormAction implements Action
     String EJZZ = "";//二级组织
     String GYS = "";// 供应商
     String SQRQ = "";//申请日期
+    String ZJY = "";//质检员
 
     String sql = "";
     try
@@ -50,6 +56,7 @@ public class AutoCreateSealFormAction implements Action
 		YJZZ = Util.null2String(mainTable.get("YJZZ"));
 		EJZZ = Util.null2String(mainTable.get("EJZZ"));
 		GYS = Util.null2String(mainTable.get("GYS"));
+		ZJY = Util.null2String(mainTable.get("ZJYYC"));
         SQRQ = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
         // 获取流程明细表 1
 		List<Map<String, String>> detailAList = info.getDetailMap("1");
@@ -66,7 +73,7 @@ public class AutoCreateSealFormAction implements Action
 				String cpsx2DetailA = Util.null2String(detailAMap.get("CPSX2"));	// 产品属性2
 				if("0".equals(fyDetailA)){
 					//主字段        
-					WorkflowRequestTableField[] wrti = new WorkflowRequestTableField[16]; //字段信息        
+					WorkflowRequestTableField[] wrti = new WorkflowRequestTableField[17]; //字段信息        
 					wrti[0] = new WorkflowRequestTableField();         
 					wrti[0].setFieldName("cg");//采购        
 					wrti[0].setFieldValue(CG);//        
@@ -162,6 +169,12 @@ public class AutoCreateSealFormAction implements Action
 					wrti[15].setFieldValue(cpsx2DetailA);//        
 					wrti[15].setView(true);//字段是否可见       
 					wrti[15].setEdit(true);//字段是否可编辑
+					
+					wrti[16] = new WorkflowRequestTableField();         
+					wrti[16].setFieldName("zjy");//质检员     
+					wrti[16].setFieldValue(ZJY);//        
+					wrti[16].setView(true);//字段是否可见       
+					wrti[16].setEdit(true);//字段是否可编辑
 					
 					WorkflowRequestTableRecord[] wrtri = new WorkflowRequestTableRecord[1];//主字段只有一行数据        
 					wrtri[0] = new WorkflowRequestTableRecord();        
