@@ -24,9 +24,10 @@ public class UpdatePzxqb implements Action
     RecordSet rs2 = new RecordSet();
     
     String requestid = request.getRequestid();
-    String ID = "";//主表ID 
-    String CPGG = "";//产品规格
-    String CPSX1 = "";//产品属性1
+    String hh = "";		//货号ID 
+    String hhname = "";	//货号名 
+    String CPGG = "";	//产品规格
+    String CPSX1 = "";	//产品属性1
 
     String sql = "";
     String sql1 = "";
@@ -36,11 +37,12 @@ public class UpdatePzxqb implements Action
     	
     	 // 获取主表信息
 		  Map<String, String> mainTable = info.getMainMap();
-		  ID = Util.null2String(mainTable.get("HH"));
-		sql = "select * from uf_product where SEGMENT1 = '"+ ID +"'";
+		  hhname = Util.null2String(mainTable.get("HH"));
+		sql = "select * from uf_product where SEGMENT1 = '"+ hhname +"'";
 		rs.execute(sql);
         
 		if (rs.next()){
+			hh = Util.null2String(rs.getString("id"));
 			CPGG = Util.null2String(rs.getString("ITEM_SPECIFICATION_CN"));
 			CPSX1 = Util.null2String(rs.getString("ITEM_ATTACHED_ATTRIBUTE1"));
         }
@@ -49,7 +51,7 @@ public class UpdatePzxqb implements Action
         String sqlTp = "select tp from formtable_main_195_dt1 a "
 			+ " left join formtable_main_195 b on a.mainid = b.id "
 			+ " left join workflow_requestbase c on b.requestId = c.requestid "
-			+ " where hh2 = '" + ID + "' "
+			+ " where hh = '" + hh + "' "
 			+ " and c.currentnodetype = 3 ";
         rs2.execute(sqlTp);
         if (rs2.next()) {
@@ -58,7 +60,7 @@ public class UpdatePzxqb implements Action
 				sqlTp = "select tp from formtable_main_104_dt1 a "
 					+ " left join formtable_main_104 b on a.mainid = b.id "
 					+ " left join workflow_requestbase c on b.requestId = c.requestid "
-					+ " where hh2 = '" + ID + "' "
+					+ " where hh2 = '" + hhname + "' "
 					+ " and c.currentnodetype = 3 ";
 				rs2.execute(sqlTp);
 				if (rs2.next()) {

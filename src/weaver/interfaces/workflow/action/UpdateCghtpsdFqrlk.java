@@ -58,7 +58,7 @@ public class UpdateCghtpsdFqrlk implements Action
 				String zrrDetailA = Util.null2String(detailAMap.get("ZRR"));//责任人
 				String wtlyDetailA = Util.null2String(detailAMap.get("WTLY"));//问题来源
 				String wtlxDetailA = Util.null2String(detailAMap.get("WTLX"));//问题类型
-				if("5".equals(psxmDetailA)){
+				if("1".equals(psxmDetailA) || "2".equals(psxmDetailA) || "5".equals(psxmDetailA)){
 //					sql = "insert into uf_CPZLGSGZB (SQR,HTH,GYS,SQRQ,HH,PM,THL,ZRR,CG,WTLY,WTLX,LC,GJZT) values " + 
 //					"('" + FQR + "','" + CGHTH + "','" + GYS + "','" + PSRQ + "','" + hhDetailA + "','" + cppmDetailA + "','"+ thlDetailA + 
 //					"','" + zrrDetailA + "','" + FQR + "','" + wtlyDetailA + "','" + wtlxDetailA + "','" + requestid + "','0')";

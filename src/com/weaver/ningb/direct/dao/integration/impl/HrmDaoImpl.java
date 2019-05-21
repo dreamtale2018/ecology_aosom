@@ -47,7 +47,7 @@ public class HrmDaoImpl implements HrmDao {
 		String task = "getAttendance";
 		try {
 			String sql = "select attendance_empcode workcode,"
-					+ "(select min(b.attendance_date + ' ' + b.attendance_time) "
+					+ "(select max(b.attendance_date + ' ' + b.attendance_time) "
 					+ "from hr_attendance b where b.attendance_empcode = a.attendance_empcode "
 					+ "and b.attendance_date + ' ' + b.attendance_time < b.attendance_date + ' ' + '12:00:00' "
 					+ "and b.attendance_date = ?) starttime,"

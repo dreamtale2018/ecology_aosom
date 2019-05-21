@@ -46,6 +46,7 @@ public class AutoCreateRzxqbAction implements Action
     String SQRQ = "";	//申请日期
     String PM = "";		//品名
     String CPTP = "";	//图片
+    String GJC = "";	//关键词
     
     String sql = "";
 
@@ -60,6 +61,7 @@ public class AutoCreateRzxqbAction implements Action
 		EJZZ = Util.null2String(mainTable.get("RJZZ"));
 		PM = Util.null2String(mainTable.get("ZWPM"));
 		CPTP = Util.null2String(mainTable.get("CPTP"));
+		GJC = Util.null2String(mainTable.get("GJC"));
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         SQRQ = sdf.format(new Date());
         // 获取流程明细表 1
@@ -76,7 +78,7 @@ public class AutoCreateRzxqbAction implements Action
 			}
 			if(createAList != null && createAList.size()>0){
 				//主字段        
-				WorkflowRequestTableField[] wrti = new WorkflowRequestTableField[6]; //字段信息        
+				WorkflowRequestTableField[] wrti = new WorkflowRequestTableField[7]; //字段信息        
 				wrti[0] = new WorkflowRequestTableField();         
 				wrti[0].setFieldName("kfy");//申请人       
 				wrti[0].setFieldValue(KFY);//        
@@ -107,6 +109,11 @@ public class AutoCreateRzxqbAction implements Action
 				wrti[5].setFieldValue(CPTP);//        
 				wrti[5].setView(true);//字段是否可见       
 				wrti[5].setEdit(true);//字段是否可编辑
+				wrti[6] = new WorkflowRequestTableField();         
+				wrti[6].setFieldName("gjc");//关键词     
+				wrti[6].setFieldValue(GJC);//        
+				wrti[6].setView(true);//字段是否可见       
+				wrti[6].setEdit(true);//字段是否可编辑
 				
 				WorkflowRequestTableRecord[] wrtri = new WorkflowRequestTableRecord[1];//主字段只有一行数据        
 				wrtri[0] = new WorkflowRequestTableRecord();        

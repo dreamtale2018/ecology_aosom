@@ -95,74 +95,76 @@ public class AutoCreateGysghfkbAction implements Action
 				}
 			}
 			int detailrows = detailList.size() ;//添加指定条数明细  
-			//添加明细数据  
-			wrtri = new WorkflowRequestTableRecord[detailrows];
-			for (int i = 0; i < detailrows; i++) {
-				Map<String, String> detailMap = detailList.get(i);
-				String hhDetail = Util.null2String(detailMap.get("HH"));		//货号
-				String pmDetail = Util.null2String(detailMap.get("CPMC"));		//品名
-				String gbDetail = Util.null2String(detailMap.get("XYGB"));		//国别
-				String ggDetail = Util.null2String(detailMap.get("GG"));		//规格
-				String sx1Detail = Util.null2String(detailMap.get("SX1"));		//属性1
-				wrti = new WorkflowRequestTableField[5]; //字段信息             
-				wrti[0] = new WorkflowRequestTableField();             
-				wrti[0].setFieldName("hh");//货号             
-				wrti[0].setFieldValue(hhDetail);            
-				wrti[0].setView(true);//字段是否可见              
-				wrti[0].setEdit(true);//字段是否可编辑
-				wrti[1] = new WorkflowRequestTableField();             
-				wrti[1].setFieldName("pm");//品名          
-				wrti[1].setFieldValue(pmDetail);            
-				wrti[1].setView(true);//字段是否可见              
-				wrti[1].setEdit(true);//字段是否可编辑
-				wrti[2] = new WorkflowRequestTableField();             
-				wrti[2].setFieldName("gb");//国别          
-				wrti[2].setFieldValue(gbDetail);            
-				wrti[2].setView(true);//字段是否可见              
-				wrti[2].setEdit(true);//字段是否可编辑
-				wrti[3] = new WorkflowRequestTableField();             
-				wrti[3].setFieldName("gg");//规格         
-				wrti[3].setFieldValue(ggDetail);            
-				wrti[3].setView(true);//字段是否可见              
-				wrti[3].setEdit(true);//字段是否可编辑
-				wrti[4] = new WorkflowRequestTableField();             
-				wrti[4].setFieldName("sx1");//属性1        
-				wrti[4].setFieldValue(sx1Detail);            
-				wrti[4].setView(true);//字段是否可见              
-				wrti[4].setEdit(true);//字段是否可编辑
-				
-				wrtri[i] = new WorkflowRequestTableRecord();
-				wrtri[i].setWorkflowRequestTableFields(wrti);
-			}
-			//添加到明细表中        
-			WorkflowDetailTableInfo WorkflowDetailTableInfo[] = new WorkflowDetailTableInfo[1];
-			//指定明细表的个数，多个明细表指定多个，顺序按照明细的顺序        
-			WorkflowDetailTableInfo[0] = new WorkflowDetailTableInfo();        
-			WorkflowDetailTableInfo[0].setWorkflowRequestTableRecords(wrtri);
-			//添加工作流id        
-			WorkflowBaseInfo wbi = new WorkflowBaseInfo();        
-			wbi.setWorkflowId("1823");//workflowid       
-			WorkflowRequestInfo wri = new WorkflowRequestInfo();//流程基本信息            
-			wri.setCreatorId(SQR);//创建人id        
-			wri.setRequestLevel("0");//0 正常，1重要，2紧急
-			sql = "select lastname from hrmresource where id = '" + SQR + "'";
-			rs.execute(sql);
-			if(rs.next()){
-				SQRXM = Util.null2String(rs.getString("lastname"));
-				if(SQRXM.indexOf("`~`7")!=-1 && SQRXM.indexOf("`~`8")!=-1){
-					SQRXM = SQRXM.split("`~`7")[1].split("`~`8")[0].trim(); 
-				}else{
-					SQRXM = SQRXM.split("`~`7")[0].split("`~`8")[0].trim();
+			if(detailrows > 0){
+				//添加明细数据  
+				wrtri = new WorkflowRequestTableRecord[detailrows];
+				for (int i = 0; i < detailrows; i++) {
+					Map<String, String> detailMap = detailList.get(i);
+					String hhDetail = Util.null2String(detailMap.get("HH"));		//货号
+					String pmDetail = Util.null2String(detailMap.get("CPMC"));		//品名
+					String gbDetail = Util.null2String(detailMap.get("XYGB"));		//国别
+					String ggDetail = Util.null2String(detailMap.get("GG"));		//规格
+					String sx1Detail = Util.null2String(detailMap.get("SX1"));		//属性1
+					wrti = new WorkflowRequestTableField[5]; //字段信息             
+					wrti[0] = new WorkflowRequestTableField();             
+					wrti[0].setFieldName("hh");//货号             
+					wrti[0].setFieldValue(hhDetail);            
+					wrti[0].setView(true);//字段是否可见              
+					wrti[0].setEdit(true);//字段是否可编辑
+					wrti[1] = new WorkflowRequestTableField();             
+					wrti[1].setFieldName("pm");//品名          
+					wrti[1].setFieldValue(pmDetail);            
+					wrti[1].setView(true);//字段是否可见              
+					wrti[1].setEdit(true);//字段是否可编辑
+					wrti[2] = new WorkflowRequestTableField();             
+					wrti[2].setFieldName("gb");//国别          
+					wrti[2].setFieldValue(gbDetail);            
+					wrti[2].setView(true);//字段是否可见              
+					wrti[2].setEdit(true);//字段是否可编辑
+					wrti[3] = new WorkflowRequestTableField();             
+					wrti[3].setFieldName("gg");//规格         
+					wrti[3].setFieldValue(ggDetail);            
+					wrti[3].setView(true);//字段是否可见              
+					wrti[3].setEdit(true);//字段是否可编辑
+					wrti[4] = new WorkflowRequestTableField();             
+					wrti[4].setFieldName("sx1");//属性1        
+					wrti[4].setFieldValue(sx1Detail);            
+					wrti[4].setView(true);//字段是否可见              
+					wrti[4].setEdit(true);//字段是否可编辑
+					
+					wrtri[i] = new WorkflowRequestTableRecord();
+					wrtri[i].setWorkflowRequestTableFields(wrti);
 				}
+				//添加到明细表中        
+				WorkflowDetailTableInfo WorkflowDetailTableInfo[] = new WorkflowDetailTableInfo[1];
+				//指定明细表的个数，多个明细表指定多个，顺序按照明细的顺序        
+				WorkflowDetailTableInfo[0] = new WorkflowDetailTableInfo();        
+				WorkflowDetailTableInfo[0].setWorkflowRequestTableRecords(wrtri);
+				//添加工作流id        
+				WorkflowBaseInfo wbi = new WorkflowBaseInfo();        
+				wbi.setWorkflowId("1823");//workflowid       
+				WorkflowRequestInfo wri = new WorkflowRequestInfo();//流程基本信息            
+				wri.setCreatorId(SQR);//创建人id        
+				wri.setRequestLevel("0");//0 正常，1重要，2紧急
+				sql = "select lastname from hrmresource where id = '" + SQR + "'";
+				rs.execute(sql);
+				if(rs.next()){
+					SQRXM = Util.null2String(rs.getString("lastname"));
+					if(SQRXM.indexOf("`~`7")!=-1 && SQRXM.indexOf("`~`8")!=-1){
+						SQRXM = SQRXM.split("`~`7")[1].split("`~`8")[0].trim(); 
+					}else{
+						SQRXM = SQRXM.split("`~`7")[0].split("`~`8")[0].trim();
+					}
+				}
+				wri.setRequestName("供应商更换反馈表-" + SQRXM + "-" + SQRQ);//流程标题        
+				wri.setWorkflowMainTableInfo(wmi);//添加主字段数据 
+				wri.setWorkflowDetailTableInfos(WorkflowDetailTableInfo);//添加明细数据
+				wri.setWorkflowBaseInfo(wbi);        
+				WorkflowServiceImpl workflowServiceImpl = new WorkflowServiceImpl();
+				String newRequestid = workflowServiceImpl.doCreateWorkflowRequest(wri, Integer.parseInt(SQR));        
+				this.logger.error("newRequestid:"+newRequestid);
+					//this.logger.error("sql：" + sql);
 			}
-			wri.setRequestName("供应商更换反馈表-" + SQRXM + "-" + SQRQ);//流程标题        
-			wri.setWorkflowMainTableInfo(wmi);//添加主字段数据 
-			wri.setWorkflowDetailTableInfos(WorkflowDetailTableInfo);//添加明细数据
-			wri.setWorkflowBaseInfo(wbi);        
-			WorkflowServiceImpl workflowServiceImpl = new WorkflowServiceImpl();
-			String newRequestid = workflowServiceImpl.doCreateWorkflowRequest(wri, Integer.parseInt(SQR));        
-			this.logger.error("newRequestid:"+newRequestid);
-				//this.logger.error("sql：" + sql);
 		}
     }
     catch (Exception e)

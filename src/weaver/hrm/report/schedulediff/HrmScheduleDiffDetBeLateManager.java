@@ -50,8 +50,9 @@ public class HrmScheduleDiffDetBeLateManager extends HrmReportManager {
 				if (signTime != null && !"".equals(signTime) && signTime.length() == 5) signTime += ":00";
 				//if (signTime.compareTo("08:05:00") < 0) continue;
 				String signDate = StringUtil.vString(m.get("signDate"));
-				if (signDate.compareTo("2019-04-02") > 0 && signTime.compareTo("08:10:00") < 0) continue;
-				if (signDate.compareTo("2019-04-02") <= 0 && signTime.compareTo("08:05:00") < 0) continue;
+				if (signDate.compareTo("2019-04-19") > 0 && signTime.compareTo("08:30:00") < 0) continue;
+				if (signDate.compareTo("2019-04-12") <= 0 && signTime.compareTo("08:05:00") < 0) continue;
+				if (signDate.compareTo("2019-04-12") > 0 && signDate.compareTo("2019-04-19") <= 0) continue;
 				
 				relList.add(m);
 			}
