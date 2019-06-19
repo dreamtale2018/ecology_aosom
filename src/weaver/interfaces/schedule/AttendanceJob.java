@@ -60,6 +60,19 @@ public class AttendanceJob extends BaseCronJob {
 			long endTime = System.currentTimeMillis();
 			logger.info("times = " + (endTime - startTime) / 1000 + " s");
 			logger.info("---------------- " + task + " end ----------------");
+			
+			// 同步考勤信息到报表中
+			if (manager == null) manager = new HrmScheduleManager();
+			logger.info("---------------- report2 start ----------------");
+			boolean reportFlag2 = manager.syncAttendanceToReport(new Date(System.currentTimeMillis()));
+			if (reportFlag2) {
+				logger.info("report2 Successfully");
+			} else {
+				logger.info("report2 Failure");
+			}
+			long reportEndTime2 = System.currentTimeMillis();
+			logger.info("report2 times = " + (reportEndTime2 - startTime) / 1000 + " s");
+			logger.info("---------------- report2  end  ----------------");
 		} finally {
 			manager = null;
 			diffManager = null;

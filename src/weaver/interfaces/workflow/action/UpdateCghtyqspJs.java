@@ -30,8 +30,8 @@ public class UpdateCghtyqspJs implements Action
     RecordSet rs = new RecordSet();
     
     String requestid = request.getRequestid();
-    String WCRQ = "";//完成日期
-    String SJSPJE = "";//实际索赔
+    String WCRQ = "";	//完成日期
+    String SJSPJE = "";	//实际索赔
 
     String sql = "";
     try
@@ -42,7 +42,7 @@ public class UpdateCghtyqspJs implements Action
 		Map<String, String> mainTable = info.getMainMap();
 		SJSPJE = Util.null2String(mainTable.get("SJSPJE"));
 		WCRQ = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-        sql = "update uf_SPGLTZ set GJZT='2',WCRQ='" + WCRQ +
+        sql = "update uf_SPGLTZ set ZT='1',WCRQ='" + WCRQ +
         		"',SJSP='" + SJSPJE + "' where lc = '"+ requestid + "'";
         rs.execute(sql);
         //this.logger.error("sql：" + sql);

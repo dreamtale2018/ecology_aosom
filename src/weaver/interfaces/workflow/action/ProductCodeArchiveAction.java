@@ -49,10 +49,13 @@ public class ProductCodeArchiveAction implements Action {
 			String zwcpgg = mainMap.get("ZWCPGG");		// 中文产品规格
 			String ywcpgg = mainMap.get("YWCPGG");		// 英文产品规格
 			String cplb = mainMap.get("CPLB");			// 产品类型
+			String tjlb = mainMap.get("TJLB");			// 统计类别
 			String cpmd = mainMap.get("CPMD");			// 产品卖点
 			String cph = mainMap.get("CPH");			// 产品号
 			String zwcpsxA = mainMap.get("ZWCPSX1");	// 中文产品属性 1
 			String zwcpsxB = mainMap.get("ZWCPSX2");	// 中文产品
+			String ywcpsxA = mainMap.get("YWCPSX1");	// 英文产品属性 1
+			String ywcpsxB = mainMap.get("YWCPSX2");	// 英文产品属性 2
 			String sfzswl = Util.null2String(mainMap.get("SFZSWL"), "N");
 														// 是否招商物料：默认 N
 			String sfyljb = mainMap.get("SFYLJB");		// 是否有零件包
@@ -164,8 +167,11 @@ public class ProductCodeArchiveAction implements Action {
 					String hgbmDetailA = "";							// 海关编码
 					String bgpmDetailA = "";							// 报关品名
 					String cplbDetailA = cplb;							// 产品类别
+					String tjlbDetailA = tjlb;							// 统计类别
 					String zwcpsxADetailA = zwcpsxA;					// 中文产品属性 1
 					String zwcpsxBDetailA = zwcpsxB;					// 中文产品属性 2
+					String ywcpsxADetailA = ywcpsxA;					// 英文产品属性 1
+					String ywcpsxBDetailA = ywcpsxB;					// 英文产品属性 2
 					String gcxhDetailA = detailAMap.get("GCXH");		// 工厂型号
 					String sfzswlDetailA = sfzswl;						// 是否招商物料
 					String sfysDetailA = sfys;							// 易碎
@@ -212,8 +218,11 @@ public class ProductCodeArchiveAction implements Action {
 						itemContentMap.put("declared_item_name_cn", bgpmDetailA);
 					}
 					itemContentMap.put("category_code", cplbDetailA);
+					itemContentMap.put("develop_category_code", tjlbDetailA);
 					itemContentMap.put("item_attached1", zwcpsxADetailA);
 					itemContentMap.put("item_attached2", zwcpsxBDetailA);
+					itemContentMap.put("item_attached3", ywcpsxADetailA);
+					itemContentMap.put("item_attached4", ywcpsxBDetailA);
 					itemContentMap.put("factory_number", gcxhDetailA);
 					itemContentMap.put("investment_item", sfzswlDetailA);
 					itemContentMap.put("include_package_flag", sfyljbDetailA);

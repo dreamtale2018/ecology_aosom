@@ -109,7 +109,7 @@ public class AutoCreateCghtyqspdAction implements Action
 					String cgdjDetail = Util.null2String(detailMap.get("CGDJ"));		//采购单价
 					String bzDetail = Util.null2String(detailMap.get("BZ"));			//币种
 					String qxjeDetail = Util.null2String(detailMap.get("QXJE"));		//取消金额
-					wrti = new WorkflowRequestTableField[9]; //字段信息             
+					wrti = new WorkflowRequestTableField[10]; //字段信息             
 					wrti[0] = new WorkflowRequestTableField();             
 					wrti[0].setFieldName("gxhth");//购销合同号            
 					wrti[0].setFieldValue(gxhthDetail);            
@@ -155,6 +155,11 @@ public class AutoCreateCghtyqspdAction implements Action
 					wrti[8].setFieldValue(qxjeDetail);            
 					wrti[8].setView(true);//字段是否可见              
 					wrti[8].setEdit(true);//字段是否可编辑
+					wrti[9] = new WorkflowRequestTableField();             
+					wrti[9].setFieldName("zt");//状态       
+					wrti[9].setFieldValue("0");            
+					wrti[9].setView(true);//字段是否可见              
+					wrti[9].setEdit(true);//字段是否可编辑
 					
 					wrtri[i] = new WorkflowRequestTableRecord();
 					wrtri[i].setWorkflowRequestTableFields(wrti);
@@ -185,7 +190,9 @@ public class AutoCreateCghtyqspdAction implements Action
 				wri.setWorkflowDetailTableInfos(WorkflowDetailTableInfo);//添加明细数据
 				wri.setWorkflowBaseInfo(wbi);        
 				WorkflowServiceImpl workflowServiceImpl = new WorkflowServiceImpl();
-				String newRequestid = workflowServiceImpl.doCreateWorkflowRequest(wri, Integer.parseInt(SQR));        
+				String newRequestid = workflowServiceImpl.doCreateWorkflowRequest(wri, Integer.parseInt(SQR));
+				sql = "update formtable_main_147 set yqsplc = '" + newRequestid + "' where requestid = '" + requestid + "'";
+				rs.execute(sql);
 				this.logger.error("newRequestid:"+newRequestid);
 					//this.logger.error("sql：" + sql);
 			}

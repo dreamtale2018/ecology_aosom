@@ -97,7 +97,7 @@ public class UpdateFyzfGsfy implements Action
 				YJZZMC = oracleManager.getBmmc(YJZZ);
 				YJZZMC = oracleManager.getChineseMsg(YJZZMC);
 				String bmdm = "";																	//部门代码
-				sql = "select kmdm from uf_BMKMDM where sfyx = '0' and xm1 = '部门' and xm2 = '" + YJZZMC + "'";
+				sql = "select kmdm from uf_BMKMDM where sfyx = '0' gb = '" + FKZT + "' and xm1 = '部门' and xm2 = '" + YJZZMC + "'";
 				rs.execute(sql);
 				if (rs.next()){
 					bmdm = rs.getString("kmdm");

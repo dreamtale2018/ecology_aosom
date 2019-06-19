@@ -43,12 +43,15 @@ public class UpdateWtcptzCpzz implements Action
 	        RQ = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 			for (int i = 0; i < detailAList.size(); i++) {
 				Map<String, String> detailAMap = detailAList.get(i);
-				String hhDetailA = Util.null2String(detailAMap.get("HH"));		//货号
-				String gbDetailA = Util.null2String(detailAMap.get("XZZGJ"));	//国别
-				sql = "update uf_CPTSTZ set CPZLZT = '2'," + 
-						"RQ = '" + RQ + "',ZZLC = '" + requestid + 
-						"' where HH = '" + hhDetailA + "' and GB = '" + gbDetailA + "'";
-				rs.execute(sql);
+				String hhDetailA = Util.null2String(detailAMap.get("HH"));			//货号
+				String gbDetailA = Util.null2String(detailAMap.get("XZZGJ"));		//国别
+				String gbxsyjDetailA = Util.null2String(detailAMap.get("GBXSYJ"));	//国别销售意见
+				if("0".equals(gbxsyjDetailA)){
+					sql = "update uf_CPTSTZ set CPZLZT = '2'," + 
+					"RQ = '" + RQ + "',ZZLC = '" + requestid + 
+					"' where HH = '" + hhDetailA + "' and GB = '" + gbDetailA + "'";
+					rs.execute(sql);
+				}
 			}
 		}
         //this.logger.error("sql：" + sql);

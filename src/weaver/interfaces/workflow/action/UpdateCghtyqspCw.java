@@ -1,9 +1,15 @@
 package weaver.interfaces.workflow.action;
 
+import java.util.Map;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.weaver.ningb.soa.workflow.action.support.ActionInfo;
+import com.weaver.ningb.soa.workflow.action.support.ActionUtils;
+
 import weaver.conn.RecordSet;
+import weaver.general.Util;
 import weaver.soa.workflow.request.RequestInfo;
 /**
  * 采购合同延期索赔流程<br>
@@ -22,11 +28,23 @@ public class UpdateCghtyqspCw implements Action
     RecordSet rs = new RecordSet();
     
     String requestid = request.getRequestid();
+    String BZ = "";			//币种
+    String SPJE = "";		//索赔金额
+    String SJSPJE = "";		//实际索赔金额
+
 
     String sql = "";
     try
     {
-        sql = "update uf_SPGLTZ set ZT='1' where lc = '" + requestid + "'";
+    	ActionInfo info = ActionUtils.getActionInfo(request);
+    	
+   	 	// 获取主表信息
+		Map<String, String> mainTable = info.getMainMap();
+		BZ = Util.null2String(mainTable.get("BZ"));
+	    SPJE = Util.null2String(mainTable.get("SPJE"));
+	    SJSPJE = Util.null2String(mainTable.get("SJSPJE"));
+        sql = "update uf_SPGLTZ set ZT='2',BZ = '" + BZ + "',SPJE = '" + SPJE + 
+              "',SJSP = '" + SJSPJE + "' where lc = '" + requestid + "'";
         rs.execute(sql);
         //this.logger.error("sql：" + sql);
         

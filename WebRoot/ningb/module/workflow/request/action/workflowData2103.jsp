@@ -70,19 +70,29 @@
 	String sprje = "";		// 审批人金额
 	String shrId = "";		// 审核人ID
 	String shrName = "";	// 审核人Name
+	String shr2je = "";		// 审核人2金额
+	String shr2Id = "";		// 审核人2ID
+	String shr2Name = "";	// 审核人2Name
+	String shr3je = "";		// 审核人3金额
+	String shr3Id = "";		// 审核人3ID
+	String shr3Name = "";	// 审核人3Name
 	String sprId = "";		// 审批人ID
 	String sprName = "";	// 审批人Name
-	String sql = "select sprje,shr,spr from uf_FYXKMDM where xh = ? and ywst = ?";
+	String sql = "select sprje,shr,spr,shr2,shrje2,shr3,shrje3 from uf_FYXKMDM where xh = ? and ywst = ?";
 	rs.executeQuery(sql, fyxdl, fkdw);
 	if (rs.next()) {
 		sprje = rs.getString("sprje");
 		shrId = rs.getString("shr");
 		sprId = rs.getString("spr");
+		shr2Id = rs.getString("shr2");
+		shr2je = rs.getString("shrje2");
+		shr3Id = rs.getString("shr3");
+		shr3je = rs.getString("shrje3");
 	}
+	sql = "select lastname from hrmresource where id = ?";
 	if(shrId!=null && !"".equals(shrId)){
 		JSONObject shrObject = new JSONObject();
 		shrObject.put("id",shrId);
-		sql = "select lastname from hrmresource where id = ?";
 		rs.executeQuery(sql, shrId);
 		if (rs.next()) {
 			shrName = rs.getString("lastname");
@@ -94,7 +104,6 @@
 	if(sprId!=null && !"".equals(sprId)){
 		JSONObject sprObject = new JSONObject();
 		sprObject.put("id",sprId);
-		sql = "select lastname from hrmresource where id = ?";
 		rs.executeQuery(sql, sprId);
 		if (rs.next()) {
 			sprName = rs.getString("lastname");
@@ -103,7 +112,31 @@
 			data.put("sprObject", sprObject);
 		}
 	}
+	if(shr2Id!=null && !"".equals(shr2Id)){
+		JSONObject shr2Object = new JSONObject();
+		shr2Object.put("id",shr2Id);
+		rs.executeQuery(sql, shr2Id);
+		if (rs.next()) {
+			shr2Name = rs.getString("lastname");
+			shr2Name = getName(shr2Name);
+			shr2Object.put("name",shr2Name);
+			data.put("shr2Object", shr2Object);
+		}
+	}
+	if(shr3Id!=null && !"".equals(shr3Id)){
+		JSONObject shr3Object = new JSONObject();
+		shr3Object.put("id",shr3Id);
+		rs.executeQuery(sql, shr3Id);
+		if (rs.next()) {
+			shr3Name = rs.getString("lastname");
+			shr3Name = getName(shr3Name);
+			shr3Object.put("name",shr3Name);
+			data.put("shr3Object", shr3Object);
+		}
+	}
 	data.put("sprje", sprje);
+	data.put("shr2je", shr2je);
+	data.put("shr3je", shr3je);
 	
 	out.print(callback(code, message, data));					// 有返回数据
 %>
