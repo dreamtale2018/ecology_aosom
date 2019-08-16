@@ -53,6 +53,7 @@ public class ProductOrderInsertArchiveAction implements Action {
 	        List<OracleProductOrder> poList = new ArrayList<OracleProductOrder>();
 	        Iterator<Map.Entry<String, String>> iterator = gbMap.entrySet().iterator();
 	        while(iterator.hasNext()){
+	        	boolean flag = false;
 	        	Entry<String, String> entry = iterator.next();
 	        	String gbName = (String) entry.getKey();
 	        	String gbId = (String) entry.getValue();
@@ -69,16 +70,17 @@ public class ProductOrderInsertArchiveAction implements Action {
 						String hhDetailA = Util.null2String(detailAMap.get("HH"));			// 货号
 						hhDetailA = oracleManager.getHhmc(hhDetailA);
 						String sl1DetailA = Util.null2String(detailAMap.get(gbName+"SL1"));	// 完成数量
-						String jq1DetailA = Util.null2String(detailAMap.get(gbName+"JQ1"));	// 备注
+						String jq1DetailA = Util.null2String(detailAMap.get(gbName+"JQ1"));	// 交期
 						
 						Map<String, String> detailContentMap = new HashMap<String, String>();
-						detailContentMap.put("oa_item_number", hhDetailA);
-						detailContentMap.put("oa_quantity", sl1DetailA);
-						detailContentMap.put("oa_target_date", jq1DetailA);
-						detailContentMap.put("oa_description", lcbh);
-						
-						detailContentList.add(detailContentMap);
-						
+						if(!"".equals(sl1DetailA) && !"0".equals(sl1DetailA) && !"".equals(jq1DetailA)){
+							flag = true;
+							detailContentMap.put("oa_quantity", sl1DetailA);
+							detailContentMap.put("oa_item_number", hhDetailA);
+							detailContentMap.put("oa_target_date", jq1DetailA);
+							detailContentMap.put("oa_description", lcbh);
+							detailContentList.add(detailContentMap);
+						}
 					}
 					for (int j = 0; j < detailAList.size(); j++) {
 						Map<String, String> detailAMap = detailAList.get(j);
@@ -86,28 +88,34 @@ public class ProductOrderInsertArchiveAction implements Action {
 						String hhDetailA = Util.null2String(detailAMap.get("HH"));			// 货号
 						hhDetailA = oracleManager.getHhmc(hhDetailA);
 						String sl2DetailA = Util.null2String(detailAMap.get(gbName+"SL2"));	// 完成数量
-						String jq2DetailA = Util.null2String(detailAMap.get(gbName+"JQ2"));	// 备注
+						String jq2DetailA = Util.null2String(detailAMap.get(gbName+"JQ2"));	// 交期
 						
 						Map<String, String> detailContentMap = new HashMap<String, String>();
-						detailContentMap.put("oa_item_number", hhDetailA);
-						detailContentMap.put("oa_quantity", sl2DetailA);
-						detailContentMap.put("oa_target_date", jq2DetailA);
-						detailContentMap.put("oa_description", lcbh);
-						
-						detailContentList.add(detailContentMap);
-						
+						if(!"".equals(sl2DetailA) && !"0".equals(sl2DetailA) && !"".equals(jq2DetailA)){
+							flag = true;
+							detailContentMap.put("oa_quantity", sl2DetailA);
+							detailContentMap.put("oa_item_number", hhDetailA);
+							detailContentMap.put("oa_target_date", jq2DetailA);
+							detailContentMap.put("oa_description", lcbh);
+							detailContentList.add(detailContentMap);
+						}
 					}
 				}
-				po.setHeadContentMap(headContentMap);
-				po.setDetailContentList(detailContentList);
-				
-				poList.add(po);
+				if(flag){
+					po.setHeadContentMap(headContentMap);
+					po.setDetailContentList(detailContentList);
+					poList.add(po);
+				}
 	        }
 			
-			if (poList == null || poList.size() <= 0) {
+			/*if (poList == null || poList.size() <= 0) {
 				request.getRequestManager().setMessage("操作失败 (-2)");
 				request.getRequestManager().setMessagecontent("数据推送失败; {流程信息为空}; 如有疑问, 请联系系统管理员.");
 				return Action.FAILURE_AND_CONTINUE;
+			}*/
+	        
+	        if (poList == null || poList.size() <= 0) {
+	        	return Action.SUCCESS;
 			}
 			
 			OracleResult<String, String> result = oracleManager.updateStatus(poList,"PS","pushOrderInsert");

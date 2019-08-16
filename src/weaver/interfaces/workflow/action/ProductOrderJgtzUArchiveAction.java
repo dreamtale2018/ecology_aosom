@@ -48,6 +48,8 @@ public class ProductOrderJgtzUArchiveAction implements Action {
 				ywst = "CHN";
 			}else if(ywst.indexOf("遨森国际发展有限公司")!=-1){
 				ywst = "HKI";
+			}else if(ywst.indexOf("宁波遨森网络科技有限公司")!=-1){
+				ywst = "NIT";
 			}
 			
 			// 货号信息

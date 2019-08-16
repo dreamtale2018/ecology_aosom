@@ -19,7 +19,7 @@ public class DinnerOperationDB
   public JSONArray GetGysList() {
     String json = "";
     JSONArray ja = new JSONArray();
-    this.rs.executeSql("select id,gysmc from uf_gysxxb order by id ");
+    this.rs.executeSql("select id,gysmc from uf_gysxxb where id in ('41','42','61','62') order by id ");
     while (this.rs.next()) {
       JSONObject jo = new JSONObject();
       jo.put("id", this.rs.getString(1));

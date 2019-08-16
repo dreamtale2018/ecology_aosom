@@ -64,18 +64,18 @@ public class UpdateFyzfTdfy implements Action
 		DFKM = Util.null2String(mainTable.get("DFKM"));										//贷方科目
 		DFKMDM = Util.null2String(mainTable.get("DFKMDM"));									//贷方科目代码
 		String fkstdm = "";																	//付款实体代码
-		sql = "select kmdm from uf_BMKMDM where sfyx = '0' and xm1 = '业务实体' and xm2 = '" + FKZT + "'";
+		sql = "select gbkmdm from uf_BMKMDM where sfyx = '0' and gb = '" + FKZT + "'";
 		rs.execute(sql);
 		if (rs.next()){
-			fkstdm = rs.getString("kmdm");
+			fkstdm = rs.getString("gbkmdm");
         }
 		YJZZMC = oracleManager.getBmmc(YJZZ);
 		YJZZMC = oracleManager.getChineseMsg(YJZZMC);
 		String bmdm = "";																	//部门代码
-		sql = "select kmdm from uf_BMKMDM where sfyx = '0' and xm1 = '部门' and xm2 = '" + YJZZMC + "'";
+		sql = "select bmkmdm from uf_BMKMDM where sfyx = '0' and gb = '" + FKZT + "' and bm = '" + YJZZMC + "'";
 		rs.execute(sql);
 		if (rs.next()){
-			bmdm = rs.getString("kmdm");
+			bmdm = rs.getString("bmkmdm");
         }
 		String JFKJKMKM = new StringBuilder().append(fkstdm).append(".").append(bmdm).append(".")
 									.append(JFKMDM).append(".0.0.0").toString();			//借方会计科目代码
@@ -172,6 +172,7 @@ public class UpdateFyzfTdfy implements Action
 		xml = xml.replaceAll("\r", " ");
 		xml = xml.replaceAll("\n", " ");
 		xml = xml.replaceAll("<br>", ";");
+		xml = xml.replaceAll("&", "&amp;");
 		ModeDataServiceImpl mdsi = new ModeDataServiceImpl();
 		String returncode = mdsi.saveModeData(xml);
 		this.logger.info("returncode:"+returncode);

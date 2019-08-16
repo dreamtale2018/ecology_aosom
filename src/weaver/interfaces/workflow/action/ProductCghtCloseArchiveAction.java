@@ -55,6 +55,8 @@ public class ProductCghtCloseArchiveAction implements Action {
 				ywst = "CHN";
 			}else if(ywst.indexOf("遨森国际发展有限公司")!=-1){
 				ywst = "HKI";
+			}else if(ywst.indexOf("宁波遨森网络科技有限公司")!=-1){
+				ywst = "NIT";
 			}
 			
 			// 合同号关闭信息

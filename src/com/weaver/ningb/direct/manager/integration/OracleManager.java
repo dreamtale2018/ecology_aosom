@@ -970,6 +970,9 @@ public class OracleManager {
 			doubleSet.add("bom_gross_weight");
 			doubleSet.add("bom_volume");
 			doubleSet.add("bom_outer_box_percentage");
+			doubleSet.add("account_amt");
+			doubleSet.add("vendor_id");
+			doubleSet.add("confirm_amount");
 			for (String key : map.keySet()) {
 				String value = Util.null2String(map.get(key));
 				if (!StringUtils.isBlank(value)) {
