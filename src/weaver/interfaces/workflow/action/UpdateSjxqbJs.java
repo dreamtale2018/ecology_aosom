@@ -1,25 +1,22 @@
 package weaver.interfaces.workflow.action;
 
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import weaver.conn.RecordSet;
-import weaver.general.Util;
 import weaver.soa.workflow.request.RequestInfo;
-
-import com.weaver.ningb.soa.workflow.action.support.ActionInfo;
-import com.weaver.ningb.soa.workflow.action.support.ActionUtils;
 /**
- * 活动需求-策划单流程更新官网活动与评估台账<br>
+ * 设计需求表结束节点更新设计任务列表台账的完成日期和状态<br>
  * 
  * @author ycj
  *
  */
-public class UpdateGwtzHdxq implements Action
+public class UpdateSjxqbJs implements Action
 {
-  private Log logger = LogFactory.getLog(UpdateGwtzHdxq.class);
+  private Log logger = LogFactory.getLog(UpdateSjxqbJs.class);
   
   @Override
   public String execute(RequestInfo request)
@@ -27,18 +24,14 @@ public class UpdateGwtzHdxq implements Action
     RecordSet rs = new RecordSet();
     
     String requestid = request.getRequestid();
-    String ZT = "";//状态
+
+    String WCRQ = "";//完成日期
     String sql = "";
     try
     {
-    	ActionInfo info = ActionUtils.getActionInfo(request);
-		
-    	// 获取主表信息
-    	Map<String, String> mainTable = info.getMainMap();
-    	ZT = Util.null2String(mainTable.get("ZT"));
-    	
-    	sql = "update uf_GWHDYPGTZ set ZT = '" + ZT + "' where LC = '" + requestid + "'";
-    	rs.execute(sql);
+		WCRQ = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+		sql = "update uf_SJRWLB set ZT='1',WCRQ='"+ WCRQ +"' where lc = '"+ requestid +"'";
+		rs.execute(sql);
         //this.logger.error("sql：" + sql);
         
     }

@@ -103,17 +103,20 @@ public class CustomSmsService extends BaseBean implements SmsService {
 	/**
 	 * OpenMas 应用提供的 WebService 地址
 	 */
-	private static final String SMS_APPLICATION_URL = "http://111.1.3.184:9080/OpenMasService?wsdl";
+	//private static final String SMS_APPLICATION_URL = "http://111.1.3.184:9080/OpenMasService?wsdl";
+	private static final String SMS_APPLICATION_URL = "http://api.eyun.openmas.net/yunmas_api/SendMessageServlet";
 	
 	/**
 	 * OpenMas 应用ID
 	 */
-	private static final String SMS_APPLICATION_ID = "OA";
+	//private static final String SMS_APPLICATION_ID = "OA";
+	private static final String SMS_APPLICATION_ID = "qyo6h3RTkbTHD0gpZ319qQoZdHC2eSLwM8H";
 	
 	/**
 	 * OpenMas 应用密码
 	 */
-	private static final String SMS_APPLICATION_PASSWORD = "hxerpmas";
+	//private static final String SMS_APPLICATION_PASSWORD = "hxerpmas";
+	private static final String SMS_APPLICATION_PASSWORD = "QvXuKtr0hgPWa2S";
 	
 	/**
 	 * 自定义扩展代码 (发送短信时, 标题为发送人地址 + 自定义扩展代码)

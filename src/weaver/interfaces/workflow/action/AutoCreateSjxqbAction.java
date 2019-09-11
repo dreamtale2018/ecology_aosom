@@ -61,6 +61,8 @@ public class AutoCreateSjxqbAction implements Action
     String TPCLCCZZ = "";	//图片处理-尺寸制作
     String TPCLXT = "";		//图片处理-修图
     String QT = "";			//其它
+    String BJ = "";			//编辑
+    String CPGG = "";		//产品规格
     
     String sql = "";
 
@@ -70,7 +72,7 @@ public class AutoCreateSjxqbAction implements Action
     	
    	 	// 获取主表信息
 		Map<String, String> mainTable = info.getMainMap();
-		//SQR = Util.null2String(mainTable.get("SQR"));
+		BJ = Util.null2String(mainTable.get("BJ"));
 		SJS = Util.null2String(mainTable.get("SJS"));
 		SJSYC = Util.null2String(mainTable.get("SJSYC"));
 		SJYQ = Util.null2String(mainTable.get("SJYQ"));
@@ -83,15 +85,15 @@ public class AutoCreateSjxqbAction implements Action
 		if(rs.next()){
 			HH = Util.null2String(rs.getString("id"));
 		}
-		sql = "select receivedate from workflow_currentoperator where requestid = '" + requestid + "' and nodeid = '4455'";
+		sql = "select receivedate from workflow_currentoperator where requestid = '" + requestid + "' and nodeid = '2697'";
 		rs.execute(sql);
 		if(rs.next()){
 			SYWCR = Util.null2String(rs.getString("receivedate"));
 		}
-		sql = "select userid from workflow_currentoperator where requestid = '" + requestid + "' and nodeid = '4457'";
-		rs.execute(sql);
-		if(rs.next()){
-			SQR = Util.null2String(rs.getString("userid"));
+		if(!"".equals(BJ)){
+			SQR = BJ;
+		}else{
+			SQR = Util.null2String(mainTable.get("SQR"));
 		}
 		CPPM = Util.null2String(mainTable.get("CPPM"));
 		SX1 = Util.null2String(mainTable.get("CPSX1"));
@@ -104,6 +106,7 @@ public class AutoCreateSjxqbAction implements Action
 		TPCLCCZZ = Util.null2String(mainTable.get("TPCLCCZZ"));
 		TPCLXT = Util.null2String(mainTable.get("TPCLXT"));
 		QT = Util.null2String(mainTable.get("QT"));
+		CPGG = Util.null2String(mainTable.get("CPGG"));
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         SQRQ = sdf.format(new Date());
         Calendar calendar = Calendar.getInstance();
@@ -181,7 +184,7 @@ public class AutoCreateSjxqbAction implements Action
 		wmi.setRequestRecords(wrtri);   
 		//添加明细数据       
 		wrtri = new WorkflowRequestTableRecord[1];
-		wrti = new WorkflowRequestTableField[13]; //字段信息             
+		wrti = new WorkflowRequestTableField[14]; //字段信息             
 		wrti[0] = new WorkflowRequestTableField();             
 		wrti[0].setFieldName("hh");//货号             
 		wrti[0].setFieldValue(HH);            
@@ -247,6 +250,11 @@ public class AutoCreateSjxqbAction implements Action
 		wrti[12].setFieldValue(QT);            
 		wrti[12].setView(true);//字段是否可见              
 		wrti[12].setEdit(true);//字段是否可编辑
+		wrti[13] = new WorkflowRequestTableField();             
+		wrti[13].setFieldName("cpgg");//产品规格         
+		wrti[13].setFieldValue(CPGG);            
+		wrti[13].setView(true);//字段是否可见              
+		wrti[13].setEdit(true);//字段是否可编辑
 		wrtri[0] = new WorkflowRequestTableRecord();
 		wrtri[0].setWorkflowRequestTableFields(wrti);
 		//添加到明细表中        
@@ -256,7 +264,7 @@ public class AutoCreateSjxqbAction implements Action
 		WorkflowDetailTableInfo[0].setWorkflowRequestTableRecords(wrtri);
 		//添加工作流id        
 		WorkflowBaseInfo wbi = new WorkflowBaseInfo();        
-		wbi.setWorkflowId("3625");//workflowid       
+		wbi.setWorkflowId("5123");//workflowid       
 		WorkflowRequestInfo wri = new WorkflowRequestInfo();//流程基本信息            
 		wri.setCreatorId(SQR);//创建人id        
 		wri.setRequestLevel("0");//0 正常，1重要，2紧急

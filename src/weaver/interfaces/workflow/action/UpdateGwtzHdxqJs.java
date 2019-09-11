@@ -41,7 +41,7 @@ public class UpdateGwtzHdxqJs implements Action
     	ZT = Util.null2String(mainTable.get("ZT"));
     	JSRQ = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
     	
-    	sql = "update uf_GWHDXP set ZT = '" + ZT + "',LCJSRQ = '"+ JSRQ + 
+    	sql = "update uf_GWHDYPGTZ set ZT = '" + ZT + "',LCJSRQ = '"+ JSRQ + 
     			"' where LC = '" + requestid + "'";
     	rs.execute(sql);
         //this.logger.error("sql：" + sql);

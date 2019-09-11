@@ -45,8 +45,12 @@ public class PaymentJob extends BaseCronJob {
 	        	OracleProductOrder po = new OracleProductOrder();
 	        	String fkzt = Util.null2String(rs.getString("fkzt"));
 	        	if(!"MH STAR UK LTD".equals(fkzt)){
-	        		if("遨森电子商务股份有限公司".equals(fkzt) || "遨森国际发展有限公司".equals(fkzt) || "深圳遨森电子商务有限公司".equals(fkzt)){
+	        		if("遨森电子商务股份有限公司".equals(fkzt) || "深圳遨森电子商务有限公司".equals(fkzt)){
 		        		fkzt = "CHN";
+		        	}else if("遨森国际发展有限公司".equals(fkzt)){
+		        		fkzt = "HKI";
+		        	}else if("宁波遨森网络科技有限公司".equals(fkzt)){
+		        		fkzt = "NIT";
 		        	}else if("MH STAR UK LTD".equals(fkzt)){
 		        		fkzt = "UK";
 		        	}
@@ -68,7 +72,7 @@ public class PaymentJob extends BaseCronJob {
 						headContentMap.put("accounting_date", createdate);
 					}else{
 						headContentMap.put("period_name", createdate.substring(0,7));
-						headContentMap.put("accounting_date", createdate.substring(0,7));
+						headContentMap.put("accounting_date", createdate);
 					}
 		        	po.setHeadContentMap(headContentMap);
 		        	List<Map<String, String>> detailContentList = new ArrayList<Map<String, String>>();

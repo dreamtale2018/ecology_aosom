@@ -37,6 +37,7 @@ public class UpdateXpkfjdHhsqQr implements Action
     String TJLY = "";		//推荐来源
     String XXDH = "";		//选型单号
     String TJZLCH = "";		//推荐子流程号
+    String LHHBZ = "";		//老货号备注
     
     RecordSet rs = new RecordSet();
     
@@ -56,6 +57,7 @@ public class UpdateXpkfjdHhsqQr implements Action
 		PM = Util.null2String(mainTable.get("ZWPM"));
 		XXDH = Util.null2String(mainTable.get("XXDH"));
 		TJZLCH = Util.null2String(mainTable.get("TJZLCH"));
+		LHHBZ = Util.null2String(mainTable.get("LHHBZ"));
 		sql = "select TJLL from formtable_main_103 where requestid = '" + CPXXBLC + "'";
 		rs.execute(sql);
 		if(rs.next()){
@@ -123,6 +125,10 @@ public class UpdateXpkfjdHhsqQr implements Action
 							"<field>" +
 								"<filedname>TJZLCH</filedname>" +
 								"<filedvalue>"+TJZLCH+"</filedvalue>" +
+							"</field>" +
+							"<field>" +
+								"<filedname>LPBZ</filedname>" +
+								"<filedvalue>"+LHHBZ+"</filedvalue>" +
 							"</field>" +
 							"<field>" +
 								"<filedname>ZT</filedname>" +
