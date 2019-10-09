@@ -10,6 +10,7 @@ import weaver.formmode.webservices.ModeDataServiceImpl;
 import weaver.general.Util;
 import weaver.soa.workflow.request.RequestInfo;
 
+import com.weaver.ningb.core.util.WorkflowUtils;
 import com.weaver.ningb.direct.manager.integration.OracleManager;
 import com.weaver.ningb.soa.workflow.action.support.ActionInfo;
 import com.weaver.ningb.soa.workflow.action.support.ActionUtils;
@@ -28,6 +29,7 @@ public class UpdateFyzfClfbx implements Action
   public String execute(RequestInfo request)
   {
     String requestid = request.getRequestid();
+    String workflowid = request.getWorkflowid();
     String DJM = "差旅费报销单";					//单据名 
     String BXDH = "";							//流程号 
     String RQ = "";								//日期 
@@ -36,7 +38,7 @@ public class UpdateFyzfClfbx implements Action
     String JE = "";								//金额
     String YJZZ = "";							//一级组织
     String YJZZMC = "";							//一级组织名称
-    String FKZT = "遨森电子商务股份有限公司";			//付款主体
+    String FKZT = "";							//付款主体
     String FKBZ = "CNY";						//付款币种
     String FYXDL = "";							//费用项大类
 	String JFKM = "";							//借方科目
@@ -53,6 +55,7 @@ public class UpdateFyzfClfbx implements Action
 		Map<String, String> mainTable = info.getMainMap();
 		BXDH = Util.null2String(mainTable.get("BXDH"));
 		RQ = Util.null2String(mainTable.get("BXRQ"));
+		FKZT = WorkflowUtils.getFieldSelectName(workflowid, "YWST", mainTable.get("YWST"));
 		SQR = Util.null2String(mainTable.get("SQR"));
 		SQRXM = oracleManager.getRymc(SQR);
 		SQRXM = oracleManager.getChineseMsg(SQRXM);

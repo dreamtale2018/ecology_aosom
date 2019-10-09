@@ -1,5 +1,6 @@
 package weaver.interfaces.workflow.action;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
@@ -12,23 +13,21 @@ import weaver.soa.workflow.request.RequestInfo;
 import com.weaver.ningb.soa.workflow.action.support.ActionInfo;
 import com.weaver.ningb.soa.workflow.action.support.ActionUtils;
 /**
- * 办公用品归还登记(入库)流程<br>
- * 流程结束后，数据增加至对应物料编号的 当前库存数量
- *
+ * 货号申请表结束节点更新对应货号到订购会新品确认单-子表<br>
+ * 
  * @author ycj
  *
  */
-public class UpdateBgypgh implements Action
+public class UpdateDghxpqrdzbHHSqJs implements Action
 {
-  private Log logger = LogFactory.getLog(UpdateBgypgh.class);
+  private Log logger = LogFactory.getLog(UpdateDghxpqrdzbHHSqJs.class);
   
   @Override
   public String execute(RequestInfo request)
   {
     RecordSet rs = new RecordSet();
     
-    String WLBM = "";	//物料编码
-    String GHSL = "";	//归还数量
+    String MXID = "";//明细ID
 
     String sql = "";
     try
@@ -37,18 +36,24 @@ public class UpdateBgypgh implements Action
     	
    	 	// 获取主表信息
 		Map<String, String> mainTable = info.getMainMap();
-		WLBM = Util.null2String(mainTable.get("WLBM"));
-		GHSL = Util.null2String(mainTable.get("GHSL"));
-        sql = "select dqkcsl from uf_kctz where wlbm = '" + WLBM + "'";
-        rs.execute(sql);
-        if(rs.next()){
-        	String dqkcsl = rs.getString("dqkcsl");
-        	if(dqkcsl!=null && !"".equals(dqkcsl)){
-        		int sjkc = Integer.parseInt(dqkcsl) + Integer.parseInt(GHSL);
-        		sql = "update uf_kctz set dqkcsl = '" + sjkc + "' where wlbm = '" + WLBM + "'";
-                rs.execute(sql);
-        	}
-        }
+		MXID = Util.null2String(mainTable.get("MXID"));
+		
+		// 获取流程明细表 1
+		List<Map<String, String>> detailAList = info.getDetailMap("1");
+		if (detailAList != null && detailAList.size() > 0) {
+			for (int i = 0; i < detailAList.size(); i++) {
+				Map<String, String> detailAMap = detailAList.get(i);
+				String hhDetail = Util.null2String(detailAMap.get("HH"));					//货号
+				sql = "select id from uf_product where segment1 = '" + hhDetail + "'";
+				rs.execute(sql);
+				if (rs.next()){
+					hhDetail = rs.getString("id");
+		        }
+				String xdgbDetail = Util.null2String(detailAMap.get("XDGB"));				//下单国别
+				sql = "update formtable_main_288_dt1 set " + xdgbDetail + "DYHH = '" + hhDetail + "' where id = '" + MXID + "'";
+		        rs.execute(sql);
+			}
+		}
         //this.logger.error("sql：" + sql);
         
     }

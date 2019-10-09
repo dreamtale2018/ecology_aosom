@@ -22,7 +22,7 @@ public class ERPOAServiceLocator extends org.apache.axis.client.Service implemen
     }
 
     // Use to get a proxy class for BasicHttpBinding_OAServiceContract
-    private java.lang.String BasicHttpBinding_OAServiceContract_address = "http://192.168.0.83:1707/ERPOAService.svc";
+    private java.lang.String BasicHttpBinding_OAServiceContract_address = "http://192.168.0.83:1701/ERPOAService.svc";
 
     public java.lang.String getBasicHttpBinding_OAServiceContractAddress() {
         return BasicHttpBinding_OAServiceContract_address;

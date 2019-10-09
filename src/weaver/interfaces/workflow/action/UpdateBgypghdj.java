@@ -73,7 +73,7 @@ public class UpdateBgypghdj implements Action
 					"<ROOT>" +
 					  "<header>" +
 					    "<userid>"+SQR+"</userid>" +
-					    "<modeid>2463</modeid>" +
+					    "<modeid>944</modeid>" +
 					    "<id/>" +
 					  "</header>" +
 					  "<search>" +

@@ -57,7 +57,7 @@ public class UpdateBgypcgzb implements Action
 					String mxidDetailA = Util.null2String(detailAMap.get("MXHID"));
 					String bzDetailA = Util.null2String(detailAMap.get("BZ"));
 					//更新主表中实际到货数量和备注
-			        sql = "update formtable_main_268_dt1 set SJDHSL='" + sjdhslDetailA + "',BZ='" + bzDetailA + 
+			        sql = "update formtable_main_288_dt1 set SJDHSL='" + sjdhslDetailA + "',BZ='" + bzDetailA + 
 	        				"' where id = '" + mxidDetailA + "'";
 			        rs.execute(sql);
 			        sql = "select dqkcsl from uf_kctz where wlbm = '" + wlbmDetailA + "'";
@@ -83,7 +83,7 @@ public class UpdateBgypcgzb implements Action
 						"<ROOT>" +
 						  "<header>" +
 						    "<userid>"+SQR+"</userid>" +
-						    "<modeid>2463</modeid>" +
+						    "<modeid>944</modeid>" +
 						    "<id/>" +
 						  "</header>" +
 						  "<search>" +

@@ -35,19 +35,20 @@ public class HrmHwfgsArchiveAction implements Action {
 			// 获取主表信息
 			Map<String, String> mainTable = info.getMainMap();
 			String yggh = mainTable.get("YGGH");		// 员工工号
-			String mpcwzw = mainTable.get("MPCWZW");	// 名片称谓 (中文)
-			String mpcwyw = mainTable.get("MPCWYW");	// 名片称谓 (英文)
+			String mpcwzw = mainTable.get("YPRXM");		// 名片称谓 (中文)
+			String mpcwyw = mainTable.get("YPRXM");		// 名片称谓 (英文)
 			String jjlxrxm = mainTable.get("JJLXRXM");	// 紧急联系人姓名
 			String jjlxrsjh = mainTable.get("LXFS");
 														// 紧急联系人手机号
 			String bysj = mainTable.get("BYSJ");		// 毕业时间
-			String ysxl = mainTable.get("YSXL");		// 原始学历
+			String ysxl = mainTable.get("XL");			// 原始学历
 			String xx = mainTable.get("BYXX");			// 学校
 			String zy = mainTable.get("ZY");			// 专业
 			String sfzdz = mainTable.get("XJZD");		// 身份证地址
+			String sfgb = mainTable.get("SFGB");		// 是否干部
+			String aqjb = "10";							// 安全级别
 			String htqdcs = mainTable.get("HTQDCS");	// 合同签订次数
-			String ldhtqx = mainTable.get("LDHTQX");	// 劳动合同期限
-			
+			String ldhtqx = mainTable.get("HTSJ");		// 劳动合同期限
 			
 			// 整理人员基本信息
 			Map<String, String> baseMap = new HashMap<String, String>();
@@ -69,6 +70,7 @@ public class HrmHwfgsArchiveAction implements Action {
 			customPersonMap.put("field11", xx);
 			customPersonMap.put("field12", zy);
 			customPersonMap.put("field13", sfzdz);
+			customPersonMap.put("field24", sfgb);
 			
 			customMap.put(HrmData.PERSON, customPersonMap);
 			
@@ -84,7 +86,7 @@ public class HrmHwfgsArchiveAction implements Action {
 			boolean flag = hrmManager.updateData(yggh, baseMap, customMap);
 			// TODO 如果保存失败, 输出失败工号到日志不进行流程提交失败操作; 避免系统重复创建账号问题
 			if (!flag) {
-				logger.error(String.format("HrmArchiveAction updateData Failure (workcode = %s).", 
+				logger.error(String.format("HrmHwfgsArchiveAction updateData Failure (workcode = %s).", 
 						yggh));
 			}
 		} catch (Exception e) {

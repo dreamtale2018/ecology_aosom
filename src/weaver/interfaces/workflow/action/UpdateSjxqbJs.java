@@ -30,7 +30,7 @@ public class UpdateSjxqbJs implements Action
     try
     {
 		WCRQ = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-		sql = "update uf_SJRWLB set ZT='1',WCRQ='"+ WCRQ +"' where lc = '"+ requestid +"'";
+		sql = "update uf_SJRWLB set ZT='1',WCRQ='"+ WCRQ +"' where sjxqblc = '"+ requestid +"'";
 		rs.execute(sql);
         //this.logger.error("sql：" + sql);
         

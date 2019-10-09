@@ -71,11 +71,11 @@
 	String sjName = "";		// 设计Name
 	String bjyywzId = "";	// 编辑英语文字ID
 	String bjyywzName = "";	// 编辑英语文字Name
-	String sql = "select sj,bjyywz from uf_YXBLCRY where cpdl = ? and cpzl = ?";
+	String sql = "select sj,bjsjty from uf_YXBLCRY where cpdl = ? and cpzl = ?";
 	rs.executeQuery(sql, cpdl, cpzl);
 	if (rs.next()) {
 		sjId = rs.getString("sj");
-		bjyywzId = rs.getString("bjyywz");
+		bjyywzId = rs.getString("bjsjty");
 	}
 	sql = "select lastname from hrmresource where id = ?";
 	if(sjId!=null && !"".equals(sjId)){
