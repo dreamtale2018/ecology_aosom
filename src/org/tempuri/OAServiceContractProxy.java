@@ -50,6 +50,12 @@ public class OAServiceContractProxy implements org.tempuri.OAServiceContract {
     return oAServiceContract.getProduct(productinfo, name, pwd);
   }
   
+  public java.lang.String getProductV2(org.datacontract.schemas._2004._07.MH_EBSOAWcfService.GetProductInfo productinfo, java.lang.String name, java.lang.String pwd) throws java.rmi.RemoteException{
+	  if (oAServiceContract == null)
+		  _initOAServiceContractProxy();
+	  return oAServiceContract.getProductV2(productinfo, name, pwd);
+  }
+  
   public java.lang.String getSeasProduct(org.datacontract.schemas._2004._07.MH_EBSOAWcfService.GetProductInfo productinfo, java.lang.String name, java.lang.String pwd) throws java.rmi.RemoteException{
     if (oAServiceContract == null)
       _initOAServiceContractProxy();

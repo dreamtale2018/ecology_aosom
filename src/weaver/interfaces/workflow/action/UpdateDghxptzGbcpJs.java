@@ -1,5 +1,7 @@
 package weaver.interfaces.workflow.action;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -27,10 +29,14 @@ public class UpdateDghxptzGbcpJs implements Action
   {
     RecordSet rs = new RecordSet();
     
+    String JSRQ = "";	//结束日期
+    
     String sql = "";
     try
     {
     	ActionInfo info = ActionUtils.getActionInfo(request);
+    	
+		JSRQ = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
     	
 		// 获取流程明细表 1
 		List<Map<String, String>> detailAList = info.getDetailMap("1");
@@ -38,10 +44,15 @@ public class UpdateDghxptzGbcpJs implements Action
 			for (int i = 0; i < detailAList.size(); i++) {
 				Map<String, String> detailAMap = detailAList.get(i);
 				String bsDetailA = Util.null2String(detailAMap.get("BS"));					//标识
-				sql = "update formtable_main_286 set ZT='2' where bs = '"+ bsDetailA +"'";
+				sql = "update formtable_main_297 set ZT='2' where bs = '" + bsDetailA + "'";
 				rs.execute(sql);
 				//更新订购会新品台账对应货号
 				String hhDetail = Util.null2String(detailAMap.get("HH"));					//货号
+				sql = "select segment1 from uf_product where id = '" + hhDetail + "'";
+				rs.execute(sql);
+				if(rs.next()){
+					hhDetail = Util.null2String(rs.getString("segment1"));
+				}
 				String idDetail = "";														//明细ID
 				String gbDetail = "";														//国别
 				if(bsDetailA.indexOf("-")!=-1){
@@ -55,7 +66,7 @@ public class UpdateDghxptzGbcpJs implements Action
 						gb = j;
 					}
 				}
-		    	sql = "update formtable_main_286 set DYHH = '" + hhDetail +
+		    	sql = "update formtable_main_297 set DYHH = '" + hhDetail + "',JSRQ = '" + JSRQ + 
 		    			"' where mxid = '" + idDetail + "' and gb = '" + gb + "'";
 		    	rs.execute(sql);
 			}

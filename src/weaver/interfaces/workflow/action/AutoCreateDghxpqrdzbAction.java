@@ -241,7 +241,7 @@ public class AutoCreateDghxpqrdzbAction implements Action
     				WorkflowDetailTableInfo[0].setWorkflowRequestTableRecords(wrtri);
     				//添加工作流id        
     				WorkflowBaseInfo wbi = new WorkflowBaseInfo();        
-    				wbi.setWorkflowId("9624");//workflowid       
+    				wbi.setWorkflowId("10124");//workflowid       
     				WorkflowRequestInfo wri = new WorkflowRequestInfo();//流程基本信息            
     				wri.setCreatorId(SQR);//创建人id        
     				wri.setRequestLevel("0");//0 正常，1重要，2紧急

@@ -38,7 +38,7 @@ public class PaymentJob extends BaseCronJob {
 			if (manager == null) manager = new OracleManager();
 			
 			//获取费用支付台账中的相关信息。
-			String sql = "select id,fkzt,bxdh,fkbz,rq,modedatacreatedate,zy,jfkjkmdm,dfkjkmdm,je from uf_fyzftz where zt is null OR zt = '0'";
+			String sql = "select id,fkzt,bxdh,fkbz,rq,modedatacreatedate,zy,jfkjkmdm,dfkjkmdm,je from uf_fyzftz where tszt is null OR tszt = '0'";
 			rs.execute(sql);
 	        while (rs.next()) {
 	        	List<OracleProductOrder> poList = new ArrayList<OracleProductOrder>();

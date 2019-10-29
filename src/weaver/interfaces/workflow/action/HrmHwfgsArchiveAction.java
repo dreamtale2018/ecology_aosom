@@ -46,6 +46,16 @@ public class HrmHwfgsArchiveAction implements Action {
 			String zy = mainTable.get("ZY");			// 专业
 			String sfzdz = mainTable.get("XJZD");		// 身份证地址
 			String sfgb = mainTable.get("SFGB");		// 是否干部
+			String gwzj = mainTable.get("GWZJ");		// 岗位职级
+			if("0".equals(gwzj)){
+				gwzj = "0";
+			}else if("1".equals(gwzj)){
+				gwzj = "2";
+			}else if("2".equals(gwzj)){
+				gwzj = "4";
+			}else{
+				gwzj = "5";
+			}
 			String aqjb = "10";							// 安全级别
 			String htqdcs = mainTable.get("HTQDCS");	// 合同签订次数
 			String ldhtqx = mainTable.get("HTSJ");		// 劳动合同期限
@@ -70,6 +80,7 @@ public class HrmHwfgsArchiveAction implements Action {
 			customPersonMap.put("field11", xx);
 			customPersonMap.put("field12", zy);
 			customPersonMap.put("field13", sfzdz);
+			customPersonMap.put("field19", gwzj);
 			customPersonMap.put("field24", sfgb);
 			
 			customMap.put(HrmData.PERSON, customPersonMap);

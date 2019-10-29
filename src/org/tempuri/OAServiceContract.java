@@ -9,6 +9,7 @@ package org.tempuri;
 
 public interface OAServiceContract extends java.rmi.Remote {
     public java.lang.String getProduct(org.datacontract.schemas._2004._07.MH_EBSOAWcfService.GetProductInfo productinfo, java.lang.String name, java.lang.String pwd) throws java.rmi.RemoteException;
+    public java.lang.String getProductV2(org.datacontract.schemas._2004._07.MH_EBSOAWcfService.GetProductInfo productinfo, java.lang.String name, java.lang.String pwd) throws java.rmi.RemoteException;
     public java.lang.String getSeasProduct(org.datacontract.schemas._2004._07.MH_EBSOAWcfService.GetProductInfo productinfo, java.lang.String name, java.lang.String pwd) throws java.rmi.RemoteException;
     public java.lang.String getVendor(org.datacontract.schemas._2004._07.MH_EBSOAWcfService.GetVendorInfo vendorinfo, java.lang.String name, java.lang.String pwd) throws java.rmi.RemoteException;
     public java.lang.String getVendorAddress(org.datacontract.schemas._2004._07.MH_EBSOAWcfService.GetVendorAddressInfo vendorinfo, java.lang.String name, java.lang.String pwd) throws java.rmi.RemoteException;

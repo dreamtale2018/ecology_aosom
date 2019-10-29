@@ -45,10 +45,10 @@ public class UpdateBgypcgzb implements Action
 		LB = Util.null2String(mainTable.get("LB"));
 		WPSFRTZ = Util.null2String(mainTable.get("WPSFRTZ"));
     	
+		// 获取明细表1信息
+		List<Map<String, String>> detailAList = info.getDetailMap("1");
 		//判断物品是否入台账
 		if("0".equals(WPSFRTZ)){
-	        // 获取明细表1信息
-		    List<Map<String, String>> detailAList = info.getDetailMap("1");
 		    if (detailAList != null && detailAList.size() > 0) {
 				for (int i = 0; i < detailAList.size(); i++) {
 					Map<String, String> detailAMap = detailAList.get(i);
@@ -138,7 +138,20 @@ public class UpdateBgypcgzb implements Action
 				}
 		    }
 	        //this.logger.error("sql：" + sql);
-		}
+		}else{
+		    if (detailAList != null && detailAList.size() > 0) {
+				for (int i = 0; i < detailAList.size(); i++) {
+					Map<String, String> detailAMap = detailAList.get(i);
+					String sjdhslDetailA = Util.null2String(detailAMap.get("SJDHSL"));
+					String mxidDetailA = Util.null2String(detailAMap.get("MXHID"));
+					String bzDetailA = Util.null2String(detailAMap.get("BZ"));
+					//更新主表中实际到货数量和备注
+			        sql = "update formtable_main_288_dt1 set SJDHSL='" + sjdhslDetailA + "',BZ='" + bzDetailA + 
+	        				"' where id = '" + mxidDetailA + "'";
+			        rs.execute(sql);
+				}
+		    }
+	    }
     }
     catch (Exception e)
     {

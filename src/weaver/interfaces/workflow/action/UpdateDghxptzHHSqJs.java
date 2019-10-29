@@ -1,5 +1,7 @@
 package weaver.interfaces.workflow.action;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -27,7 +29,10 @@ public class UpdateDghxptzHHSqJs implements Action
   {
     RecordSet rs = new RecordSet();
     
-    String MXID = "";//明细ID
+    String MXID = "";	//明细ID
+    String XDGB = "";	//下单国别
+    String HH = "";		//货号
+    String JSRQ = "";	//结束日期
     
     String sql = "";
     try
@@ -37,33 +42,32 @@ public class UpdateDghxptzHHSqJs implements Action
    	 	// 获取主表信息
 		Map<String, String> mainTable = info.getMainMap();
 		MXID = Util.null2String(mainTable.get("MXID"));
+		XDGB = Util.null2String(mainTable.get("XDGB"));
+		JSRQ = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 		
 		// 获取流程明细表 1
 		List<Map<String, String>> detailAList = info.getDetailMap("1");
 		if (detailAList != null && detailAList.size() > 0) {
 			for (int i = 0; i < detailAList.size(); i++) {
 				Map<String, String> detailAMap = detailAList.get(i);
-				String bsDetailA = Util.null2String(detailAMap.get("BS"));					//标识
-				sql = "update formtable_main_286 set ZT='2' where bs = '"+ bsDetailA +"'";
-				rs.execute(sql);
 				//更新订购会新品台账对应货号
 				String hhDetail = Util.null2String(detailAMap.get("HH"));					//货号
-				sql = "select id from uf_product where segment1 = '" + hhDetail + "'";
-				rs.execute(sql);
-				if (rs.next()){
-					hhDetail = rs.getString("id");
-		        }
+				HH += hhDetail + ";";
 				int gb = 0;
-				String xdgbDetail = Util.null2String(detailAMap.get("XDGB"));				//下单国别
-				String[] gbArr = {"US","CA","UK","DE","FR","IT","ES"};
-				for(int j=0; j<gbArr.length; j++){
-					if(gbArr[j].equals(xdgbDetail)){
-						gb = j;
+				if(XDGB.indexOf(";")!=-1){
+					String[] xdgbArr = XDGB.split(";");
+					for(String xdgbDetail : xdgbArr){
+						String[] gbArr = {"US","CA","UK","DE","FR","IT","ES"};
+						for(int j=0; j<gbArr.length; j++){
+							if(gbArr[j].equals(xdgbDetail)){
+								gb = j;
+							}
+						}
+						sql = "update formtable_main_297 set ZT='2',DYHH = '" + HH + "',JSRQ = '" + JSRQ + 
+								"' where mxid = '" + MXID + "' and gb = '" + gb + "'";
+						rs.execute(sql);
 					}
 				}
-		    	sql = "update formtable_main_286 set DYHH = '" + hhDetail +
-		    			"' where mxid = '" + MXID + "' and gb = '" + gb + "'";
-		    	rs.execute(sql);
 			}
 		}
         //this.logger.error("sql：" + sql);

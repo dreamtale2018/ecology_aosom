@@ -62,6 +62,36 @@ public class UpdateXpkfjdXppd implements Action
 						"',PDSJ = '" + PDSJ + "',FY = '" + fyDetailA + 
 						"' where HH = '" + hhDetailA + "'";
 				rs.execute(sql);
+				sql = "select XPPDBLC from formtable_main_297 where dyhh = '" + hhDetailA +  
+						"' OR substr(dyhh,instr(dyhh,'" + hhDetailA + "')+length('" + hhDetailA + "'),1) = ';'";
+				rs.execute(sql);
+				if(rs.next()){
+					String XPPDBLC = rs.getString("XPPDBLC");
+					if("".equals(XPPDBLC) || requestid.equals(XPPDBLC)){
+						sql = "update formtable_main_297 set XPPDBLC = '" + requestid + "' where dyhh = '" + hhDetailA + 
+								"' OR substr(dyhh,instr(dyhh,'" + hhDetailA + "')+length('" + hhDetailA + "'),1) = ';'";
+						rs.execute(sql);
+					}else if(XPPDBLC.indexOf(",")!=-1){
+						String[] xppdblcArr = XPPDBLC.split(",");
+						boolean flag = false;
+						for(String lc : xppdblcArr){
+							if(requestid.equals(lc)){
+								flag = true;
+							}
+						}
+						if(!flag){
+							XPPDBLC += "," + requestid;
+							sql = "update formtable_main_297 set XPPDBLC = '" + XPPDBLC + "' where dyhh = '" + hhDetailA + 
+									"' OR substr(dyhh,instr(dyhh,'" + hhDetailA + "')+length('" + hhDetailA + "'),1) = ';'";
+							rs.execute(sql);
+						}
+					}else{
+						XPPDBLC += "," + requestid;
+						sql = "update formtable_main_297 set XPPDBLC = '" + XPPDBLC + "' where dyhh = '" + hhDetailA + 
+								"' OR substr(dyhh,instr(dyhh,'" + hhDetailA + "')+length('" + hhDetailA + "'),1) = ';'";
+						rs.execute(sql);
+					}
+				}
 			}
 		}
         //this.logger.error("sql：" + sql);

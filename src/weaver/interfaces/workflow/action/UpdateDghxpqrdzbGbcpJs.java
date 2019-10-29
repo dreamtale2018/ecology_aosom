@@ -38,6 +38,11 @@ public class UpdateDghxpqrdzbGbcpJs implements Action
 			for (int i = 0; i < detailAList.size(); i++) {
 				Map<String, String> detailAMap = detailAList.get(i);
 				String hhDetail = Util.null2String(detailAMap.get("HH"));					//货号
+				sql = "select segment1 from uf_product where id = '" + hhDetail + "'";
+				rs.execute(sql);
+				if(rs.next()){
+					hhDetail = Util.null2String(rs.getString("segment1"));
+				}
 				String bsDetail = Util.null2String(detailAMap.get("BS"));					//标识
 				String idDetail = "";														//明细ID
 				String gbDetail = "";														//国别
@@ -45,7 +50,8 @@ public class UpdateDghxpqrdzbGbcpJs implements Action
 					idDetail = bsDetail.split("-")[0];
 					gbDetail = bsDetail.split("-")[1];
 				}
-				sql = "update formtable_main_288_dt1 set " + gbDetail + "DYHH = '" + hhDetail + "' where id = '" + idDetail + "'";
+				sql = "update formtable_main_296_dt1 set " + gbDetail + "DYHH = '" + hhDetail + 
+						"'," + gbDetail + "ZT = '已完成' where id = '" + idDetail + "'";
 		        rs.execute(sql);
 			}
 		}

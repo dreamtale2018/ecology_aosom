@@ -45,9 +45,9 @@ public class ProductPaymentArchiveAction implements Action {
 	        	}else if("遨森国际发展有限公司".equals(fkzt)){
 	        		fkzt = "HKI";
 	        	}else if("宁波遨森网络科技有限公司".equals(fkzt)){
-	        		fkzt = "NIT";
+	        		fkzt = "NWK";
 	        	}else if("MH STAR UK LTD".equals(fkzt)){
-	        		fkzt = "UK";
+	        		fkzt = "GB";
 	        	}
 	        	String bxdh = Util.null2String(rs.getString("bxdh"));
 	        	String fkbz = Util.null2String(rs.getString("fkbz"));

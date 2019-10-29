@@ -36,7 +36,7 @@ public class UpdateXpqrzbJs implements Action
 	    	ActionInfo info = ActionUtils.getActionInfo(request);
 	    	
 	    	//更新订购会管理台账状态
-	    	sql = "update formtable_main_286 set ZT='1' where lc = '"+ requestid +"'";
+	    	sql = "update formtable_main_297 set ZT='1' where lc = '"+ requestid +"'";
 	    	rs.execute(sql);
 	    	// 获取流程明细表 1
 			List<Map<String, String>> detailAList = info.getDetailMap("1");
@@ -53,12 +53,12 @@ public class UpdateXpqrzbJs implements Action
 						String gbDylc = Util.null2String(detailAMap.get(gb[j]+"DYLC"));			//对应流程
 						String gbZt = Util.null2String(detailAMap.get(gb[j]+"ZT"));				//状态
 						//更新订购会新品确认主表流程
-						sql = "update formtable_main_287_dt1 set " + gb[j] + "DYHH = '" + gbDyhh +
+						sql = "update formtable_main_295_dt1 set " + gb[j] + "DYHH = '" + gbDyhh +
 						      "'," + gb[j] + "KFBZ = '" + gbKfbz + "'," + gb[j] + "DYLC = '" + gbDylc +
 						      "'," + gb[j] + "ZT = '" + gbZt + "' where id = '" + mxidDetailA + "'";
 				    	rs.execute(sql);
 				    	//更新订购会管理台账开发备注
-				    	sql = "update formtable_main_286 set KFBZ = '" + gbKfbz + "',KFQR = '" + gbKfqr +
+				    	sql = "update formtable_main_297 set KFBZ = '" + gbKfbz + "',KFQR = '" + gbKfqr +
 				    			"' where mxid = '" + idDetailA + "' and gb = '" + j + "'";
 				    	rs.execute(sql);
 					}

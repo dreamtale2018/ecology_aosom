@@ -3,6 +3,7 @@ package weaver.interfaces.workflow.action;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -37,6 +38,7 @@ public class UpdateXpqrzbFp implements Action
 	    String ZHBH = "";	//展会编号
 	    String GC = "";		//工厂
 	    String ZRR = "";	//责任人
+	    String SM = "";		//说明
 	    
 	    String sql = "";
 	    
@@ -52,6 +54,7 @@ public class UpdateXpqrzbFp implements Action
 			ZHBH = Util.null2String(mainTable.get("ZHBH"));
 			GC = Util.null2String(mainTable.get("GC"));
 			ZRR = Util.null2String(mainTable.get("ZRR"));
+			SM = Util.null2String(mainTable.get("SM"));
 			
 	    	// 获取明细表1信息
 		    List<Map<String, String>> detailAList = info.getDetailMap("1");
@@ -65,7 +68,7 @@ public class UpdateXpqrzbFp implements Action
 					for(int j=0; j<gb.length; j++){
 						String gbDetailA = gb[j];														// 国别																
 						String gjDetailA = "";															// 国家
-						sql = "select selectvalue from workflow_SelectItem where fieldid = '54229' and selectname = '" + gbDetailA + "'";
+						sql = "select selectvalue from workflow_SelectItem where fieldid = '39683' and selectname = '" + gbDetailA + "'";
 						rs.execute(sql);
 						if (rs.next()){
 							gjDetailA = rs.getString("selectvalue");
@@ -78,14 +81,13 @@ public class UpdateXpqrzbFp implements Action
 						String xsbzDetailA = Util.null2String(detailAMap.get(gb[j]+"XSBZ"));			// 销售备注														
 						String kfqrztDetailA = Util.null2String(detailAMap.get(gb[j]+"KFQRZT"));		// 开发确认														
 						String dyhhDetailA = Util.null2String(detailAMap.get(gb[j]+"DYHH"));			// 对应货号														
-						String kfbzDetailA = Util.null2String(detailAMap.get(gb[j]+"KFBZ"));			// 开发备注														
 						
 						if(!"".equals(cpztDetailA)){
 							String xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" +
 							"<ROOT>" +
 								"<header>" +
 									"<userid>"+SQR+"</userid>" +
-									"<modeid>4463</modeid>" +
+									"<modeid>4443</modeid>" +
 									"<id/>" +
 								"</header>" +
 								"<search>" +
@@ -113,6 +115,10 @@ public class UpdateXpqrzbFp implements Action
 										"<field>" +
 											"<filedname>GC</filedname>" +
 											"<filedvalue>"+GC+"</filedvalue>" +
+										"</field>" +
+										"<field>" +
+											"<filedname>SM</filedname>" +
+											"<filedvalue>"+SM+"</filedvalue>" +
 										"</field>" +
 										"<field>" +
 											"<filedname>ZRR</filedname>" +
@@ -181,6 +187,16 @@ public class UpdateXpqrzbFp implements Action
 									"</maintable>" +
 								"</data>" +
 							"</ROOT>";
+							
+							if (!StringUtils.isBlank(xml)) {
+								xml = xml.replaceAll("&nbsp;", " ");
+								xml = xml.replaceAll("\r", " ");
+								xml = xml.replaceAll("\n", " ");
+								xml = xml.replaceAll("<br>", ";");
+								xml = xml.replaceAll("<br/>", ";");
+								xml = xml.replaceAll("&quot;", "\"");
+								xml = xml.replaceAll("'", "''");
+							}
 							
 							ModeDataServiceImpl mdsi = new ModeDataServiceImpl();
 							String returncode = mdsi.saveModeData(xml);

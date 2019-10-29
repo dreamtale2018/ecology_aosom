@@ -71,6 +71,19 @@ public class AutoCreateHHSqbAction implements Action
 				boolean flag = false;
 				Map<String, String> detailAMap = detailAList.get(i);
 				String mxidDetailA = Util.null2String(detailAMap.get("id"));			// 明细行号
+				String dghmxidDetailA = "";												// 订购会明细ID
+				String xdgbDetailA = "";												// 下单国别
+				String bsDetailA = Util.null2String(detailAMap.get("BS"));				// 标识
+				if(bsDetailA.indexOf(";")!=-1){
+					String[] bsArr = bsDetailA.split(";");
+					for(String bs : bsArr){
+						dghmxidDetailA = bs.split("-")[0];
+						xdgbDetailA += bs.split("-")[1] + ";";
+					}
+				}else{
+					dghmxidDetailA = bsDetailA.split("-")[0];
+					xdgbDetailA = bsDetailA.split("-")[1];
+				}
 				String usqrdlDetailA = Util.null2String(detailAMap.get("USQRDL"));		// US确认定量
 				String caqrdlDetailA = Util.null2String(detailAMap.get("CAQRDL"));		// CA确认定量
 				String ukqrdlDetailA = Util.null2String(detailAMap.get("UKQRDL"));		// UK确认定量
@@ -106,7 +119,7 @@ public class AutoCreateHHSqbAction implements Action
 				String tpDetailA = Util.null2String(detailAMap.get("TP"));				// 产品图片
 				if(flag){
 					//主字段        
-					WorkflowRequestTableField[] wrti = new WorkflowRequestTableField[25]; //字段信息        
+					WorkflowRequestTableField[] wrti = new WorkflowRequestTableField[27]; //字段信息        
 					wrti[0] = new WorkflowRequestTableField();         
 					wrti[0].setFieldName("sqr");//申请人       
 					wrti[0].setFieldValue(SQR);//        
@@ -232,6 +245,16 @@ public class AutoCreateHHSqbAction implements Action
 					wrti[24].setFieldValue(TJLCH);//      
 					wrti[24].setView(true);//字段是否可见       
 					wrti[24].setEdit(true);//字段是否可编辑
+					wrti[25] = new WorkflowRequestTableField();         
+					wrti[25].setFieldName("mxid");//订购会明细ID     
+					wrti[25].setFieldValue(dghmxidDetailA);//      
+					wrti[25].setView(true);//字段是否可见       
+					wrti[25].setEdit(true);//字段是否可编辑
+					wrti[26] = new WorkflowRequestTableField();         
+					wrti[26].setFieldName("xdgb");//下单国别    
+					wrti[26].setFieldValue(xdgbDetailA);//      
+					wrti[26].setView(true);//字段是否可见       
+					wrti[26].setEdit(true);//字段是否可编辑
 					
 					WorkflowRequestTableRecord[] wrtri = new WorkflowRequestTableRecord[1];//主字段只有一行数据        
 					wrtri[0] = new WorkflowRequestTableRecord();        

@@ -21,7 +21,6 @@ import weaver.workflow.webservices.WorkflowRequestTableField;
 import weaver.workflow.webservices.WorkflowRequestTableRecord;
 import weaver.workflow.webservices.WorkflowServiceImpl;
 
-import com.weaver.ningb.core.util.WorkflowUtils;
 import com.weaver.ningb.soa.workflow.action.support.ActionInfo;
 import com.weaver.ningb.soa.workflow.action.support.ActionUtils;
 /**
@@ -40,12 +39,12 @@ public class AutoCreateHHSqDghxpqrdzbAction implements Action
 	RecordSet rs = new RecordSet();
 	  
 	String requestid = request.getRequestid();
-	String workflowid = request.getWorkflowid();
 	String SQR = "";	//申请人
     String SQRXM = "";	//申请人 姓名 
     String ZHBH = "";	//展会编号
     String GC = "";		//工厂
     String SQRQ = "";	//申请日期
+    String KFYGH = "";	//开发员工号
     
     String sql = "";
 
@@ -56,6 +55,11 @@ public class AutoCreateHHSqDghxpqrdzbAction implements Action
    	 	// 获取主表信息
 		Map<String, String> mainTable = info.getMainMap();
 		SQR = Util.null2String(mainTable.get("ZRR"));
+		sql = "select workcode from hrmresource where id = '" + SQR + "'";
+		rs.execute(sql);
+		if(rs.next()){
+			KFYGH = Util.null2String(rs.getString("workcode"));
+		}
 		ZHBH = Util.null2String(mainTable.get("ZHBH"));
 		GC = Util.null2String(mainTable.get("GC"));
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -71,11 +75,13 @@ public class AutoCreateHHSqDghxpqrdzbAction implements Action
 				//开发确认为新领货号的。
 				String[] gb = {"US","CA","UK","DE","FR","IT","ES"};
 				List<Map<String, String>> detailList = new ArrayList<Map<String, String>>();
+			    String XDGB = "";												//下单国别
 				for(int j=0; j<gb.length; j++){
-					String kfqrztDetailA = Util.null2String(WorkflowUtils.getDetailFieldSelectName(workflowid, 1, gb[j]+"KFQRZT", detailAMap.get(gb[j]+"KFQRZT")));																
-																// 状态
-					if("新领货号".equals(kfqrztDetailA)){
+					String kfqrztDetailA = Util.null2String(detailAMap.get(gb[j]+"KFQRZT"));																
+																				// 状态
+					if("0".equals(kfqrztDetailA)){
 						Map<String, String> detailMap = new HashMap<String, String>();
+						XDGB += gb[j] + ";";
 						detailMap.put("GB", gb[j]);
 						detailMap.put(gb[j]+"CBSL", Util.null2String(detailAMap.get(gb[j]+"CBSL")));
 						detailMap.put(gb[j]+"JJSX", Util.null2String(detailAMap.get(gb[j]+"JJSX")));
@@ -83,41 +89,51 @@ public class AutoCreateHHSqDghxpqrdzbAction implements Action
 						detailList.add(detailMap);
 					}
 				}
-				int detailrows = detailList.size() ;//添加指定条数明细  
-				//主字段        
-				WorkflowRequestTableField[] wrti = new WorkflowRequestTableField[6+detailrows*2]; //字段信息        
-				wrti[0] = new WorkflowRequestTableField();         
-				wrti[0].setFieldName("sqr");//申请人       
-				wrti[0].setFieldValue(SQR);//        
-				wrti[0].setView(true);//字段是否可见       
-				wrti[0].setEdit(true);//字段是否可编辑
-				wrti[1] = new WorkflowRequestTableField();         
-				wrti[1].setFieldName("sqrq");//申请日期      
-				wrti[1].setFieldValue(SQRQ);//        
-				wrti[1].setView(true);//字段是否可见       
-				wrti[1].setEdit(true);//字段是否可编辑
-				wrti[2] = new WorkflowRequestTableField();         
-				wrti[2].setFieldName("zwpm");//中文品名       
-				wrti[2].setFieldValue(pmDetailA);//        
-				wrti[2].setView(true);//字段是否可见       
-				wrti[2].setEdit(true);//字段是否可编辑
-				wrti[3] = new WorkflowRequestTableField();         
-				wrti[3].setFieldName("gjc");//关键词    
-				wrti[3].setFieldValue(GC+skuDetailA+ZHBH);//        
-				wrti[3].setView(true);//字段是否可见       
-				wrti[3].setEdit(true);//字段是否可编辑
-				wrti[4] = new WorkflowRequestTableField();         
-				wrti[4].setFieldName("xpqrlc");//订购会新品确认表(子表)  
-				wrti[4].setFieldValue(requestid);//        
-				wrti[4].setView(true);//字段是否可见       
-				wrti[4].setEdit(true);//字段是否可编辑
-				wrti[5] = new WorkflowRequestTableField();         
-				wrti[5].setFieldName("mxid");//明细ID  
-				wrti[5].setFieldValue(mxidDetailA);//        
-				wrti[5].setView(true);//字段是否可见       
-				wrti[5].setEdit(true);//字段是否可编辑
-				int index = 5;
+				int detailrows = detailList.size() ;//添加指定条数明细
 				if(detailrows > 0){
+					//主字段        
+					WorkflowRequestTableField[] wrti = new WorkflowRequestTableField[8+detailrows*2]; //字段信息        
+					wrti[0] = new WorkflowRequestTableField();         
+					wrti[0].setFieldName("sqr");//申请人       
+					wrti[0].setFieldValue(SQR);//        
+					wrti[0].setView(true);//字段是否可见       
+					wrti[0].setEdit(true);//字段是否可编辑
+					wrti[1] = new WorkflowRequestTableField();         
+					wrti[1].setFieldName("sqrq");//申请日期      
+					wrti[1].setFieldValue(SQRQ);//        
+					wrti[1].setView(true);//字段是否可见       
+					wrti[1].setEdit(true);//字段是否可编辑
+					wrti[2] = new WorkflowRequestTableField();         
+					wrti[2].setFieldName("zwpm");//中文品名       
+					wrti[2].setFieldValue(pmDetailA);//        
+					wrti[2].setView(true);//字段是否可见       
+					wrti[2].setEdit(true);//字段是否可编辑
+					wrti[3] = new WorkflowRequestTableField();         
+					wrti[3].setFieldName("gjc");//关键词    
+					wrti[3].setFieldValue(GC+skuDetailA+ZHBH);//        
+					wrti[3].setView(true);//字段是否可见       
+					wrti[3].setEdit(true);//字段是否可编辑
+					wrti[4] = new WorkflowRequestTableField();         
+					wrti[4].setFieldName("xpqrlc");//订购会新品确认表(子表)  
+					wrti[4].setFieldValue(requestid);//        
+					wrti[4].setView(true);//字段是否可见       
+					wrti[4].setEdit(true);//字段是否可编辑
+					wrti[5] = new WorkflowRequestTableField();         
+					wrti[5].setFieldName("mxid");//明细ID  
+					wrti[5].setFieldValue(mxidDetailA);//        
+					wrti[5].setView(true);//字段是否可见       
+					wrti[5].setEdit(true);//字段是否可编辑
+					wrti[6] = new WorkflowRequestTableField();         
+					wrti[6].setFieldName("xdgb");//下单国别  
+					wrti[6].setFieldValue(XDGB);//        
+					wrti[6].setView(true);//字段是否可见       
+					wrti[6].setEdit(true);//字段是否可编辑
+					wrti[7] = new WorkflowRequestTableField();         
+					wrti[7].setFieldName("kfygh");//开发员工号  
+					wrti[7].setFieldValue(KFYGH);//        
+					wrti[7].setView(true);//字段是否可见       
+					wrti[7].setEdit(true);//字段是否可编辑
+					int index = 7;
 					for(int j=0; j<detailrows; j++){
 						Map<String, String> detailMap1 = detailList.get(j);
 						String gbDetail1 = Util.null2String(detailMap1.get("GB"));				//国别
@@ -134,45 +150,35 @@ public class AutoCreateHHSqDghxpqrdzbAction implements Action
 						wrti[index].setView(true);//字段是否可见              
 						wrti[index].setEdit(true);//字段是否可编辑
 					}
-				}
-				
-				WorkflowRequestTableRecord[] wrtri = new WorkflowRequestTableRecord[1];//主字段只有一行数据        
-				wrtri[0] = new WorkflowRequestTableRecord();        
-				wrtri[0].setWorkflowRequestTableFields(wrti);           
-				WorkflowMainTableInfo wmi = new WorkflowMainTableInfo();        
-				wmi.setRequestRecords(wrtri);
-
-				if(detailrows > 0){
+					
+					WorkflowRequestTableRecord[] wrtri = new WorkflowRequestTableRecord[1];//主字段只有一行数据        
+					wrtri[0] = new WorkflowRequestTableRecord();        
+					wrtri[0].setWorkflowRequestTableFields(wrti);           
+					WorkflowMainTableInfo wmi = new WorkflowMainTableInfo();        
+					wmi.setRequestRecords(wrtri);
+	
 					//添加明细数据  
-				    List<String> dylcList = new ArrayList<String>();							//对应流程
-					wrtri = new WorkflowRequestTableRecord[detailrows];
-					for (int k = 0; k < detailrows; k++) {
-						Map<String, String> detailMap2 = detailList.get(k);
-						String gbDetail2 = Util.null2String(detailMap2.get("GB"));				//国别
-					    dylcList.add(mxidDetailA+"-"+gbDetail2);
-						wrti = new WorkflowRequestTableField[3]; //字段信息             
-						
-						wrti[0] = new WorkflowRequestTableField();             
-						wrti[0].setFieldName(gbDetail2);//下单数量         
-						wrti[0].setFieldValue(Util.null2String(detailMap2.get(gbDetail2+"CBSL")));            
-						wrti[0].setView(true);//字段是否可见              
-						wrti[0].setEdit(true);//字段是否可编辑
-						
-						wrti[1] = new WorkflowRequestTableField();             
-						wrti[1].setFieldName("xdgb");//下单国别         
-						wrti[1].setFieldValue(gbDetail2);            
-						wrti[1].setView(true);//字段是否可见              
-						wrti[1].setEdit(true);//字段是否可编辑
-						
-						wrti[2] = new WorkflowRequestTableField();             
-						wrti[2].setFieldName("bs");//标识         
-						wrti[2].setFieldValue(mxidDetailA+"-"+gbDetail2);            
-						wrti[2].setView(true);//字段是否可见              
-						wrti[2].setEdit(true);//字段是否可编辑
-						
-						wrtri[k] = new WorkflowRequestTableRecord();
-						wrtri[k].setWorkflowRequestTableFields(wrti);
+					wrtri = new WorkflowRequestTableRecord[1];
+					wrti = new WorkflowRequestTableField[detailrows]; //字段信息             
+					
+					List<String> dylcList = new ArrayList<String>();								//对应流程
+					int index1 = 0;
+					if(detailrows > 0){
+						for(int k=0; k<detailrows; k++){
+							Map<String, String> detailMap2 = detailList.get(k);
+							String gbDetail2 = Util.null2String(detailMap2.get("GB"));				//国别
+							dylcList.add(mxidDetailA+"-"+gbDetail2);
+							wrti[index1] = new WorkflowRequestTableField();             
+							wrti[index1].setFieldName(gbDetail2);//下单数量        
+							wrti[index1].setFieldValue(Util.null2String(detailMap2.get(gbDetail2+"CBSL")));            
+							wrti[index1].setView(true);//字段是否可见              
+							wrti[index1].setEdit(true);//字段是否可编辑
+							index1++;
+						}
 					}
+					
+					wrtri[0] = new WorkflowRequestTableRecord();
+					wrtri[0].setWorkflowRequestTableFields(wrti);
 					//添加到明细表中        
 					WorkflowDetailTableInfo WorkflowDetailTableInfo[] = new WorkflowDetailTableInfo[1];
 					//指定明细表的个数，多个明细表指定多个，顺序按照明细的顺序        
@@ -180,7 +186,7 @@ public class AutoCreateHHSqDghxpqrdzbAction implements Action
 					WorkflowDetailTableInfo[0].setWorkflowRequestTableRecords(wrtri);
 					//添加工作流id        
 					WorkflowBaseInfo wbi = new WorkflowBaseInfo();        
-					wbi.setWorkflowId("862");//workflowid       
+					wbi.setWorkflowId("1483");//workflowid       
 					WorkflowRequestInfo wri = new WorkflowRequestInfo();//流程基本信息            
 					wri.setCreatorId(SQR);//创建人id        
 					wri.setRequestLevel("0");//0 正常，1重要，2紧急
@@ -205,7 +211,7 @@ public class AutoCreateHHSqDghxpqrdzbAction implements Action
 						String dylc = Util.null2String(dylcList.get(l));
 						if(!"".equals(dylc) && dylc.indexOf("-")!=-1){
 							String[] dylcArr =  dylc.split("-");
-							sql = "update formtable_main_288_dt1 set " + dylcArr[1] + "DYLC = '" + newRequestid + 
+							sql = "update formtable_main_296_dt1 set " + dylcArr[1] + "DYLC = '" + newRequestid + 
 									"' where id = '" + dylcArr[0] + "'";
 					        rs.execute(sql); 
 						}

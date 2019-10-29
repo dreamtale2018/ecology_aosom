@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -144,7 +145,8 @@ public class OracleManager {
 				String response = invokeByReflect(proxy, rmiName,
 						new Object[]{info, username, password}, new Class[]{info.getClass(), String.class, String.class});
 				// 判断请求错误, 目前请求错误后返回对应的错误字符串
-				if (StringUtils.isBlank(response) || response.indexOf("<?xml version") == -1) {
+				//if (StringUtils.isBlank(response) || response.indexOf("<?xml version") == -1) {
+				if (StringUtils.isBlank(response)) {
 					logger.info(name + " request Failure: " + response);
 					return flag;
 				}
@@ -1197,35 +1199,55 @@ public class OracleManager {
 			
 			// TODO XML 特殊字符转义
 			response = response.replaceAll("&", "&amp;");
-			Document root = DocumentHelper.parseText(response);
-			
-			// <Lists></Lists>
-			Element productListsElement = root.getRootElement();
-			if (productListsElement == null) return result;
-			
-			// <List></List>, 可能存在多个
-			List<Element> productListElementList = productListsElement.elements();
-			if (productListElementList == null || productListElementList.size() <= 0) return result;
-			
 			result = new ArrayList<Map<String, String>>();
-			for (Element productListElement : productListElementList) {
-				List<Element> elementList = productListElement.elements();
-				if (elementList == null || elementList.size() <= 0) continue;
+			// 返回xml格式的情况
+			if(response.indexOf("<?xml version") != -1){
+				Document root = DocumentHelper.parseText(response);
 				
-				// 解析单行记录具体字段信息
-				Map<String, String> map = new HashMap<String, String>();
-				for (Element element : elementList) {
-					String name = element.getName();
-					String value = Util.null2String(element.getText());	// TODO 需要去空格?
+				// <Lists></Lists>
+				Element productListsElement = root.getRootElement();
+				if (productListsElement == null) return result;
+				
+				// <List></List>, 可能存在多个
+				List<Element> productListElementList = productListsElement.elements();
+				if (productListElementList == null || productListElementList.size() <= 0) return result;
+				
+				for (Element productListElement : productListElementList) {
+					List<Element> elementList = productListElement.elements();
+					if (elementList == null || elementList.size() <= 0) continue;
 					
-					// 处理接口同步过滤指定条件不同步的问题
-					boolean filterFlag = filter.accepts(query, name, value);
-					if (!filterFlag) continue;
+					// 解析单行记录具体字段信息
+					Map<String, String> map = new HashMap<String, String>();
+					for (Element element : elementList) {
+						String name = element.getName();
+						String value = Util.null2String(element.getText());	// TODO 需要去空格?
+						
+						// 处理接口同步过滤指定条件不同步的问题
+						boolean filterFlag = filter.accepts(query, name, value);
+						if (!filterFlag) continue;
+						
+						map.put(name, value);
+					}
 					
-					map.put(name, value);
+					result.add(map);
 				}
-				
-				result.add(map);
+			}else{
+				JSONArray jsonArray = JSONArray.fromObject(response);
+				for(int i=0;i<jsonArray.size();i++){
+					JSONObject jsonObject = (JSONObject) jsonArray.get(i);
+					Map<String, String> map = new HashMap<String, String>();
+					Iterator<String> it = jsonObject.keys(); 
+					while(it.hasNext()){
+						String name = it.next(); 
+						String value = Util.null2String(jsonObject.get(name)); 
+						// 处理接口同步过滤指定条件不同步的问题
+						boolean filterFlag = filter.accepts(query, name, value);
+						if (!filterFlag) continue;
+						
+						map.put(name, value);
+					}
+					result.add(map);
+				}
 			}
 		} catch (DocumentException e) {
 			logger.error(task + " response: " + response);
@@ -1254,7 +1276,6 @@ public class OracleManager {
 		try {
 			String tablename = FormModeUtils.getTablename(modeid);
 			if (StringUtils.isBlank(tablename)) return id;
-			
 			String sqlWhere = "";
 			if (key.indexOf(",") == -1) {
 				sqlWhere = "where " + key + " = '" + Util.null2String(map.get(key)) + "' ";
@@ -1273,7 +1294,7 @@ public class OracleManager {
 			}
 			
 			RecordSet rs = new RecordSet();
-			rs.executeQuery("select id from " + tablename + " " + sqlWhere);
+		    rs.executeQuery("select id from " + tablename + " " + sqlWhere, new Object[0]);
 			if (rs.next()) id = rs.getString("id");
 		} catch (Exception e) {
 			logger.error("query Exception: ", e);

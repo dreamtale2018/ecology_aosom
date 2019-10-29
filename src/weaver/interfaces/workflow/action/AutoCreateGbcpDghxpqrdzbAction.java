@@ -21,7 +21,6 @@ import weaver.workflow.webservices.WorkflowRequestTableField;
 import weaver.workflow.webservices.WorkflowRequestTableRecord;
 import weaver.workflow.webservices.WorkflowServiceImpl;
 
-import com.weaver.ningb.core.util.WorkflowUtils;
 import com.weaver.ningb.soa.workflow.action.support.ActionInfo;
 import com.weaver.ningb.soa.workflow.action.support.ActionUtils;
 /**
@@ -40,7 +39,6 @@ public class AutoCreateGbcpDghxpqrdzbAction implements Action
 	RecordSet rs = new RecordSet();
 	  
 	String requestid = request.getRequestid();
-	String workflowid = request.getWorkflowid();
 	String SQR = "";									//申请人
     String SQRXM = "";									//申请人 姓名 
     String SQRQ = "";									//申请日期
@@ -70,9 +68,9 @@ public class AutoCreateGbcpDghxpqrdzbAction implements Action
 				//开发确认为扩增国别的。
 				String[] gb = {"US","CA","UK","DE","FR","IT","ES"};
 				for(int j=0; j<gb.length; j++){
-					String kfqrztDetailA = Util.null2String(WorkflowUtils.getDetailFieldSelectName(workflowid, 1, gb[j]+"KFQRZT", detailAMap.get(gb[j]+"KFQRZT")));																
+					String kfqrztDetailA = Util.null2String(detailAMap.get(gb[j]+"KFQRZT"));																
 																// 状态
-					if("新增国别".equals(kfqrztDetailA)){
+					if("1".equals(kfqrztDetailA)){
 						Map<String, String> detailMap = new HashMap<String, String>();
 						detailMap.put("GB", gb[j]);
 						detailMap.put("HH", detailAMap.get("SKU"));
@@ -135,7 +133,7 @@ public class AutoCreateGbcpDghxpqrdzbAction implements Action
 			        }
 					//获取启用扩增国别id
 					String qykzgjDetail2 = "";
-					sql = "select selectvalue from workflow_SelectItem where fieldid = '54229' and selectname = '" + gbDetail2 + "'";
+					sql = "select selectvalue from workflow_SelectItem where fieldid = '39683' and selectname = '" + gbDetail2 + "'";
 					rs.execute(sql);
 					if (rs.next()){
 						qykzgjDetail2 = rs.getString("selectvalue");
@@ -158,7 +156,7 @@ public class AutoCreateGbcpDghxpqrdzbAction implements Action
 						}
 					}
 					dylcList.add(idDetail2+"-"+gbDetail2);
-					wrti = new WorkflowRequestTableField[9]; //字段信息             
+					wrti = new WorkflowRequestTableField[10]; //字段信息             
 					
 					wrti[0] = new WorkflowRequestTableField();             
 					wrti[0].setFieldName("kf");//开发        
@@ -214,6 +212,12 @@ public class AutoCreateGbcpDghxpqrdzbAction implements Action
 					wrti[8].setView(true);//字段是否可见              
 					wrti[8].setEdit(true);//字段是否可编辑
 					
+					wrti[9] = new WorkflowRequestTableField();             
+					wrti[9].setFieldName("yy");//原因    
+					wrti[9].setFieldValue("展会扩增国别");            
+					wrti[9].setView(true);//字段是否可见              
+					wrti[9].setEdit(true);//字段是否可编辑
+					
 					wrtri[k] = new WorkflowRequestTableRecord();
 					wrtri[k].setWorkflowRequestTableFields(wrti);
 				}
@@ -224,7 +228,7 @@ public class AutoCreateGbcpDghxpqrdzbAction implements Action
 				WorkflowDetailTableInfo[0].setWorkflowRequestTableRecords(wrtri);
 				//添加工作流id        
 				WorkflowBaseInfo wbi = new WorkflowBaseInfo();        
-				wbi.setWorkflowId("5623");//workflowid       
+				wbi.setWorkflowId("842");//workflowid       
 				WorkflowRequestInfo wri = new WorkflowRequestInfo();//流程基本信息            
 				wri.setCreatorId(SQR);//创建人id        
 				wri.setRequestLevel("0");//0 正常，1重要，2紧急
@@ -248,7 +252,7 @@ public class AutoCreateGbcpDghxpqrdzbAction implements Action
 					String dylc = Util.null2String(dylcList.get(l));
 					if(!"".equals(dylc) && dylc.indexOf("-")!=-1){
 						String[] dylcArr =  dylc.split("-");
-						sql = "update formtable_main_288_dt1 set " + dylcArr[1] + "DYLC = '" + newRequestid + 
+						sql = "update formtable_main_296_dt1 set " + dylcArr[1] + "DYLC = '" + newRequestid + 
 								"' where id = '" + dylcArr[0] + "'";
 				        rs.execute(sql); 
 					}

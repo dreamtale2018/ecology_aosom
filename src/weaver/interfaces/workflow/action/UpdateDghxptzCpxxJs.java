@@ -1,5 +1,7 @@
 package weaver.interfaces.workflow.action;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -27,10 +29,14 @@ public class UpdateDghxptzCpxxJs implements Action
   {
     RecordSet rs = new RecordSet();
     
+    String JSRQ = "";	//结束日期
+    
     String sql = "";
     try
     {
     	ActionInfo info = ActionUtils.getActionInfo(request);
+    	
+		JSRQ = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
     	
     	// 获取流程明细表 1
 		List<Map<String, String>> detailAList = info.getDetailMap("1");
@@ -41,7 +47,8 @@ public class UpdateDghxptzCpxxJs implements Action
 				String[] bsArr = bsDetailA.split(";");
 				for(int j=0;j<bsArr.length;j++){
 					String bsStr = bsArr[j];
-					sql = "update formtable_main_286 set ZT='2' where bs = '"+ bsStr +"'";
+					sql = "update formtable_main_297 set ZT='2',JSRQ = '" + JSRQ + 
+							"' where bs = '" + bsStr + "'";
 					rs.execute(sql);
 				}
 			}

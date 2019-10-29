@@ -23,7 +23,6 @@ import weaver.workflow.webservices.WorkflowRequestTableField;
 import weaver.workflow.webservices.WorkflowRequestTableRecord;
 import weaver.workflow.webservices.WorkflowServiceImpl;
 
-import com.weaver.ningb.core.util.WorkflowUtils;
 import com.weaver.ningb.soa.workflow.action.support.ActionInfo;
 import com.weaver.ningb.soa.workflow.action.support.ActionUtils;
 /**
@@ -42,7 +41,6 @@ public class AutoCreateCpxxDghxpqrdzbAction implements Action
 	RecordSet rs = new RecordSet();
 	  
 	String requestid = request.getRequestid();
-	String workflowid = request.getWorkflowid();
 	String SQR = "";							//申请人
     String SQRXM = "";							//申请人 姓名 
     String ZHBH = "";							//展会编号
@@ -77,9 +75,9 @@ public class AutoCreateCpxxDghxpqrdzbAction implements Action
 				//开发确认为市场新增的。
 				String[] gb = {"US","CA","UK","DE","FR","IT","ES"};
 				for(int j=0; j<gb.length; j++){
-					String kfqrztDetailA = Util.null2String(WorkflowUtils.getDetailFieldSelectName(workflowid, 1, gb[j]+"KFQRZT", detailAMap.get(gb[j]+"KFQRZT")));																
+					String kfqrztDetailA = Util.null2String(detailAMap.get(gb[j]+"KFQRZT"));																
 																				// 状态
-					if("走选型表".equals(kfqrztDetailA)){
+					if("3".equals(kfqrztDetailA)){
 						BS += idDetailA + "-" + gb[j] + ";";
 						gbSet.add(gb[j]);
 						flag = true;
@@ -178,7 +176,7 @@ public class AutoCreateCpxxDghxpqrdzbAction implements Action
 					WorkflowDetailTableInfo[0].setWorkflowRequestTableRecords(wrtri);
 					//添加工作流id        
 					WorkflowBaseInfo wbi = new WorkflowBaseInfo();        
-					wbi.setWorkflowId("1903");//workflowid       
+					wbi.setWorkflowId("2163");//workflowid       
 					WorkflowRequestInfo wri = new WorkflowRequestInfo();//流程基本信息            
 					wri.setCreatorId(SQR);//创建人id        
 					wri.setRequestLevel("0");//0 正常，1重要，2紧急
@@ -202,7 +200,7 @@ public class AutoCreateCpxxDghxpqrdzbAction implements Action
 						String dylc = Util.null2String(dylcList.get(l));
 						if(!"".equals(dylc) && dylc.indexOf("-")!=-1){
 							String[] dylcArr =  dylc.split("-");
-							sql = "update formtable_main_288_dt1 set " + dylcArr[1] + "DYLC = '" + newRequestid + 
+							sql = "update formtable_main_296_dt1 set " + dylcArr[1] + "DYLC = '" + newRequestid + 
 									"' where id = '" + dylcArr[0] + "'";
 					        rs.execute(sql); 
 						}
