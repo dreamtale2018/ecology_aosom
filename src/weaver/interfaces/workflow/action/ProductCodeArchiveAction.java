@@ -53,6 +53,9 @@ public class ProductCodeArchiveAction implements Action {
 			String cpmd = mainMap.get("CPMD");			// 产品卖点
 			String cph = mainMap.get("CPH");			// 产品号
 			String zwcpsxA = mainMap.get("ZWCPSX1");	// 中文产品属性 1
+			String sfynhh = mainMap.get("SFYNHH");		// 是否越南货号
+			String ynhgbm = mainMap.get("YNHGBM");		// 越南海关编码
+			String ynywbgpm = mainMap.get("YNYWBGPM");	// 越南英文报关品名
 			String zwcpsxB = mainMap.get("ZWCPSX2");	// 中文产品
 			String ywcpsxA = mainMap.get("YWCPSX1");	// 英文产品属性 1
 			String ywcpsxB = mainMap.get("YWCPSX2");	// 英文产品属性 2
@@ -64,7 +67,7 @@ public class ProductCodeArchiveAction implements Action {
 			String sfxs = WorkflowUtils.getFieldSelectName(workflowid, "SFXS", mainMap.get("SFXS"));			
 														// 向上
 			String sfkxjsb = WorkflowUtils.getFieldSelectName(workflowid, "SFKXJSB", mainMap.get("SFKXJSB"));	
-														// 开箱警示标
+														// 开箱警示标	
 			
 			
 			List<Map<String, String>> boxContentList = new ArrayList<Map<String, String>>();
@@ -165,6 +168,8 @@ public class ProductCodeArchiveAction implements Action {
 					String cphDetailA = cph;							// 产品号
 					String glbomDetailA = "";							// 管理 bom
 					String hgbmDetailA = "";							// 海关编码
+					String ynhgbmDetailA = ynhgbm;						// 越南海关编码
+					String ynywbgpmDetailA = ynywbgpm;					// 越南英文报关品名
 					String bgpmDetailA = "";							// 报关品名
 					String cplbDetailA = cplb;							// 产品类别
 					String tjlbDetailA = tjlb;							// 统计类别
@@ -216,6 +221,10 @@ public class ProductCodeArchiveAction implements Action {
 					if (glbomDetailA.equals("N")) {
 						itemContentMap.put("hs_code", hgbmDetailA);
 						itemContentMap.put("declared_item_name_cn", bgpmDetailA);
+					}
+					if ("0".equals(sfynhh)) {
+						itemContentMap.put("hs_code_vet", ynhgbmDetailA);
+						itemContentMap.put("item_declare_name_vet", ynywbgpmDetailA);
 					}
 					itemContentMap.put("category_code", cplbDetailA);
 					itemContentMap.put("develop_category_code", tjlbDetailA);
