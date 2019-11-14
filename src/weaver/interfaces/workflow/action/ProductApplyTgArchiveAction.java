@@ -45,11 +45,7 @@ public class ProductApplyTgArchiveAction implements Action {
 			Map<String, String> mainMap = info.getMainMap();
 			SPSJ = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
 			String ywst = Util.null2String(mainMap.get("YWST"));															// 业务实体
-			if(ywst.indexOf("遨森电子商务股份有限公司")!=-1 || ywst.indexOf("Aosom E-Commerce Inc")!=-1){
-				ywst = "CHN";
-			}else if(ywst.indexOf("遨森国际发展有限公司")!=-1 || ywst.indexOf("AOSOM INTERNATIONAL DEVELOPMENT CO.,LIMITED")!=-1){
-				ywst = "HKI";
-			}
+			ywst = oracleManager.transYwst(ywst);
 			String bz = Util.null2String(mainMap.get("BZ"));																// 币种
 			String lcbh = Util.null2String(mainMap.get("LCBH"));															// 流程编号
 			String fklx = Util.null2String(mainMap.get("FKLX"));															// 付款类型

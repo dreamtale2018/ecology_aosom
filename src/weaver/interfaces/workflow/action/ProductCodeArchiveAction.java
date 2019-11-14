@@ -79,12 +79,16 @@ public class ProductCodeArchiveAction implements Action {
 				String cDetailB = detailBMap.get("C");				// 长 (CM)
 				String kDetailB = detailBMap.get("K");				// 宽 (CM)
 				String gDetailB = detailBMap.get("G");				// 高 (CM)
+				String wcDetailB = detailBMap.get("WC");			// 外长 (CM)
+				String wkDetailB = detailBMap.get("WK");			// 外宽 (CM)
+				String wgDetailB = detailBMap.get("WG");			// 外高 (CM)
 				String ccdwDetailB = oracleManager.getDwmc(detailBMap.get("CCDW"));
 																	// 尺寸单位：默认 厘米
 				String tjDteailB = detailBMap.get("TJ");			// 体积
 				String tjdwDetailB = oracleManager.getDwmc(detailBMap.get("TJDW"));
 																	// 体积单位：默认 立方厘米
 				String mzDetailB = detailBMap.get("MZ");			// 毛重 (KG)
+				String wmzDetailB = detailBMap.get("WMZ");			// 外毛重 (KG)
 				String jzDetailB = detailBMap.get("JZ");			// 净重 (KG)
 				String zldwDetailB = oracleManager.getDwmc(detailBMap.get("ZLDW"));
 																	// 重量单位：默认值 克
@@ -96,10 +100,14 @@ public class ProductCodeArchiveAction implements Action {
 				boxContentMap.put("box_length", cDetailB);
 				boxContentMap.put("box_width", kDetailB);
 				boxContentMap.put("box_height", gDetailB);
+				boxContentMap.put("box_out_length", wcDetailB);
+				boxContentMap.put("box_out_width", wkDetailB);
+				boxContentMap.put("box_out_height", wgDetailB);
 				boxContentMap.put("box_size_uom_code", ccdwDetailB);
 				boxContentMap.put("box_volume", tjDteailB);
 				boxContentMap.put("box_volume_uom_code", tjdwDetailB);
 				boxContentMap.put("box_gross_weight", mzDetailB);
+				boxContentMap.put("box_out_gross_weight", wmzDetailB);
 				boxContentMap.put("box_net_weight", jzDetailB);
 				boxContentMap.put("box_weight_uom_code", zldwDetailB);
 				boxContentMap.put("box_outsourcing_box_qty", xlDetailB);

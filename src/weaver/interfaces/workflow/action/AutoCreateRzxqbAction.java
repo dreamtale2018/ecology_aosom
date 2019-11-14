@@ -145,7 +145,7 @@ public class AutoCreateRzxqbAction implements Action
 					}
 					//将list装成字符串，多个国别用逗号隔开。
 					String gb = StringUtils.join(gbList.toArray(), ",");
-					wrti = new WorkflowRequestTableField[5]; //字段信息             
+					wrti = new WorkflowRequestTableField[5+gbstr.length]; //字段信息             
 					wrti[0] = new WorkflowRequestTableField();             
 					wrti[0].setFieldName("hh");//货号             
 					wrti[0].setFieldValue(hhDetailA);            
@@ -175,6 +175,16 @@ public class AutoCreateRzxqbAction implements Action
 					wrti[4].setFieldValue(rzspyjDetailA);            
 					wrti[4].setView(true);//字段是否可见              
 					wrti[4].setEdit(true);//字段是否可编辑
+					
+					int index = 4;
+					for(int j=0; j<gbstr.length; j++){
+						index++;
+						wrti[index] = new WorkflowRequestTableField();             
+						wrti[index].setFieldName(gbstr[j]+"JCGK");//禁出港口         
+						wrti[index].setFieldValue(Util.null2String(createAMap.get(gbstr[j]+"JCGK")));            
+						wrti[index].setView(true);//字段是否可见              
+						wrti[index].setEdit(true);//字段是否可编辑
+					}
 					
 					wrtri[i] = new WorkflowRequestTableRecord();
 					wrtri[i].setWorkflowRequestTableFields(wrti);

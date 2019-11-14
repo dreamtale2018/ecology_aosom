@@ -44,13 +44,7 @@ public class ProductOrderJgtzUArchiveAction implements Action {
 			ActionInfo info = ActionUtils.getActionInfo(request);
 			Map<String, String> mainMap = info.getMainMap();
 			String ywst = Util.null2String(WorkflowUtils.getFieldSelectName(workflowid, "YWST", mainMap.get("YWST")));		// 业务实体
-			if(ywst.indexOf("遨森电子商务股份有限公司")!=-1){
-				ywst = "CHN";
-			}else if(ywst.indexOf("遨森国际发展有限公司")!=-1){
-				ywst = "HKI";
-			}else if(ywst.indexOf("宁波遨森网络科技有限公司")!=-1){
-				ywst = "NWK";
-			}
+			ywst = oracleManager.transYwst(ywst);
 			
 			// 货号信息
 			List<OracleProductOrder> poList = new ArrayList<OracleProductOrder>();

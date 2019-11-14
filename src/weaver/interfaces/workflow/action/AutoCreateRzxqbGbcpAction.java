@@ -164,8 +164,9 @@ public class AutoCreateRzxqbGbcpAction implements Action
 		    					String qykzgjDetail = Util.null2String(WorkflowUtils.getDetailFieldSelectName(workflowid, 1, "QYKZGJ", mxhhMap.get("QYKZGJ")));		
 		    																							//启用/扩增国别
 		    					String csjrzxxDetail = Util.null2String(mxhhMap.get("CSJRZXX"));		//测试及认证信息
+		    					String jcgkDetail = Util.null2String(mxhhMap.get("JCGK"));				//禁出港口
 		    					
-		    					wrti = new WorkflowRequestTableField[4]; //字段信息             
+		    					wrti = new WorkflowRequestTableField[5]; //字段信息             
 		    					wrti[0] = new WorkflowRequestTableField();             
 		    					wrti[0].setFieldName("hh");//货号             
 		    					wrti[0].setFieldValue(hhDetail);            
@@ -189,6 +190,12 @@ public class AutoCreateRzxqbGbcpAction implements Action
 		    					wrti[3].setFieldValue(csjrzxxDetail);            
 		    					wrti[3].setView(true);//字段是否可见              
 		    					wrti[3].setEdit(true);//字段是否可编辑
+		    					
+		    					wrti[4] = new WorkflowRequestTableField();             
+		    					wrti[4].setFieldName(qykzgjDetail+"JCGK");//禁出港口        
+		    					wrti[4].setFieldValue(jcgkDetail);            
+		    					wrti[4].setView(true);//字段是否可见              
+		    					wrti[4].setEdit(true);//字段是否可编辑
 		    					
 		    					wrtri[i] = new WorkflowRequestTableRecord();
 		    					wrtri[i].setWorkflowRequestTableFields(wrti);

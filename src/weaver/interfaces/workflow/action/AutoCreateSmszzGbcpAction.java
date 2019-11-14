@@ -144,6 +144,12 @@ public class AutoCreateSmszzGbcpAction implements Action
 						for (int i = 0; i < detailrows; i++) {
 							Map<String, String> mxhhMap = mxhhList.get(i);
 							String hhDetailA = Util.null2String(mxhhMap.get("HH"));				//货号
+							String fxsDetailA = "";												//分箱数
+							sql = "select box_quantity from uf_product where id = '" + hhDetailA + "'";
+							rs.execute(sql);
+							if(rs.next()){
+								fxsDetailA = Util.null2String(rs.getString("box_quantity"));
+							}
 							String cppmDetailA = Util.null2String(mxhhMap.get("CPPM"));			//产品品名
 							String ppDetailA = Util.null2String(WorkflowUtils.getDetailFieldSelectName(workflowid, 1, "PP", mxhhMap.get("PP")));								
 																								//品牌
@@ -151,7 +157,7 @@ public class AutoCreateSmszzGbcpAction implements Action
 																								//启用/扩增国别
 							String csjrzxxDetailA = Util.null2String(mxhhMap.get("CSJRZXX"));	//测试及认证信息
 							
-							wrti = new WorkflowRequestTableField[5]; //字段信息             
+							wrti = new WorkflowRequestTableField[6]; //字段信息             
 							wrti[0] = new WorkflowRequestTableField();             
 							wrti[0].setFieldName("hh");//货号             
 							wrti[0].setFieldValue(hhDetailA);            
@@ -181,6 +187,12 @@ public class AutoCreateSmszzGbcpAction implements Action
 							wrti[4].setFieldValue(ppDetailA);            
 							wrti[4].setView(true);//字段是否可见              
 							wrti[4].setEdit(true);//字段是否可编辑
+							
+							wrti[5] = new WorkflowRequestTableField();             
+							wrti[5].setFieldName("fxs");//分箱数         
+							wrti[5].setFieldValue(fxsDetailA);            
+							wrti[5].setView(true);//字段是否可见              
+							wrti[5].setEdit(true);//字段是否可编辑
 							
 							wrtri[i] = new WorkflowRequestTableRecord();
 							wrtri[i].setWorkflowRequestTableFields(wrti);

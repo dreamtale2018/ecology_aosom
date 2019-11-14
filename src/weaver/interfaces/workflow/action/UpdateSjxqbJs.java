@@ -29,8 +29,9 @@ public class UpdateSjxqbJs implements Action
     String sql = "";
     try
     {
+    	String ZZSJS = request.getLastoperator();
 		WCRQ = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-		sql = "update uf_SJRWLB set ZT='1',WCRQ='"+ WCRQ +"' where sjxqblc = '"+ requestid +"'";
+		sql = "update uf_SJRWLB set ZT='1',WCRQ='"+ WCRQ +"',ZZSJS='"+ ZZSJS +"' where sjxqblc = '"+ requestid +"'";
 		rs.execute(sql);
         //this.logger.error("sql：" + sql);
         

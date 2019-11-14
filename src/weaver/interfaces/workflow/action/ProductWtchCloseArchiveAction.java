@@ -50,13 +50,7 @@ public class ProductWtchCloseArchiveAction implements Action {
 				ywst = rs.getString("ywst");
 			}
 			// 业务实体
-			if(ywst.indexOf("遨森电子商务股份有限公司")!=-1){
-				ywst = "CHN";
-			}else if(ywst.indexOf("遨森国际发展有限公司")!=-1){
-				ywst = "HKI";
-			}else if(ywst.indexOf("宁波遨森网络科技有限公司")!=-1){
-				ywst = "NWK";
-			}
+			ywst = oracleManager.transYwst(ywst);
 			
 			// 合同号关闭信息
 			List<OracleProductOrder> poList = new ArrayList<OracleProductOrder>();

@@ -29,11 +29,13 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.datacontract.schemas._2004._07.MH_EBSOAWcfService.Electronic;
 import org.datacontract.schemas._2004._07.MH_EBSOAWcfService.UpdatePoStatusInfo;
+import org.datacontract.schemas._2004._07.MH_EBSOAWcfService.UpdateStatusJson;
 import org.datacontract.schemas._2004._07.MH_EBSOAWcfService_DBDac.OAItemModelBom_Content;
 import org.datacontract.schemas._2004._07.MH_EBSOAWcfService_DBDac.OAItemModelBox_Content;
 import org.datacontract.schemas._2004._07.MH_EBSOAWcfService_DBDac.OAItemModelItem_Content;
 import org.datacontract.schemas._2004._07.MH_EBSOAWcfService_DBDac.OAItemModelOAItem;
 import org.datacontract.schemas._2004._07.MH_EBSOAWcfService_DBDac.OAItemModelOu_Content;
+import org.datacontract.schemas._2004._07.MH_EBSOAWcfService_Function.ReturnModel;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
@@ -64,6 +66,8 @@ public class OracleManager {
 	
 	private static final Log logger = LogFactory.getLog(OracleManager.class);
 	
+	public static final String[] gb = {"US","CA","UK","DE","FR","IT","ES"};
+	
 	private Map<String, Object> envMap = null;
 	private List<Map<String, String>> envQuerys = null;
 	private OAServiceContract proxy;
@@ -79,7 +83,6 @@ public class OracleManager {
 			logger.error("init Exception: ", e);
 		}
 	}
-	
 	
 	/**
 	 * 同步基础数据到 OA 中间表中
@@ -694,6 +697,54 @@ public class OracleManager {
 				code = "-4";
 				message = response;
 			}
+		} catch (RemoteException e) {
+			logger.error(task + " Failure: ", e);
+			code = "-2";
+			message = "RemoteException.";
+		} catch (Exception e) {
+			logger.error(task + " Failure: ", e);
+			code = "-1";
+			message = "Failure.";
+		}
+		return callback(null, task, code, message, request, response);
+	}
+	
+	/**
+	 * 推送到oracle通用方法V2
+	 * 
+	 * @param list
+	 * @return 推送结果
+	 * @author ycj@20191113
+	 */
+	public OracleResult<String, String> updateStatusV2(List<OracleProductOrder> list,UpdateStatusJson pinfo,String task) {
+		String code = "0";
+		String message = "成功";
+		String request = null;
+		String response = null;
+		try {
+			String username = Util.null2String(envMap.get("username"));
+			String password = Util.null2String(envMap.get("password"));
+			
+			request = createRequestJson2(list);
+			logger.info("request: " + request);
+			if (StringUtils.isBlank(request)) {
+				code = "-3";
+				message = "创建请求信息失败";
+				return callback(null, task, code, message, request, response);
+			}
+			
+			String oaItemJson = createRequestJson2(list);
+			pinfo.setJsonContent(oaItemJson);
+			ReturnModel returnModel = proxy.updateStatusV2(pinfo, username, password);
+			boolean status = returnModel.getProcessStatus();
+			if(status){
+				response = String.valueOf(status);
+			}else{
+				response = returnModel.getProcessMessage();
+				code = "-4";
+				message = response;
+			}
+			logger.info("response: " + response);
 		} catch (RemoteException e) {
 			logger.error(task + " Failure: ", e);
 			code = "-2";
@@ -1456,6 +1507,33 @@ public class OracleManager {
 			if (StringUtils.isBlank(id)) return result;
 			rs.executeQuery("select vendor_name from uf_vendor where id = ?", id);
 			if (rs.next()) result = rs.getString(1);
+		} catch (Exception e) {
+			logger.error(task + " Exception: ", e);
+		}
+		return result;
+	}
+	
+	/**
+	 * 业务实体转换成代码
+	 * 
+	 * @param id
+	 * 					供应商 id
+	 * @return 供应商名称
+	 * @author ycj@20191031
+	 */
+	public String transYwst(String ywst) {
+		String result = "";
+		String task = "transYwst";
+		try {
+			if("遨森电子商务股份有限公司".equals(ywst) || "Aosom E-Commerce Inc".equals(ywst)){
+				result = "CHN";
+			}else if("遨森国际发展有限公司".equals(ywst) || "AOSOM INTERNATIONAL DEVELOPMENT CO.,LIMITED".equals(ywst)){
+				result = "HKI";
+			}else if("宁波遨森网络科技有限公司".equals(ywst) || "Ningbo Aosom Internet Technology Co., Ltd.".equals(ywst)){
+				result = "NWK";
+			}else if("宁波遨森网络科技有限公司（原）".equals(ywst) || "Ningbo Aosom Internet Technology Co., Ltd.(Old)".equals(ywst)){
+				result = "NIT";
+			}
 		} catch (Exception e) {
 			logger.error(task + " Exception: ", e);
 		}

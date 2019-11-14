@@ -74,7 +74,7 @@ public class UpdateBgypcgzb implements Action
 						String xhDetailA = Util.null2String(detailAMap.get("XH"));
 						String dwDetailA = Util.null2String(detailAMap.get("DW"));
 						String lx = "";
-						sql = "select lx from uf_wlwhb where wlbm = '" + wlbmDetailA + "'";
+						sql = "select b.lx from uf_wlwhb a left join uf_YJLXB b on a.lx = b.xh where a.wlbm = '" + wlbmDetailA + "'";
 						rs.execute(sql);
 						if (rs.next()){
 							lx = rs.getString("lx");
