@@ -25,14 +25,14 @@ import com.weaver.ningb.core.util.WorkflowUtils;
 import com.weaver.ningb.soa.workflow.action.support.ActionInfo;
 import com.weaver.ningb.soa.workflow.action.support.ActionUtils;
 /**
- * 国别产品信息变更单结束节点自动创建说明书制作申请表<br>
+ * 国别产品信息变更单结束节点自动创建说明书修改申请表<br>
  * 
  * @author ycj
  *
  */
-public class AutoCreateSmszzGbcpAction implements Action
+public class AutoCreateSmsxgGbcpAction implements Action
 {
-  private Log logger = LogFactory.getLog(AutoCreateSmszzGbcpAction.class);
+  private Log logger = LogFactory.getLog(AutoCreateSmsxgGbcpAction.class);
   
   @Override
   public String execute(RequestInfo request)
@@ -218,12 +218,12 @@ public class AutoCreateSmszzGbcpAction implements Action
 								SQRXM = SQRXM.split("`~`7")[0].split("`~`8")[0].trim();
 							}
 						}
-						wri.setRequestName("说明书制作申请表-" + SQRXM + "-" + SQRQ);//流程标题        
+						wri.setRequestName("说明书修改申请表-" + SQRXM + "-" + SQRQ);//流程标题        
 						wri.setWorkflowMainTableInfo(wmi);//添加主字段数据 
 						wri.setWorkflowDetailTableInfos(WorkflowDetailTableInfo);//添加明细数据
 						wri.setWorkflowBaseInfo(wbi);        
 						WorkflowServiceImpl workflowServiceImpl = new WorkflowServiceImpl();
-						String newRequestid = workflowServiceImpl.doCreateWorkflowRequest(wri, Integer.parseInt(SQR)); 
+						String newRequestid = workflowServiceImpl.doCreateWorkflowRequest(wri, Integer.parseInt(SQR));        
 						this.logger.error("newRequestid:"+newRequestid);
 						//this.logger.error("sql：" + sql);
 					}

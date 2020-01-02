@@ -38,7 +38,7 @@ public class PurchaseHwtzRejectAction implements Action {
 			Map<String, String> mainMap = info.getMainMap();
 			
 			String contractNo = Util.null2o(mainMap.get("CGHTH"));	// 采购合同号
-			String status = "reject";								// 退回状态
+			String status = "reback";								// 退回状态
 			
 			if (StringUtils.isBlank(contractNo)) {
 				request.getRequestManager().setMessage("操作失败 (10020002)");

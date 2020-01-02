@@ -3,7 +3,6 @@ package weaver.interfaces.workflow.action;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -12,6 +11,7 @@ import weaver.formmode.webservices.ModeDataServiceImpl;
 import weaver.general.Util;
 import weaver.soa.workflow.request.RequestInfo;
 
+import com.weaver.ningb.direct.manager.integration.OracleManager;
 import com.weaver.ningb.soa.workflow.action.support.ActionInfo;
 import com.weaver.ningb.soa.workflow.action.support.ActionUtils;
 /**
@@ -24,6 +24,8 @@ import com.weaver.ningb.soa.workflow.action.support.ActionUtils;
 public class UpdateXpqrzbFp implements Action
 {
   private Log logger = LogFactory.getLog(UpdateXpqrzbFp.class);
+  
+  private OracleManager oracleManager = new OracleManager();
   
   @Override
   public String execute(RequestInfo request)
@@ -188,15 +190,7 @@ public class UpdateXpqrzbFp implements Action
 								"</data>" +
 							"</ROOT>";
 							
-							if (!StringUtils.isBlank(xml)) {
-								xml = xml.replaceAll("&nbsp;", " ");
-								xml = xml.replaceAll("\r", " ");
-								xml = xml.replaceAll("\n", " ");
-								xml = xml.replaceAll("<br>", ";");
-								xml = xml.replaceAll("<br/>", ";");
-								xml = xml.replaceAll("&quot;", "\"");
-								xml = xml.replaceAll("'", "''");
-							}
+							xml = oracleManager.transXml(xml);
 							
 							ModeDataServiceImpl mdsi = new ModeDataServiceImpl();
 							String returncode = mdsi.saveModeData(xml);

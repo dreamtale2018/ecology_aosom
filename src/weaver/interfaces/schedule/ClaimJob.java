@@ -88,8 +88,17 @@ public class ClaimJob extends BaseCronJob {
 		        	}else{
 		        		bz = "";
 		        	}
+		        	String ywst = Util.null2String(rs.getString("ywst"));
+		        	if("0".equals(ywst)){
+		        		ywst = "81";
+		        	}else if("1".equals(ywst)){
+		        		ywst = "221";
+		        	}else if("2".equals(ywst)){
+		        		ywst = "261";
+		        	}
 		        	Map<String, String> headContentMap = new HashMap<String, String>();
 					headContentMap.put("oa_num", spdh);
+					headContentMap.put("org_id", ywst);
 					headContentMap.put("vendor_id", gysId);
 					headContentMap.put("vendor_name", gysName);
 					headContentMap.put("create_code", zdrGh);

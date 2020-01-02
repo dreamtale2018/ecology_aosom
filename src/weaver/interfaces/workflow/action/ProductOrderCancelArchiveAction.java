@@ -45,13 +45,22 @@ public class ProductOrderCancelArchiveAction implements Action {
 			String kkje = Util.null2String(mainMap.get("KKJE")); 							// 扣款金额
 			if(!"0".equals(kkje)){
 				String htqxdh = Util.null2String(mainMap.get("HTQXDH")); 					// 合同取消单号
-				String ywst = Util.null2String(mainMap.get("YWST")); 						// 业务实体
+				String ywstId = Util.null2String(mainMap.get("YWST")); 						// 业务实体
+				String ywst = ""; 															// 业务实体
 				String bz = "";																// 币种
-				String sql = "select bz from uf_YWSTDYBZ where id = '" + ywst + "'";
+				String sql = "select bz,ywst from uf_YWSTDYBZ where id = '" + ywstId + "'";
 				rs.execute(sql);
 				if(rs.next()){
 					bz = rs.getString("bz");
+					ywst = rs.getString("ywst");
 				}
+	        	if("遨森电子商务股份有限公司".equals(ywst)){
+	        		ywst = "81";
+	        	}else if("遨森国际发展有限公司".equals(ywst)){
+	        		ywst = "221";
+	        	}else if("宁波遨森网络科技有限公司".equals(ywst)){
+	        		ywst = "261";
+	        	}
 				String gys = Util.null2String(mainMap.get("GYS")); 							// 供应商
 				String gysId = "";
 	        	String gysName = "";
@@ -71,13 +80,14 @@ public class ProductOrderCancelArchiveAction implements Action {
 		        	zdrName = Util.null2String(rs.getString("lastname"));
 		        	zdrName = oracleManager.getChineseMsg(zdrName);
 		        }
-		        String zdrq = new SimpleDateFormat("yyyy-MM-dd").format(new Date());					// 制单日期
+		        String zdrq = new SimpleDateFormat("yyyy-MM-dd").format(new Date());		// 制单日期
 				
 				List<OracleProductOrder> poList = new ArrayList<OracleProductOrder>();
 				
 				OracleProductOrder po = new OracleProductOrder();
 				Map<String, String> headContentMap = new HashMap<String, String>();
 				headContentMap.put("oa_num", htqxdh);
+				headContentMap.put("org_id", ywst);
 				headContentMap.put("vendor_id", gysId);
 				headContentMap.put("vendor_name", gysName);
 				headContentMap.put("create_code", zdrGh);

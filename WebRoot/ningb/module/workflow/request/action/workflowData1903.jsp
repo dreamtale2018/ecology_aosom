@@ -151,6 +151,13 @@
 	    	dqkxts = zjts;
 	    }
     }
+    RecordSet rs1 = new RecordSet();
+   	String sql = "select nxjts from uf_gnnxjgl where nf = substr('" + sqrq + "',1,4) " + 
+   	             "and sfyx = '0' and xm = '" + sqr + "'";
+	rs1.execute(sql);
+	if (rs1.next()) {
+		dqkxts += Double.parseDouble(rs1.getString("nxjts"));
+	}
 	data.put("dqkxts",dqkxts);
 	
 	out.print(callback(code, message, data));					// 有返回数据

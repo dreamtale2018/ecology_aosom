@@ -90,6 +90,9 @@ public class UpdateFyzfWlkfy implements Action
 		if (rs.next()){
 			fkstdm = rs.getString("gbkmdm");
         }
+		if(("101".equals(fkstdm)||"111".equals(fkstdm))&&"USD".equals(FKBZ)){
+			DFKMDM = "10020207";
+		}
 		YJZZMC = oracleManager.getBmmc(YJZZ);
 		YJZZMC = oracleManager.getChineseMsg(YJZZMC);
 		String bmdm = "";																	//部门代码

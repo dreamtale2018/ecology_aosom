@@ -97,7 +97,7 @@ public class AutoCreateSjxqbAction implements Action
 		}
 		CPPM = Util.null2String(mainTable.get("CPPM"));
 		SX1 = Util.null2String(mainTable.get("CPSX1"));
-		TP = Util.null2String(mainTable.get("CPSX1"));
+		TP = Util.null2String(mainTable.get("CPTP"));
 		STSJBJ = Util.null2String(mainTable.get("STSJBJ"));
 		STSJDJ = Util.null2String(mainTable.get("STSJDJ"));
 		STSJRW = Util.null2String(mainTable.get("STSJRW"));

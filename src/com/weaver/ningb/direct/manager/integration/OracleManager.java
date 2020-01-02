@@ -1541,6 +1541,34 @@ public class OracleManager {
 	}
 	
 	/**
+	 * xml数据过滤
+	 * 
+	 * @param xml
+	 * 					表单建模 xml
+	 * @return 过滤后的xml
+	 * @author ycj@20191121
+	 */
+	
+	public String transXml(String xml){
+		String task = "transXml";
+		try {
+			if (!StringUtils.isBlank(xml)) {
+				xml = xml.replaceAll("&nbsp;", " ");
+				xml = xml.replaceAll("\r", " ");
+				xml = xml.replaceAll("\n", " ");
+				xml = xml.replaceAll("<br>", ";");
+				xml = xml.replaceAll("<br/>", ";");
+				xml = xml.replaceAll("&quot;", "\"");
+				xml = xml.replaceAll("'", "''");
+				xml = xml.replaceAll("&", "&amp;");
+			}
+		} catch (Exception e) {
+			logger.error(task + " Exception: ", e);
+		}
+		return xml;
+	}
+	
+	/**
 	 * 将报价单错误信息List转成数组。
 	 * 
 	 * @param id

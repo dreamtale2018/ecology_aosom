@@ -94,7 +94,7 @@ public class ERPManager {
 			String username = Util.null2String(envMap.get("username"));
 			String password = Util.null2String(envMap.get("password"));
 			
-			request = OAApprovalStatus;
+			request = primaryValue + "-" + OAApprovalStatus;
 			logger.info("request: " + request);
 			if (StringUtils.isBlank(request)) {
 				code = "-3";
