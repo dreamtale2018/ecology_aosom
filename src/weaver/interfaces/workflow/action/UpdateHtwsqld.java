@@ -35,19 +35,16 @@ public class UpdateHtwsqld implements Action
     {
     	ActionInfo info = ActionUtils.getActionInfo(request);
     	
-
-    	
 		// 获取明细表1信息
 		List<Map<String, String>> detailAList = info.getDetailMap("1");	
 		    if (detailAList != null && detailAList.size() > 0) {
 				for (int i = 0; i < detailAList.size(); i++) {
 					Map<String, String> detailAMap = detailAList.get(i);
 
-
 					String mxidDetailA = Util.null2String(detailAMap.get("MXHID"));
 
 					//更新主表中状态为已完成
-			        sql = "update formtable_main_320 set MXHID='已完成',BZ='' where id = '" + mxidDetailA + "'";
+			        sql = "update formtable_main_320_dt1 set MXHID='已完成',BZ='' where id = '" + mxidDetailA + "'";
 			        rs.execute(sql);
 			       
 				}
