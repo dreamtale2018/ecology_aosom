@@ -13,9 +13,9 @@ import weaver.soa.workflow.request.RequestInfo;
 import com.weaver.ningb.soa.workflow.action.support.ActionInfo;
 import com.weaver.ningb.soa.workflow.action.support.ActionUtils;
 /**
- * 合同尾数清理表-子表流程<br>
+ * 合同取消申请单流程<br>
  * 到达结束节点, 更新合同尾数清理表状态
- * 子流程结束后，合同尾数清理表更改状态为已完成
+ * 合同取消申请单结束后，合同尾数清理表更改状态为已完成
  *
  * @author 
  *
@@ -44,7 +44,7 @@ public class UpdateHtwsqld implements Action
 					String mxidDetailA = Util.null2String(detailAMap.get("MXHID"));
 
 					//更新主表中状态为已完成
-			        sql = "update formtable_main_320_dt1 set MXHID='已完成',BZ='' where id = '" + mxidDetailA + "'";
+			        sql = "update formtable_main_320_dt1 set ZT = '已完成' where id = '" + mxidDetailA + "'";
 			        rs.execute(sql);
 			       
 				}
