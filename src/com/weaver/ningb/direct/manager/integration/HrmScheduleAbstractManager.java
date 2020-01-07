@@ -468,7 +468,7 @@ public abstract class HrmScheduleAbstractManager {
 	/**
 	 * 考勤分部 id
 	 */
-	protected static final String HRM_SUBCOMPANY_ID = "21";
+	protected static final String HRM_SUBCOMPANY_ID = "21,30";
 	
 	/**
 	 * 请假单流程 id

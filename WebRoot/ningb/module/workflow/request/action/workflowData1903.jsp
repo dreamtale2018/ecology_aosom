@@ -70,8 +70,9 @@
 	RecordSet rs = new RecordSet();
 	String flzjStr = getFlzj(sqr,rs);									// 福利职级
 	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-    double dqkxts = 0d;		//当前可休天数
+    boolean flag = false;   //入职未满一年无年假
     double zjts = 0d;		//职级天数
+    double dqkxts = 0d;		//当前可休天数
 	Date sqrqDate = sdf.parse(sqrq);  
 	Date rzrqDate = sdf.parse(rzrq);  
     //计算入职天数。
@@ -156,9 +157,11 @@
    	             "and sfyx = '0' and xm = '" + sqr + "'";
 	rs1.execute(sql);
 	if (rs1.next()) {
+		flag = true;
 		dqkxts += Double.parseDouble(rs1.getString("nxjts"));
 	}
 	data.put("dqkxts",dqkxts);
+	data.put("flag",flag);
 	
 	out.print(callback(code, message, data));					// 有返回数据
 %>

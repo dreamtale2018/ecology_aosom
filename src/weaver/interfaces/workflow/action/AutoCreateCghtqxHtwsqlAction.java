@@ -104,18 +104,19 @@ public class AutoCreateCghtqxHtwsqlAction implements Action
 					wrti[4].setView(true);//字段是否可见       
 					wrti[4].setEdit(true);//字段是否可编辑
 					
-					
 					WorkflowRequestTableRecord[] wrtri = new WorkflowRequestTableRecord[1];//主字段只有一行数据        
 					wrtri[0] = new WorkflowRequestTableRecord();        
 					wrtri[0].setWorkflowRequestTableFields(wrti);           
 					WorkflowMainTableInfo wmi = new WorkflowMainTableInfo();        
 					wmi.setRequestRecords(wrtri);
-					int detailrows = mxhhList.size() ;//添加指定条数明细        
+					int detailrows = mxhhList.size() ;//添加指定条数明细      
+					List<String> hanghList = new ArrayList<String>();
 					//添加明细数据       
 					wrtri = new WorkflowRequestTableRecord[detailrows];
 					for (int i = 0; i < mxhhList.size(); i++) {
 						Map<String, String> mxhhMap = mxhhList.get(i);
 						String mxhhDetail = Util.null2String(mxhhMap.get("id"));		// 行号
+						hanghList.add(mxhhDetail);
 						String hhDetail = Util.null2String(mxhhMap.get("HH"));		    // 货号
 						String cppmDetail = Util.null2String(mxhhMap.get("CPPM"));		// 产品品名
 						String gxhthdetail = Util.null2String(mxhhMap.get("GXHTH"));	// 购销合同号
@@ -183,8 +184,6 @@ public class AutoCreateCghtqxHtwsqlAction implements Action
 						wrti[10].setFieldValue(cgjeDetail);            
 						wrti[10].setView(true);//字段是否可见              
 						wrti[10].setEdit(true);//字段是否可编辑
-
-
 						
 						wrtri[i] = new WorkflowRequestTableRecord();
 						wrtri[i].setWorkflowRequestTableFields(wrti);
@@ -217,6 +216,10 @@ public class AutoCreateCghtqxHtwsqlAction implements Action
 					WorkflowServiceImpl workflowServiceImpl = new WorkflowServiceImpl();
 					String newRequestid = workflowServiceImpl.doCreateWorkflowRequest(wri, Integer.parseInt(GDY));
 					this.logger.error("newRequestid:"+newRequestid);
+					for(String hangh : hanghList){
+						sql = "update formtable_main_320_dt1 set LC = '" + newRequestid + "' where id = '" + hangh + "'";
+						rs.execute(sql);
+					}
 					//this.logger.error("sql：" + sql);
 				}
 			}

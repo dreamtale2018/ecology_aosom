@@ -1388,6 +1388,24 @@ public class OracleManager {
 		return str;
 	}
 	
+	/**
+	 * 取出字符串中的英文信息
+	 * 
+	 * @param str
+	 * 					字符串信息
+	 * @return 转换后的字符串信息
+	 * @author ycj@20180816
+	 */
+	public String getEnglishMsg(String str){
+		if (StringUtils.isBlank(str)) return str;
+		if(str.indexOf("`~`7")!=-1 && str.indexOf("`~`8")!=-1){
+			str = str.split("`~`8")[1].split("`~`")[0].trim(); 
+		}else{
+			str = str.split("`~`7")[0].split("`~`8")[0].trim();
+		}
+		return str;
+	}
+	
 	
 	/**
 	 * 获取单位名称, 根据单位 id
@@ -1464,6 +1482,26 @@ public class OracleManager {
 		try {
 			if (StringUtils.isBlank(id)) return result;
 			rs.executeQuery("select lastname from hrmresource where id = ?", id);
+			if (rs.next()) result = rs.getString(1);
+		} catch (Exception e) {
+			logger.error(task + " Exception: ", e);
+		}
+		return result;
+	}
+	
+	/**
+	 * 获取流程当前节点ID, 根据requestid
+	 * 
+	 * @param requestid
+	 * @return nodeid
+	 * @author ycj@20200103
+	 */
+	public String getCurrentNodeId(String id) {
+		String result = "";
+		String task = "getCurrentNodeId";
+		try {
+			if (StringUtils.isBlank(id)) return result;
+			rs.executeQuery("select currentnodeid from workflow_requestbase where requestid = ?", id);
 			if (rs.next()) result = rs.getString(1);
 		} catch (Exception e) {
 			logger.error(task + " Exception: ", e);

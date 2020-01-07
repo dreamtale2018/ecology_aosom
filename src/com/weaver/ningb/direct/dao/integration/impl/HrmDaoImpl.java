@@ -382,7 +382,7 @@ public class HrmDaoImpl implements HrmDao {
 		try {
 			String sql = "select a.id, a.lastname, a.mobile "
 					+ "from hrmresource a "
-					+ "where a.subcompanyid1 in ('" + subcompanyname + "') "
+					+ "where a.subcompanyid1 in (" + subcompanyname + ") "
 					+ "and a.status in (0, 1, 2, 3) ";
 			if (type == 0) {
 				sql += "and not exists (select 1 from " + tablename + " where xm in (a.id) "
