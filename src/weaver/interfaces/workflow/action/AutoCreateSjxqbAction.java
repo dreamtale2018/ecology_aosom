@@ -111,7 +111,7 @@ public class AutoCreateSjxqbAction implements Action
         SQRQ = sdf.format(new Date());
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
-        calendar.add(Calendar.DAY_OF_MONTH, 5);
+        calendar.add(Calendar.DAY_OF_MONTH, 7);
         YQWCR = sdf.format(calendar.getTime());
         
 		//主字段        

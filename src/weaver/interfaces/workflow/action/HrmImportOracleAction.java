@@ -56,43 +56,46 @@ public class HrmImportOracleAction implements Action {
 			pinfo.setSpldID(nodeid);
 			pinfo.setUpdateType("PEOPLE");
 			
-			String gh = Util.null2o(mainMap.get("GH"));					// 工号
-			String xm = Util.null2String(mainMap.get("SQR"));	        // 姓名ID
-			String lastname = oracleManager.getRymc(xm);				// 姓名
-			String cnName = oracleManager.getChineseMsg(lastname);
-			String enName = oracleManager.getEnglishMsg(lastname);
-			String xbDetail = Util.null2String(WorkflowUtils.getFieldSelectName(workflowid, "XB", mainMap.get("XB")));	
-																		// 性别
-			if("女".equals(xbDetail)){
-				xbDetail = "F";
-			}else{
-				xbDetail = "M";
-			}
-			OracleProductOrder po = new OracleProductOrder();
-			Map<String, String> headContentMap = new HashMap<String, String>();
-			headContentMap.put("employee_number", gh);
-			headContentMap.put("cn_name", cnName);
-			headContentMap.put("en_name", enName);
-			headContentMap.put("sex", xbDetail);
-			headContentMap.put("key", "123456a");
-			headContentMap.put("pda", "Y");
-			
-			po.setHeadContentMap(headContentMap);
-			poList.add(po);
-			
-			
-			if (poList != null && poList.size() > 0) {
-				OracleResult<String, String> result = oracleManager.updateStatusV2(poList,pinfo,"PushHrmImportOracle");
-				if (result == null || !"0".equals(result.getCode())) {
-					request.getRequestManager().setMessage("操作失败 (-3)");
-					if (result == null) {
-						request.getRequestManager().setMessagecontent("数据推送失败, 请联系系统管理员.");
-					} else {
-						request.getRequestManager().setMessagecontent(String.format("数据推送失败; {%s}; 如有疑问, 请联系系统管理员.",
-								result.getMessage()));
-					}
-					return Action.FAILURE_AND_CONTINUE;
-				} 
+			String oracle = Util.null2String(mainMap.get("ORACLE"));	// ORACLE
+			if("1".equals(oracle)){
+				String gh = Util.null2String(mainMap.get("GH"));			// 工号
+				String xm = Util.null2String(mainMap.get("SQR"));	        // 姓名ID
+				String lastname = oracleManager.getRymc(xm);				// 姓名
+				String cnName = oracleManager.getChineseMsg(lastname);
+				String enName = oracleManager.getEnglishMsg(lastname);
+				String xbDetail = Util.null2String(WorkflowUtils.getFieldSelectName(workflowid, "XB", mainMap.get("XB")));	
+				// 性别
+				if("女".equals(xbDetail)){
+					xbDetail = "F";
+				}else{
+					xbDetail = "M";
+				}
+				OracleProductOrder po = new OracleProductOrder();
+				Map<String, String> headContentMap = new HashMap<String, String>();
+				headContentMap.put("employee_number", gh);
+				headContentMap.put("cn_name", cnName);
+				headContentMap.put("en_name", enName);
+				headContentMap.put("sex", xbDetail);
+				headContentMap.put("key", "123456a");
+				headContentMap.put("pda", "N");
+				
+				po.setHeadContentMap(headContentMap);
+				poList.add(po);
+				
+				
+				if (poList != null && poList.size() > 0) {
+					OracleResult<String, String> result = oracleManager.updateStatusV2(poList,pinfo,"PushHrmImportOracle");
+					if (result == null || !"0".equals(result.getCode())) {
+						request.getRequestManager().setMessage("操作失败 (-3)");
+						if (result == null) {
+							request.getRequestManager().setMessagecontent("数据推送失败, 请联系系统管理员.");
+						} else {
+							request.getRequestManager().setMessagecontent(String.format("数据推送失败; {%s}; 如有疑问, 请联系系统管理员.",
+									result.getMessage()));
+						}
+						return Action.FAILURE_AND_CONTINUE;
+					} 
+				}
 			}
 		} catch (Exception e) {
 			logger.error("Failure: ", e);
