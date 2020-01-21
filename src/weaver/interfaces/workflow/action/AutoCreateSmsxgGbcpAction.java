@@ -21,7 +21,6 @@ import weaver.workflow.webservices.WorkflowRequestTableField;
 import weaver.workflow.webservices.WorkflowRequestTableRecord;
 import weaver.workflow.webservices.WorkflowServiceImpl;
 
-import com.weaver.ningb.core.util.WorkflowUtils;
 import com.weaver.ningb.soa.workflow.action.support.ActionInfo;
 import com.weaver.ningb.soa.workflow.action.support.ActionUtils;
 /**
@@ -51,8 +50,6 @@ public class AutoCreateSmsxgGbcpAction implements Action
 
     try
     {
-		String workflowid = request.getWorkflowid();
-
     	ActionInfo info = ActionUtils.getActionInfo(request);
     	
    	 	// 获取主表信息
@@ -127,7 +124,7 @@ public class AutoCreateSmsxgGbcpAction implements Action
 						wrti[4].setView(true);//字段是否可见       
 						wrti[4].setEdit(true);//字段是否可编辑
 						wrti[5] = new WorkflowRequestTableField();         
-						wrti[5].setFieldName("xqly");//需求来源     
+						wrti[5].setFieldName("xqly");//申请类型       
 						wrti[5].setFieldValue(LX);//        
 						wrti[5].setView(true);//字段是否可见       
 						wrti[5].setEdit(true);//字段是否可编辑
@@ -144,20 +141,9 @@ public class AutoCreateSmsxgGbcpAction implements Action
 						for (int i = 0; i < detailrows; i++) {
 							Map<String, String> mxhhMap = mxhhList.get(i);
 							String hhDetailA = Util.null2String(mxhhMap.get("HH"));				//货号
-							String fxsDetailA = "";												//分箱数
-							sql = "select box_quantity from uf_product where id = '" + hhDetailA + "'";
-							rs.execute(sql);
-							if(rs.next()){
-								fxsDetailA = Util.null2String(rs.getString("box_quantity"));
-							}
 							String cppmDetailA = Util.null2String(mxhhMap.get("CPPM"));			//产品品名
-							String ppDetailA = Util.null2String(WorkflowUtils.getDetailFieldSelectName(workflowid, 1, "PP", mxhhMap.get("PP")));								
-																								//品牌
-							String qykzgjDetailA = Util.null2String(WorkflowUtils.getDetailFieldSelectName(workflowid, 1, "QYKZGJ", mxhhMap.get("QYKZGJ")));
-																								//启用/扩增国别
-							String csjrzxxDetailA = Util.null2String(mxhhMap.get("CSJRZXX"));	//测试及认证信息
 							
-							wrti = new WorkflowRequestTableField[6]; //字段信息             
+							wrti = new WorkflowRequestTableField[2]; //字段信息             
 							wrti[0] = new WorkflowRequestTableField();             
 							wrti[0].setFieldName("hh");//货号             
 							wrti[0].setFieldValue(hhDetailA);            
@@ -170,30 +156,6 @@ public class AutoCreateSmsxgGbcpAction implements Action
 							wrti[1].setView(true);//字段是否可见              
 							wrti[1].setEdit(true);//字段是否可编辑
 							
-							wrti[2] = new WorkflowRequestTableField();             
-							wrti[2].setFieldName("gb");//国别           
-							wrti[2].setFieldValue(qykzgjDetailA);            
-							wrti[2].setView(true);//字段是否可见              
-							wrti[2].setEdit(true);//字段是否可编辑
-							
-							wrti[3] = new WorkflowRequestTableField();             
-							wrti[3].setFieldName("csjrzyq");//测试及认证要求         
-							wrti[3].setFieldValue(csjrzxxDetailA);            
-							wrti[3].setView(true);//字段是否可见              
-							wrti[3].setEdit(true);//字段是否可编辑
-							
-							wrti[4] = new WorkflowRequestTableField();             
-							wrti[4].setFieldName("pp");//品牌         
-							wrti[4].setFieldValue(ppDetailA);            
-							wrti[4].setView(true);//字段是否可见              
-							wrti[4].setEdit(true);//字段是否可编辑
-							
-							wrti[5] = new WorkflowRequestTableField();             
-							wrti[5].setFieldName("fxs");//分箱数         
-							wrti[5].setFieldValue(fxsDetailA);            
-							wrti[5].setView(true);//字段是否可见              
-							wrti[5].setEdit(true);//字段是否可编辑
-							
 							wrtri[i] = new WorkflowRequestTableRecord();
 							wrtri[i].setWorkflowRequestTableFields(wrti);
 						}
@@ -204,7 +166,7 @@ public class AutoCreateSmsxgGbcpAction implements Action
 						WorkflowDetailTableInfo[0].setWorkflowRequestTableRecords(wrtri);
 						//添加工作流id        
 						WorkflowBaseInfo wbi = new WorkflowBaseInfo();        
-						wbi.setWorkflowId("1384");//workflowid       
+						wbi.setWorkflowId("1385");//workflowid       
 						WorkflowRequestInfo wri = new WorkflowRequestInfo();//流程基本信息            
 						wri.setCreatorId(SQR);//创建人id        
 						wri.setRequestLevel("0");//0 正常，1重要，2紧急

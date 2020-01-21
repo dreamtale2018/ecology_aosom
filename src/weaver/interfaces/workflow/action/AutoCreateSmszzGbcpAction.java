@@ -41,7 +41,7 @@ public class AutoCreateSmszzGbcpAction implements Action
 	  
 	String requestid = request.getRequestid();
 	String SQR = "";	//申请人
-    String SQRXM = "";	//申请人 姓名 
+    String SQRXM = "";	//申请人 姓名 反对犯得上发
     String YJZZ = "";	//一级组织
     String EJZZ = "";	//二级组织
     String SQRQ = "";	//申请日期

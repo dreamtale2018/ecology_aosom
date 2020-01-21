@@ -47,6 +47,7 @@ public class UpdateRzxxCpzszzsqCj implements Action
 				Map<String, String> detailAMap = detailAList.get(i);
 				String mxidDetailA = Util.null2String(detailAMap.get("id"));			//明细ID
 				String hhDetailA = Util.null2String(detailAMap.get("HH"));				//货号
+				hhDetailA = oracleManager.getHhmc(hhDetailA);
 				String pmDetailA = Util.null2String(detailAMap.get("PM"));				//品名
 				String gcxhDetailA = Util.null2String(detailAMap.get("GCXH"));			//工厂型号
 				String gbDetailA = Util.null2String(detailAMap.get("GB"));				//国别
@@ -63,7 +64,7 @@ public class UpdateRzxxCpzszzsqCj implements Action
 				"<ROOT>" +
 				  "<header>" +
 				    "<userid>"+KFY+"</userid>" +
-				    "<modeid>603</modeid>" +
+				    "<modeid>663</modeid>" +
 				    "<id/>" +
 				  "</header>" +
 				  "<search>" +
@@ -102,7 +103,7 @@ public class UpdateRzxxCpzszzsqCj implements Action
 				      "</field>" +
 				      "<field>" +
 				      	"<filedname>ZSLY</filedname>" +
-				      	"<filedvalue>"+csjrzyqDetailA+"</filedvalue>" +
+				      	"<filedvalue>"+zslyDetailA+"</filedvalue>" +
 				      "</field>" +
 				      "<field>" +
 					      "<filedname>MXID</filedname>" +

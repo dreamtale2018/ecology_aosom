@@ -12,7 +12,7 @@ import weaver.soa.workflow.request.RequestInfo;
 import com.weaver.ningb.soa.workflow.action.support.ActionInfo;
 import com.weaver.ningb.soa.workflow.action.support.ActionUtils;
 /**
- * 海外投资付款审批流程流程到达02节点根据合同号获取采购合同审批单链接<br>
+ * 海外投资付款审批流程到达02节点根据合同号获取采购合同审批单链接<br>
  * 
  * @author ycj
  *
@@ -27,8 +27,9 @@ public class UpdateHwtzfksp implements Action
     RecordSet rs = new RecordSet();
     
     String requestid = request.getRequestid();
-    String HTH = "";//合同号
-    String CGHTLC = "";//采购合同流程
+    String HTH = "";	//合同号
+    String CGHTLC = "";	//采购合同流程
+    String SCFKLC = "";	//上次付款流程
     
     String sql = "";
     try
@@ -38,6 +39,17 @@ public class UpdateHwtzfksp implements Action
     	// 获取主表信息
     	Map<String, String> mainTable = info.getMainMap();
     	HTH = Util.null2String(mainTable.get("HTH"));
+    	//获取合同号对应的付款审批流程
+    	sql = "select * from formtable_main_280 where HTH = '" + HTH + "'";
+    	rs.execute(sql);
+    	while(rs.next()){
+			String id = Util.null2String(rs.getString("requestid"));
+    		if(!requestid.equals(id)){
+    			SCFKLC += id + ",";
+    		}
+    	}
+    	sql = "update formtable_main_280 set SCFKLC = '" + SCFKLC + "' where requestid = '" + requestid + "'";
+    	rs.execute(sql);
     	String[] hthArr = HTH.split(",");
     	for(int i=0;i<hthArr.length;i++){
     		if(!"".equals(hthArr[i])){

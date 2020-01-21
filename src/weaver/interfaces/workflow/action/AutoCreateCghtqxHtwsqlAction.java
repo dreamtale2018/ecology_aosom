@@ -135,7 +135,7 @@ public class AutoCreateCghtqxHtwsqlAction implements Action
 						wrti[0].setView(true);//字段是否可见              
 						wrti[0].setEdit(true);//字段是否可编辑
 						wrti[1] = new WorkflowRequestTableField();             
-						wrti[1].setFieldName("hh");//货号         
+						wrti[1].setFieldName("hhwb");//货号         
 						wrti[1].setFieldValue(hhDetail);            
 						wrti[1].setView(true);//字段是否可见              
 						wrti[1].setEdit(true);//字段是否可编辑

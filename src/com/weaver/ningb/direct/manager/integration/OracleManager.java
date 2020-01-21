@@ -757,6 +757,53 @@ public class OracleManager {
 		return callback(null, task, code, message, request, response);
 	}
 	
+	/**
+	 * 推送到oracle通用方法V2
+	 * 
+	 * @param list
+	 * @return 推送结果
+	 * @author ycj@20200120
+	 */
+	public OracleResult<String, String> updateStatusV2(String oaItemJson,UpdateStatusJson pinfo,String task) {
+		String code = "0";
+		String message = "成功";
+		String request = null;
+		String response = null;
+		try {
+			String username = Util.null2String(envMap.get("username"));
+			String password = Util.null2String(envMap.get("password"));
+			
+			request = oaItemJson;
+			logger.info("request: " + request);
+			if (StringUtils.isBlank(request)) {
+				code = "-3";
+				message = "创建请求信息失败";
+				return callback(null, task, code, message, request, response);
+			}
+			
+			pinfo.setJsonContent(oaItemJson);
+			ReturnModel returnModel = proxy.updateStatusV2(pinfo, username, password);
+			boolean status = returnModel.getProcessStatus();
+			if(status){
+				response = String.valueOf(status);
+			}else{
+				response = returnModel.getProcessMessage();
+				code = "-4";
+				message = response;
+			}
+			logger.info("response: " + response);
+		} catch (RemoteException e) {
+			logger.error(task + " Failure: ", e);
+			code = "-2";
+			message = "RemoteException.";
+		} catch (Exception e) {
+			logger.error(task + " Failure: ", e);
+			code = "-1";
+			message = "Failure.";
+		}
+		return callback(null, task, code, message, request, response);
+	}
+	
 	
 	/**
 	 * 通过反射创建对象, 并设置对应的字段值
@@ -955,6 +1002,28 @@ public class OracleManager {
 			}
 			
 			resultJsonObject.put("head_content", headContentArray);
+			
+			result = resultJsonObject.toString();
+		} catch (Exception e) {
+			logger.error("createRequestJson2 Failure: ", e);
+		}
+		return result;
+	}
+	
+	/**
+	 * 创建请求信息
+	 * 
+	 * @param list
+	 * 					报价单信息
+	 * @return 请求信息
+	 * @author ycj
+	 */
+	public String createRequestJson3(OracleProductOrder oracleProductOrder) {
+		String result = null;
+		try {
+			JSONObject resultJsonObject = new JSONObject();
+			
+			resultJsonObject = createRequestJsonMap(oracleProductOrder.getHeadContentMap());
 			
 			result = resultJsonObject.toString();
 		} catch (Exception e) {

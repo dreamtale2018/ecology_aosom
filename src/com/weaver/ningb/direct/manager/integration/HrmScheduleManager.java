@@ -414,7 +414,7 @@ public class HrmScheduleManager extends HrmScheduleAbstractManager {
 			String signType = getPropString("attendanceid");
 			String tablename = FormModeUtils.getTablename(getPropString("modeid"));
 			List<Map<String, String>> list = dao.getAttendanceByNoSign(type, signType,
-					tablename, dateStr, HRM_SUBCOMPANY_ID);
+					tablename, dateStr, HRM_SUBCOMPANY_IDS);
 			if (list == null || list.size() <= 0) {
 				logger.info(task + " list is null.");
 				return flag;
