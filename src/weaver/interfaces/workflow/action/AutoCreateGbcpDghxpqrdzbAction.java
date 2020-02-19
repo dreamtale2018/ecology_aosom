@@ -130,6 +130,8 @@ public class AutoCreateGbcpDghxpqrdzbAction implements Action
 					rs.execute(sql);
 					if (rs.next()){
 						hhDetail2 = rs.getString("id");
+			        }else {
+			        	hhDetail2 = "";
 			        }
 					//获取启用扩增国别id
 					String qykzgjDetail2 = "";
