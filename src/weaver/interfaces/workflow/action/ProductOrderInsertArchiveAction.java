@@ -54,6 +54,7 @@ public class ProductOrderInsertArchiveAction implements Action {
 	        Iterator<Map.Entry<String, String>> iterator = gbMap.entrySet().iterator();
 	        while(iterator.hasNext()){
 	        	boolean flag = false;
+	        	boolean zhbhFlag = false;
 	        	Entry<String, String> entry = iterator.next();
 	        	String gbName = (String) entry.getKey();
 	        	String gbId = (String) entry.getValue();
@@ -64,6 +65,13 @@ public class ProductOrderInsertArchiveAction implements Action {
 	        	// 获取流程明细表 1
 				List<Map<String, String>> detailAList = info.getDetailMap("1");
 				if (detailAList != null && detailAList.size() > 0) {
+					for (int j = 0; j < detailAList.size(); ++j) {
+						Map<String, String> detailAMap = detailAList.get(j);
+			            String ZHBHDetailA = Util.null2String((String)detailAMap.get("ZHBH"));
+			            if (!"".equals(ZHBHDetailA)){
+			            	zhbhFlag = true;
+			            }
+			        }
 					for (int j = 0; j < detailAList.size(); j++) {
 						Map<String, String> detailAMap = detailAList.get(j);
 						
@@ -79,6 +87,12 @@ public class ProductOrderInsertArchiveAction implements Action {
 							detailContentMap.put("oa_item_number", hhDetailA);
 							detailContentMap.put("oa_target_date", jq1DetailA);
 							detailContentMap.put("oa_description", lcbh);
+				            if (zhbhFlag){
+				               detailContentMap.put("combine_flag", "Y");
+				            }
+			                else {
+			                   detailContentMap.put("combine_flag", "N");
+			                }
 							detailContentList.add(detailContentMap);
 						}
 					}
@@ -97,6 +111,12 @@ public class ProductOrderInsertArchiveAction implements Action {
 							detailContentMap.put("oa_item_number", hhDetailA);
 							detailContentMap.put("oa_target_date", jq2DetailA);
 							detailContentMap.put("oa_description", lcbh);
+							if (zhbhFlag){
+				               detailContentMap.put("combine_flag", "Y");
+				            }
+			                else {
+			                   detailContentMap.put("combine_flag", "N");
+			                }
 							detailContentList.add(detailContentMap);
 						}
 					}
