@@ -43,7 +43,7 @@ public class AutoCreateCghtqxHtwsqlAction implements Action
     String BBRQ = "";		//报表日期
     String SQRXM = "";		//申请人姓名
     String GYS = "";		//供应商
-    String GDY = "";		//跟单员
+    String GDY = "";      	//跟单员
     String sql = "";
 
     try
@@ -135,7 +135,7 @@ public class AutoCreateCghtqxHtwsqlAction implements Action
 						wrti[0].setView(true);//字段是否可见              
 						wrti[0].setEdit(true);//字段是否可编辑
 						wrti[1] = new WorkflowRequestTableField();             
-						wrti[1].setFieldName("hhwb");//货号         
+						wrti[1].setFieldName("hh");//货号         
 						wrti[1].setFieldValue(hhDetail);            
 						wrti[1].setView(true);//字段是否可见              
 						wrti[1].setEdit(true);//字段是否可编辑
@@ -145,7 +145,7 @@ public class AutoCreateCghtqxHtwsqlAction implements Action
 						wrti[2].setView(true);//字段是否可见              
 						wrti[2].setEdit(true);//字段是否可编辑
 						wrti[3] = new WorkflowRequestTableField();             
-						wrti[3].setFieldName("jhjhrq");//计划交货日期   
+						wrti[3].setFieldName("jhjhr");//计划交货日期   
 						wrti[3].setFieldValue(jhjhrqDetail);            
 						wrti[3].setView(true);//字段是否可见              
 						wrti[3].setEdit(true);//字段是否可编辑
@@ -155,7 +155,7 @@ public class AutoCreateCghtqxHtwsqlAction implements Action
 						wrti[4].setView(true);//字段是否可见              
 						wrti[4].setEdit(true);//字段是否可编辑
 						wrti[5] = new WorkflowRequestTableField();             
-						wrti[5].setFieldName("hh1");// 行号1        
+						wrti[5].setFieldName("hangh");// 行号1        
 						wrti[5].setFieldValue(hh1Detail);            
 						wrti[5].setView(true);//字段是否可见              
 						wrti[5].setEdit(true);//字段是否可编辑
@@ -165,7 +165,7 @@ public class AutoCreateCghtqxHtwsqlAction implements Action
 						wrti[6].setView(true);//字段是否可见              
 						wrti[6].setEdit(true);//字段是否可编辑
 						wrti[7] = new WorkflowRequestTableField();             
-						wrti[7].setFieldName("kcsl");//库存数量      
+						wrti[7].setFieldName("qxsl");//库存数量      
 						wrti[7].setFieldValue(kcslDetail);            
 						wrti[7].setView(true);//字段是否可见              
 						wrti[7].setEdit(true);//字段是否可编辑
@@ -180,7 +180,7 @@ public class AutoCreateCghtqxHtwsqlAction implements Action
 						wrti[9].setView(true);//字段是否可见              
 						wrti[9].setEdit(true);//字段是否可编辑
 						wrti[10] = new WorkflowRequestTableField();             
-						wrti[10].setFieldName("cgje");//采购金额    
+						wrti[10].setFieldName("qxje");//采购金额    
 						wrti[10].setFieldValue(cgjeDetail);            
 						wrti[10].setView(true);//字段是否可见              
 						wrti[10].setEdit(true);//字段是否可编辑
@@ -220,7 +220,7 @@ public class AutoCreateCghtqxHtwsqlAction implements Action
 						sql = "update formtable_main_320_dt1 set LC = '" + newRequestid + "' where id = '" + hangh + "'";
 						rs.execute(sql);
 					}
-					//this.logger.error("sql：" + sql);
+					//this.logger.erROR("SQL：" + SQL);
 				}
 			}
 		}

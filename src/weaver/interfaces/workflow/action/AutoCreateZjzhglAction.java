@@ -4,7 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 
-import org.apache.commons.logging.Log;
+import org.apache.commons.logging.Log;               
 import org.apache.commons.logging.LogFactory;
 
 import weaver.conn.RecordSet;
@@ -54,8 +54,8 @@ public class AutoCreateZjzhglAction implements Action
 		Map<String, String> mainTable = info.getMainMap();
 		SQR = Util.null2String(mainTable.get("SQR"));
 		SQRQ = Util.null2String(mainTable.get("SQRQ"));
-		SQLX = Util.null2String(mainTable.get("SQLX"));	
 		ZH = Util.null2String(mainTable.get("ZH"));	
+		SQLX = Util.null2String(mainTable.get("SQLX"));
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		SQRQ = sdf.format(new Date());
 		if("0".equals(SQLX)){
@@ -73,10 +73,11 @@ public class AutoCreateZjzhglAction implements Action
 			        sql = "select * from uf_Hnwzjzhgl where ZH = '" + ZH + "'";
 			        rs.execute(sql);
 			        if(rs.next()){
-			        		sql = "update uf_Hnwzjzhgl set zt = '" + SQLX + "',rq = '" + SQRQ + "' where zh = '" + ZH + "'";
+			        		sql = "update uf_Hnwzjzhgl set zt = '" + SQLX + "' where zh = '" + ZH + "'";
 			                rs.execute(sql);
 			        	
 			        }else{
+			        	
 						String xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" +
 						"<ROOT>" +
 						  "<header>" +
@@ -119,16 +120,16 @@ public class AutoCreateZjzhglAction implements Action
 						        "<filedvalue>"+LXFS+"</filedvalue>" +
 						      "</field>" +
 						      "<field>" +
-							      "<filedname>RQ</filedname>" +
-							      "<filedvalue>"+SQRQ+"</filedvalue>" +
+						      "<filedname>RQ</filedname>" +
+						      "<filedvalue>"+SQRQ+"</filedvalue>" +
 						      "</field>" +
 						      "<field>" +
-							      "<filedname>ZT</filedname>" +
-							      "<filedvalue>"+SQLX+"</filedvalue>" +
+						      "<filedname>ZT</filedname>" +
+						      "<filedvalue>"+SQLX+"</filedvalue>" +
 						      "</field>" +
 						      "<field>" +
-							      "<filedname>LC</filedname>" +
-							      "<filedvalue>"+requestid+"</filedvalue>" +
+						      "<filedname>LC</filedname>" +
+						      "<filedvalue>"+requestid+"</filedvalue>" +
 						      "</field>" +
 						    "</maintable>" +
 						  "</data>" +
@@ -140,7 +141,15 @@ public class AutoCreateZjzhglAction implements Action
 						String returncode = mdsi.saveModeData(xml);
 						this.logger.info("returncode:"+returncode);
 			        }
-			        //this.logger.error("sql：" + sql);
+				
+		    
+	        //this.logger.error("sql：" + sql);
+		
+	    
+    
+				
+			
+		
     }
     catch (Exception e)
     {
