@@ -180,10 +180,16 @@ public class OAServiceContractProxy implements org.tempuri.OAServiceContract {
 	  return oAServiceContract.updateStatus(QCTaskStatusJson, updateType, name, pwd);
   }
   
-  public org.datacontract.schemas._2004._07.MH_EBSOAWcfService_Function.ReturnModel updateStatusV2(org.datacontract.schemas._2004._07.MH_EBSOAWcfService.UpdateStatusJson pinfo, java.lang.String name, java.lang.String pwd) throws java.rmi.RemoteException{
+  public org.datacontract.schemas._2004._07.MH_EBSOAWcfService_OAModel.ReturnModel updateStatusV2(org.datacontract.schemas._2004._07.MH_EBSOAWcfService.UpdateStatusJson pinfo, java.lang.String name, java.lang.String pwd) throws java.rmi.RemoteException{
 	  if (oAServiceContract == null)
 		  _initOAServiceContractProxy();
 	  return oAServiceContract.updateStatusV2(pinfo, name, pwd);
+  }
+  
+  public org.datacontract.schemas._2004._07.MH_EBSOAWcfService_OAModel.ReturnModel getItemORGQtyV2(org.datacontract.schemas._2004._07.MH_EBSOAWcfService.GetItemORGQtyInfo itemORGQtyInfo, java.lang.String name, java.lang.String pwd) throws java.rmi.RemoteException{
+	  if (oAServiceContract == null)
+		  _initOAServiceContractProxy();
+	  return oAServiceContract.getItemORGQtyV2(itemORGQtyInfo, name, pwd);
   }
   
   public java.lang.String importOAVendor(java.lang.String OAVendorJson, java.lang.String name, java.lang.String pwd) throws java.rmi.RemoteException{

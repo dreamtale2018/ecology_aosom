@@ -28,6 +28,7 @@ import net.sf.json.JSONObject;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.datacontract.schemas._2004._07.MH_EBSOAWcfService.Electronic;
+import org.datacontract.schemas._2004._07.MH_EBSOAWcfService.GetItemORGQtyInfo;
 import org.datacontract.schemas._2004._07.MH_EBSOAWcfService.UpdatePoStatusInfo;
 import org.datacontract.schemas._2004._07.MH_EBSOAWcfService.UpdateStatusJson;
 import org.datacontract.schemas._2004._07.MH_EBSOAWcfService_DBDac.OAItemModelBom_Content;
@@ -35,7 +36,7 @@ import org.datacontract.schemas._2004._07.MH_EBSOAWcfService_DBDac.OAItemModelBo
 import org.datacontract.schemas._2004._07.MH_EBSOAWcfService_DBDac.OAItemModelItem_Content;
 import org.datacontract.schemas._2004._07.MH_EBSOAWcfService_DBDac.OAItemModelOAItem;
 import org.datacontract.schemas._2004._07.MH_EBSOAWcfService_DBDac.OAItemModelOu_Content;
-import org.datacontract.schemas._2004._07.MH_EBSOAWcfService_Function.ReturnModel;
+import org.datacontract.schemas._2004._07.MH_EBSOAWcfService_OAModel.ReturnModel;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
@@ -786,6 +787,53 @@ public class OracleManager {
 			boolean status = returnModel.getProcessStatus();
 			if(status){
 				response = String.valueOf(status);
+			}else{
+				response = returnModel.getProcessMessage();
+				code = "-4";
+				message = response;
+			}
+			logger.info("response: " + response);
+		} catch (RemoteException e) {
+			logger.error(task + " Failure: ", e);
+			code = "-2";
+			message = "RemoteException.";
+		} catch (Exception e) {
+			logger.error(task + " Failure: ", e);
+			code = "-1";
+			message = "Failure.";
+		}
+		return callback(null, task, code, message, request, response);
+	}
+	
+	/**
+	 * 获取 Oracle中的供应链数量并更新
+	 * 
+	 * @param list
+	 * @return 推送结果
+	 * @author ycj@20200221
+	 */
+	public OracleResult<String, String> getItemORGQtyV2(GetItemORGQtyInfo pinfo,String task) {
+		String code = "0";
+		String message = "成功";
+		String request = null;
+		String response = null;
+		try {
+			String username = Util.null2String(envMap.get("username"));
+			String password = Util.null2String(envMap.get("password"));
+			
+			JSONObject jsonObject = JSONObject.fromObject(pinfo);
+			request = jsonObject.toString();
+			logger.info("request: " + request);
+			if (StringUtils.isBlank(request)) {
+				code = "-3";
+				message = "创建请求信息失败";
+				return callback(null, task, code, message, request, response);
+			}
+			
+			ReturnModel returnModel = proxy.getItemORGQtyV2(pinfo, username, password);
+			boolean status = returnModel.getProcessStatus();
+			if(status){
+				response = returnModel.getProcessNote();
 			}else{
 				response = returnModel.getProcessMessage();
 				code = "-4";

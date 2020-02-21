@@ -18,7 +18,7 @@ public class BasicHttpBinding_OAServiceContractStub extends org.apache.axis.clie
     static org.apache.axis.description.OperationDesc [] _operations;
 
     static {
-        _operations = new org.apache.axis.description.OperationDesc[25];
+        _operations = new org.apache.axis.description.OperationDesc[26];
         _initOperationDesc1();
         _initOperationDesc2();
         _initOperationDesc3();
@@ -526,11 +526,32 @@ public class BasicHttpBinding_OAServiceContractStub extends org.apache.axis.clie
         param.setNillable(true);
         oper.addParameter(param);
         oper.setReturnType(new javax.xml.namespace.QName("http://schemas.datacontract.org/2004/07/MH.EBSOAWcfService.Function", "ReturnModel"));
-        oper.setReturnClass(org.datacontract.schemas._2004._07.MH_EBSOAWcfService_Function.ReturnModel.class);
+        oper.setReturnClass(org.datacontract.schemas._2004._07.MH_EBSOAWcfService_OAModel.ReturnModel.class);
         oper.setReturnQName(new javax.xml.namespace.QName("http://tempuri.org/", "UpdateStatusV2Result"));
         oper.setStyle(org.apache.axis.constants.Style.WRAPPED);
         oper.setUse(org.apache.axis.constants.Use.LITERAL);
         _operations[24] = oper;
+        
+        oper = new org.apache.axis.description.OperationDesc();
+        oper.setName("GetItemORGQtyV2");
+        param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("http://tempuri.org/", "ItemORGQtyInfo"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://schemas.datacontract.org/2004/07/MH.EBSOAWcfService", "GetItemORGQtyInfo"), org.datacontract.schemas._2004._07.MH_EBSOAWcfService.GetItemORGQtyInfo.class, false, false);
+        param.setOmittable(true);
+        param.setNillable(true);
+        oper.addParameter(param);
+        param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("http://tempuri.org/", "Name"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+        param.setOmittable(true);
+        param.setNillable(true);
+        oper.addParameter(param);
+        param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("http://tempuri.org/", "Pwd"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+        param.setOmittable(true);
+        param.setNillable(true);
+        oper.addParameter(param);
+        oper.setReturnType(new javax.xml.namespace.QName("http://schemas.datacontract.org/2004/07/MH.EBSOAWcfService.OAModel", "ReturnModel"));
+        oper.setReturnClass(org.datacontract.schemas._2004._07.MH_EBSOAWcfService_OAModel.ReturnModel.class);
+        oper.setReturnQName(new javax.xml.namespace.QName("http://tempuri.org/", "GetItemORGQtyV2Result"));
+        oper.setStyle(org.apache.axis.constants.Style.WRAPPED);
+        oper.setUse(org.apache.axis.constants.Use.LITERAL);
+        _operations[25] = oper;
     }
 
     public BasicHttpBinding_OAServiceContractStub() throws org.apache.axis.AxisFault {
@@ -641,6 +662,27 @@ public class BasicHttpBinding_OAServiceContractStub extends org.apache.axis.clie
             cachedSerClasses.add(cls);
             cachedSerFactories.add(beansf);
             cachedDeserFactories.add(beandf);
+            
+            qName = new javax.xml.namespace.QName("http://schemas.datacontract.org/2004/07/MH.EBSOAWcfService.OAModel", "Qctask");
+            cachedSerQNames.add(qName);
+            cls = org.datacontract.schemas._2004._07.MH_EBSOAWcfService_OAModel.Qctask.class;
+            cachedSerClasses.add(cls);
+            cachedSerFactories.add(beansf);
+            cachedDeserFactories.add(beandf);
+
+            qName = new javax.xml.namespace.QName("http://schemas.datacontract.org/2004/07/MH.EBSOAWcfService.OAModel", "QCTaskReminderModel");
+            cachedSerQNames.add(qName);
+            cls = org.datacontract.schemas._2004._07.MH_EBSOAWcfService_OAModel.QCTaskReminderModel.class;
+            cachedSerClasses.add(cls);
+            cachedSerFactories.add(beansf);
+            cachedDeserFactories.add(beandf);
+
+            qName = new javax.xml.namespace.QName("http://schemas.datacontract.org/2004/07/MH.EBSOAWcfService.OAModel", "ReturnModel");
+            cachedSerQNames.add(qName);
+            cls = org.datacontract.schemas._2004._07.MH_EBSOAWcfService_OAModel.ReturnModel.class;
+            cachedSerClasses.add(cls);
+            cachedSerFactories.add(beansf);
+            cachedDeserFactories.add(beandf);
 
             qName = new javax.xml.namespace.QName("http://schemas.datacontract.org/2004/07/MH.EBSOAWcfService", "GetItemQtyInfo");
             cachedSerQNames.add(qName);
@@ -708,6 +750,20 @@ public class BasicHttpBinding_OAServiceContractStub extends org.apache.axis.clie
             qName = new javax.xml.namespace.QName("http://schemas.datacontract.org/2004/07/MH.EBSOAWcfService", "Electronic");
             cachedSerQNames.add(qName);
             cls = org.datacontract.schemas._2004._07.MH_EBSOAWcfService.Electronic.class;
+            cachedSerClasses.add(cls);
+            cachedSerFactories.add(beansf);
+            cachedDeserFactories.add(beandf);
+            
+            qName = new javax.xml.namespace.QName("http://schemas.datacontract.org/2004/07/MH.EBSOAWcfService", "GetGimmickData");
+            cachedSerQNames.add(qName);
+            cls = org.datacontract.schemas._2004._07.MH_EBSOAWcfService.GetGimmickData.class;
+            cachedSerClasses.add(cls);
+            cachedSerFactories.add(beansf);
+            cachedDeserFactories.add(beandf);
+            
+            qName = new javax.xml.namespace.QName("http://schemas.datacontract.org/2004/07/MH.EBSOAWcfService", "GetItemORGQtyInfo");
+            cachedSerQNames.add(qName);
+            cls = org.datacontract.schemas._2004._07.MH_EBSOAWcfService.GetItemORGQtyInfo.class;
             cachedSerClasses.add(cls);
             cachedSerFactories.add(beansf);
             cachedDeserFactories.add(beandf);
@@ -1601,7 +1657,7 @@ public class BasicHttpBinding_OAServiceContractStub extends org.apache.axis.clie
 }
     }
     
-    public org.datacontract.schemas._2004._07.MH_EBSOAWcfService_Function.ReturnModel updateStatusV2(org.datacontract.schemas._2004._07.MH_EBSOAWcfService.UpdateStatusJson pinfo, java.lang.String name, java.lang.String pwd) throws java.rmi.RemoteException {
+    public org.datacontract.schemas._2004._07.MH_EBSOAWcfService_OAModel.ReturnModel updateStatusV2(org.datacontract.schemas._2004._07.MH_EBSOAWcfService.UpdateStatusJson pinfo, java.lang.String name, java.lang.String pwd) throws java.rmi.RemoteException {
         if (super.cachedEndpoint == null) {
             throw new org.apache.axis.NoEndPointException();
         }
@@ -1625,9 +1681,43 @@ public class BasicHttpBinding_OAServiceContractStub extends org.apache.axis.clie
         else {
             extractAttachments(_call);
             try {
-                return (org.datacontract.schemas._2004._07.MH_EBSOAWcfService_Function.ReturnModel) _resp;
+                return (org.datacontract.schemas._2004._07.MH_EBSOAWcfService_OAModel.ReturnModel) _resp;
             } catch (java.lang.Exception _exception) {
-                return (org.datacontract.schemas._2004._07.MH_EBSOAWcfService_Function.ReturnModel) org.apache.axis.utils.JavaUtils.convert(_resp, org.datacontract.schemas._2004._07.MH_EBSOAWcfService_Function.ReturnModel.class);
+                return (org.datacontract.schemas._2004._07.MH_EBSOAWcfService_OAModel.ReturnModel) org.apache.axis.utils.JavaUtils.convert(_resp, org.datacontract.schemas._2004._07.MH_EBSOAWcfService_OAModel.ReturnModel.class);
+            }
+        }
+  } catch (org.apache.axis.AxisFault axisFaultException) {
+  throw axisFaultException;
+}
+    }
+    
+    public org.datacontract.schemas._2004._07.MH_EBSOAWcfService_OAModel.ReturnModel getItemORGQtyV2(org.datacontract.schemas._2004._07.MH_EBSOAWcfService.GetItemORGQtyInfo itemORGQtyInfo, java.lang.String name, java.lang.String pwd) throws java.rmi.RemoteException {
+        if (super.cachedEndpoint == null) {
+            throw new org.apache.axis.NoEndPointException();
+        }
+        org.apache.axis.client.Call _call = createCall();
+        _call.setOperation(_operations[25]);
+        _call.setUseSOAPAction(true);
+        _call.setSOAPActionURI("http://tempuri.org/OAServiceContract/GetItemORGQtyV2");
+        _call.setEncodingStyle(null);
+        _call.setProperty(org.apache.axis.client.Call.SEND_TYPE_ATTR, Boolean.FALSE);
+        _call.setProperty(org.apache.axis.AxisEngine.PROP_DOMULTIREFS, Boolean.FALSE);
+        _call.setSOAPVersion(org.apache.axis.soap.SOAPConstants.SOAP11_CONSTANTS);
+        _call.setOperationName(new javax.xml.namespace.QName("http://tempuri.org/", "GetItemORGQtyV2"));
+
+        setRequestHeaders(_call);
+        setAttachments(_call);
+ try {        java.lang.Object _resp = _call.invoke(new java.lang.Object[] {itemORGQtyInfo, name, pwd});
+
+        if (_resp instanceof java.rmi.RemoteException) {
+            throw (java.rmi.RemoteException)_resp;
+        }
+        else {
+            extractAttachments(_call);
+            try {
+                return (org.datacontract.schemas._2004._07.MH_EBSOAWcfService_OAModel.ReturnModel) _resp;
+            } catch (java.lang.Exception _exception) {
+                return (org.datacontract.schemas._2004._07.MH_EBSOAWcfService_OAModel.ReturnModel) org.apache.axis.utils.JavaUtils.convert(_resp, org.datacontract.schemas._2004._07.MH_EBSOAWcfService_OAModel.ReturnModel.class);
             }
         }
   } catch (org.apache.axis.AxisFault axisFaultException) {
