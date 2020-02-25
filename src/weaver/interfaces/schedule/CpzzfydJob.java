@@ -42,7 +42,7 @@ public class CpzzfydJob extends BaseCronJob {
 			if (manager == null) manager = new OracleManager();
 			
 			//获取费用支付台账中的相关信息。
-			String sql = "select * from uf_gyskk where tszt = '1'";
+			String sql = "select * from uf_gyskk where tszt = '0'";
 			rs.execute(sql);
 	        while (rs.next()) {
 	        	String gys = Util.null2String(rs.getString("gys"));
@@ -52,6 +52,7 @@ public class CpzzfydJob extends BaseCronJob {
 	        	if(fyje.indexOf(",")!=-1){
 	        		fyje = fyje.replace(",", "");
 	        	}
+	        	String kklc = Util.null2String(rs.getString("kklc"));
 		        if(!"0".equals(fyje)){
 		        	String gysId = "";
 		        	String gysName = "";
@@ -91,7 +92,6 @@ public class CpzzfydJob extends BaseCronJob {
 
 
 		        	Map<String, String> headContentMap = new HashMap<String, String>();
-
 					headContentMap.put("org_id", ywst);
 					headContentMap.put("vendor_id", gysId);
 					headContentMap.put("vendor_name", gysName);
@@ -99,7 +99,6 @@ public class CpzzfydJob extends BaseCronJob {
 					headContentMap.put("create_name", zdrName);
 					headContentMap.put("create_date", zdrq);
 					headContentMap.put("deduction_type", "产品证书制作费用单");
-					headContentMap.put("comments", "");
 		        	po.setHeadContentMap(headContentMap);
 		        	List<Map<String, String>> detailContentList = new ArrayList<Map<String, String>>();
 		        	Map<String, String> detailContentMap = new HashMap<String, String>();
@@ -116,7 +115,7 @@ public class CpzzfydJob extends BaseCronJob {
 					Matcher isNum = pattern.matcher(result.getResponse());
 					if (result == null || (!"0".equals(result.getCode()) && !isNum.matches())) {
 						if(!"-4".equals(result.getCode())){
-							sql1 = "update uf_spgltz set tszt = '2' where spdh = '" + spdh + "'";
+							sql1 = "update uf_gyskk set tszt = '2' where kklc = '" + kklc + "'";
 							rs1.execute(sql1);
 						}
 						if (result == null) {
@@ -126,11 +125,11 @@ public class CpzzfydJob extends BaseCronJob {
 									result.getMessage()));
 						}
 					}else{
-						sql1 = "update uf_spgltz set ORASPDH = '" + result.getResponse() + "',tszt = '1' where spdh = '" + spdh + "'";
+						sql1 = "update uf_gyskk set ORASPDH = '" + result.getResponse() + "',tszt = '0' where kklc = '" + kklc + "'";
 						rs1.execute(sql1);
 					}
 	        	}else{
-	        		String sql1 = "update uf_spgltz set tszt = '2' where spdh = '" + spdh + "'";
+	        		String sql1 = "update uf_gyskk set tszt = '2' where kklc = '" + kklc + "'";
 					rs1.execute(sql1);
 	        	}
 	        }
