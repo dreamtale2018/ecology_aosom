@@ -69,9 +69,9 @@ public class ProductCptszbQtyArchiveAction implements Action {
 				String response = result.getResponse();
 				JSONArray jsonArray = JSONArray.fromObject(response);     	//把字符串转成json数组
 				JSONObject processNote = (JSONObject) jsonArray.get(0);   	//取第一个json对象  
-			    Integer wlck = (Integer) processNote.get("SUPPLIER_INV_QUANTITY");    
-			    Integer gckc = (Integer) processNote.get("UNCOMPLETE_QUANTITY");    
-			    Integer zz = (Integer) processNote.get("OnHandQty");    
+				Integer wlck = (Integer) processNote.get("OnHandQty");    
+			    Integer gckc = (Integer) processNote.get("SUPPLIER_INV_QUANTITY");    
+			    Integer zz = (Integer) processNote.get("UNCOMPLETE_QUANTITY");    
 			    String sql = "update formtable_main_158 set " + xsgb + "WLC = '" + wlck + "'," + xsgb + "GCKC = '" + gckc +
 			                 "'," + xsgb + "ZZ = '" + zz + "' where requestid = '" + requestid + "'";
 			    rs.execute(sql);

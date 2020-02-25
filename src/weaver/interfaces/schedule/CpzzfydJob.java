@@ -42,7 +42,7 @@ public class CpzzfydJob extends BaseCronJob {
 			if (manager == null) manager = new OracleManager();
 			
 			//获取费用支付台账中的相关信息。
-			String sql = "select * from uf_gyskk where tszt = '0'";
+			String sql = "select * from uf_gyskk where tszt is null or tszt = '1'";
 			rs.execute(sql);
 	        while (rs.next()) {
 	        	String gys = Util.null2String(rs.getString("gys"));
@@ -62,7 +62,7 @@ public class CpzzfydJob extends BaseCronJob {
 		        		gysId = Util.null2String(rs1.getString("vendor_id"));
 		        		gysName = Util.null2String(rs1.getString("vendor_name"));
 		        	}
-		        	String ywst = Util.null2String(rs.getString("ywst"));
+		        	String lcbh = Util.null2String(rs.getString("lcbh"));
 		        	String zdr = Util.null2String(rs.getString("zdr"));
 		        	String zdrGh = "";
 		        	String zdrName = "";
@@ -92,13 +92,14 @@ public class CpzzfydJob extends BaseCronJob {
 
 
 		        	Map<String, String> headContentMap = new HashMap<String, String>();
-					headContentMap.put("org_id", ywst);
+					headContentMap.put("oa_num", lcbh);
 					headContentMap.put("vendor_id", gysId);
 					headContentMap.put("vendor_name", gysName);
 					headContentMap.put("create_code", zdrGh);
 					headContentMap.put("create_name", zdrName);
 					headContentMap.put("create_date", zdrq);
-					headContentMap.put("deduction_type", "产品证书制作费用单");
+					headContentMap.put("deduction_type", "索赔单");
+					headContentMap.put("comments", "");
 		        	po.setHeadContentMap(headContentMap);
 		        	List<Map<String, String>> detailContentList = new ArrayList<Map<String, String>>();
 		        	Map<String, String> detailContentMap = new HashMap<String, String>();
@@ -110,7 +111,7 @@ public class CpzzfydJob extends BaseCronJob {
 					po.setDetailContentList(detailContentList);
 					poList.add(po);
 					
-					OracleResult<String, String> result = manager.updateStatus(poList,"CLAIM","pushOrderClaim");
+					OracleResult<String, String> result = manager.updateStatus(poList,"CLAIM","cpzzfydJob");
 					Pattern pattern = Pattern.compile("QX[0-9]{10}");
 					Matcher isNum = pattern.matcher(result.getResponse());
 					if (result == null || (!"0".equals(result.getCode()) && !isNum.matches())) {
@@ -141,40 +142,4 @@ public class CpzzfydJob extends BaseCronJob {
 			manager = null;
 		}
 	}
-	
-//	public static void main(String[] args) {
-//		try {
-//			OAServiceContract proxy = new OAServiceContractProxy();
-//			
-//			GetProductInfo productInfo = new GetProductInfo();
-//			productInfo.setProductID("01-0337");
-//			productInfo.setOperater("121");
-//			Calendar calen = Calendar.getInstance();
-//			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//			calen.setTime(sdf.parse("2017-01-28 00:51:39"));
-//			productInfo.setLastupdate_datetime(calen);
-//			
-//			String response = proxy.getProduct(productInfo, "OAAdmin", "OA123456@");
-//		} catch (RemoteException e) {
-//		} catch (ParseException e) {
-//		}
-		
-//		try {
-//			OAServiceContract proxy = new OAServiceContractProxy();
-//			GetProductInfo info = new GetProductInfo();
-//			info.setProductID("01-0337");
-//			info.setOperater("121");
-//			Calendar calen = Calendar.getInstance();
-//			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//			calen.setTime(sdf.parse("2017-01-28 00:51:39"));
-//			info.setLastupdate_datetime(calen);
-//			String response = proxy.getProduct(info, "OAAdmin", "OA123456@");
-//			System.out.println(response);
-//			String aa = "<?xml version = \"1.0\" encoding = \"UTF-8\" standalone='yes'?>";
-//			System.out.println(aa.indexOf("<?xml version"));
-//		} catch (Exception e) {
-//			System.out.println(e);
-//		}
-//	}
-	
 }
