@@ -32,7 +32,7 @@ public class UpdateGyskk implements Action
     	// 获取主表信息
     	Map<String, String> mainTable = info.getMainMap();
     	YWST = Util.null2String(mainTable.get("YWST"));
-		sql = "update uf_gyskk set TSZT='0',YWST='"+ YWST +  "' where KKLC = '" + requestid + "'";
+		sql = "update uf_gyskk set TSZT='1',YWST='"+ YWST +  "' where KKLC = '" + requestid + "'";
 		rs.execute(sql);
 		//this.logger.error("sql：" + sql);
         
