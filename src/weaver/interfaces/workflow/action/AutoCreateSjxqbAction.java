@@ -184,7 +184,7 @@ public class AutoCreateSjxqbAction implements Action
 		wmi.setRequestRecords(wrtri);   
 		//添加明细数据       
 		wrtri = new WorkflowRequestTableRecord[1];
-		wrti = new WorkflowRequestTableField[14]; //字段信息             
+		wrti = new WorkflowRequestTableField[15]; //字段信息             
 		wrti[0] = new WorkflowRequestTableField();             
 		wrti[0].setFieldName("hh");//货号             
 		wrti[0].setFieldValue(HH);            
@@ -255,6 +255,11 @@ public class AutoCreateSjxqbAction implements Action
 		wrti[13].setFieldValue(CPGG);            
 		wrti[13].setView(true);//字段是否可见              
 		wrti[13].setEdit(true);//字段是否可编辑
+		wrti[14] = new WorkflowRequestTableField();             
+		wrti[14].setFieldName("zt");//状态         
+		wrti[14].setFieldValue("0");            
+		wrti[14].setView(true);//字段是否可见              
+		wrti[14].setEdit(true);//字段是否可编辑
 		wrtri[0] = new WorkflowRequestTableRecord();
 		wrtri[0].setWorkflowRequestTableFields(wrti);
 		//添加到明细表中        

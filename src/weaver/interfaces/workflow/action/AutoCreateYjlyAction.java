@@ -1,7 +1,6 @@
 package weaver.interfaces.workflow.action;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -55,8 +54,7 @@ public class AutoCreateYjlyAction implements Action
 				Map<String, String> detailAMap = detailAList.get(i);
 				String wlbmDetailA = Util.null2String(detailAMap.get("WLBM"));			//物料编码
 				String pmDetailA = Util.null2String(detailAMap.get("PM"));				//品名
-				String ggDetailA = Util.null2String(detailAMap.get("GG"));			    //规格
-				String zcbmDetailA = Util.null2String(detailAMap.get("ZCBM"));	        //资产编码
+				String ggDetailA = Util.null2String(detailAMap.get("XH"));			    //规格
 				String syrDetailA = Util.null2String(detailAMap.get("SYR"));			//使用人
 				String bmDetailA = Util.null2String(detailAMap.get("BM"));			    //部门
 				String ipDetailA = Util.null2String(detailAMap.get("IP"));				//IP
@@ -65,11 +63,11 @@ public class AutoCreateYjlyAction implements Action
 				String zcbmzjDetailA = Util.null2String(detailAMap.get("ZCBMZJ"));		//资产编码主机
 				String zcbmxsqDetailA = Util.null2String(detailAMap.get("ZCBMXSQ"));	//资产编码显示器
 				
-				List<String> ZCBMList = new ArrayList<String>();
-				ZCBMList.add(zcbmzjDetailA);
-				ZCBMList.add(zcbmxsqDetailA);
-				for(int j=0;j<ZCBMList.size();j++){
-					if(!"".equals(ZCBMList.get(j))){
+				String[] ZCBMArr = new String[2];
+				ZCBMArr[0] = zcbmzjDetailA;
+				ZCBMArr[1] = zcbmxsqDetailA;
+				for(int j=0;j<ZCBMArr.length;j++){
+					if(!"".equals(ZCBMArr[j])){
 						String xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" +
 						"<ROOT>" +
 						  "<header>" +
@@ -101,11 +99,11 @@ public class AutoCreateYjlyAction implements Action
 						      "</field>" +
 						      "<field>" +
 							    "<filedname>ZCXL</filedname>" +
-							    "<filedvalue>"+ZCBMList.get(i)+"</filedvalue>" +
+							    "<filedvalue>"+j+"</filedvalue>" +
 						      "</field>" +
 						      "<field>" +
 						        "<filedname>ZCBM</filedname>" +
-						        "<filedvalue>"+zcbmDetailA+"</filedvalue>" +
+						        "<filedvalue>"+ZCBMArr[j]+"</filedvalue>" +
 						      "</field>" +
 						      "<field>" +
 						        "<filedname>SYR</filedname>" +
