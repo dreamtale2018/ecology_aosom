@@ -926,12 +926,18 @@ public class OracleManager {
 	 */
 	private <T> String invokeByReflect(T clazzBean, String methodName,
 			Object[] argsValue, Class<?>[] argsValueClass) {
+		ReturnModel returnModel = null;
 		String result = null;
 		String task = "invokeByReflect";
 		try {
 			Method method = clazzBean.getClass().getMethod(methodName, argsValueClass);
 			Object obj = method.invoke(clazzBean, argsValue);
-			result = obj == null ? null : obj + "";
+			if(obj instanceof ReturnModel){
+				returnModel = (ReturnModel) obj;
+				result = returnModel.getProcessNote();
+			}else{
+				result = obj == null ? null : obj + "";
+			}
 		} catch (NoSuchMethodException e) {
 			logger.error(task + " NoSuchMethodException:", e);
 		} catch (SecurityException e) {
@@ -1389,16 +1395,6 @@ public class OracleManager {
 					for (Element element : elementList) {
 						String name = element.getName();
 						String value = Util.null2String(element.getText());	// TODO 需要去空格?
-						//处理接口中需要转换的字段
-						String rmitransfer = query.get("rmitransfer");		// 调用接口转换指定值的字段值
-						String[] rmitransferArr = rmitransfer.split(",");
-						for (int i = 0; i < rmitransferArr.length; i++) {
-							String transfername = rmitransferArr[i];
-							if (StringUtils.isBlank(transfername)) continue;
-							if (name.equals(transfername)) {
-								value = getUserid(value);
-							}
-						}
 						// 处理接口同步过滤指定条件不同步的问题
 						boolean filterFlag = filter.accepts(query, name, value);
 						if (!filterFlag) continue;
@@ -1417,16 +1413,6 @@ public class OracleManager {
 					while(it.hasNext()){
 						String name = it.next(); 
 						String value = Util.null2String(jsonObject.get(name)); 
-						//处理接口中需要转换的字段
-						String rmitransfer = query.get("rmitransfer");		// 调用接口转换指定值的字段值
-						String[] rmitransferArr = rmitransfer.split(",");
-						for (int j = 0; j < rmitransferArr.length; j++) {
-							String transfername = rmitransferArr[j];
-							if (StringUtils.isBlank(transfername)) continue;
-							if (name.equals(transfername)) {
-								value = getUserid(value);
-							}
-						}
 						// 处理接口同步过滤指定条件不同步的问题
 						boolean filterFlag = filter.accepts(query, name, value);
 						if (!filterFlag) continue;
@@ -1602,26 +1588,6 @@ public class OracleManager {
 			logger.error(task + " Exception: ", e);
 		}
 		return result;
-	}
-	
-	/**
-	 * 获取用户 id, 根据用户编码
-	 * 
-	 * @param workcode
-	 * 					用户编码
-	 * @return String
-	 */
-	public String getUserid(String workcode) {
-		String userid = "";
-		String task = "getUserid";
-		try {
-			if (StringUtils.isBlank(workcode)) return workcode;
-			rs.executeQuery("select id from hrmresource where workcode = ?", workcode);
-			if (rs.next()) userid = rs.getString(1);
-		} catch (Exception e) {
-			logger.error(task + " Exception: ", e);
-		}
-		return userid;
 	}
 	
 	/**
@@ -1845,7 +1811,6 @@ public class OracleManager {
 				map.put("rmiargname", Util.null2String(prop.get("oracle.query." + query + ".rmiargname")));
 				map.put("rmifiltername", Util.null2String(prop.get("oracle.query." + query + ".rmifiltername")));
 				map.put("rmifiltervalue", Util.null2String(prop.get("oracle.query." + query + ".rmifiltervalue")));
-				map.put("rmitransfer", Util.null2String(prop.get("oracle.query." + query + ".rmitransfer")));
 				map.put("modeid", Util.null2String(prop.get("oracle.query." + query + ".modeid")));
 				map.put("modecreator", Util.null2String(prop.get("oracle.query." + query + ".modecreator")));
 				

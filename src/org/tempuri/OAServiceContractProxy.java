@@ -1,5 +1,16 @@
 package org.tempuri;
 
+import java.rmi.RemoteException;
+
+import org.datacontract.schemas._2004._07.MH_EBSOAWcfService.GetItemQtyInfo;
+import org.datacontract.schemas._2004._07.MH_EBSOAWcfService.GetPoQuoteListInfo;
+import org.datacontract.schemas._2004._07.MH_EBSOAWcfService.GetProductInfo;
+import org.datacontract.schemas._2004._07.MH_EBSOAWcfService.GetVendorAddressInfo;
+import org.datacontract.schemas._2004._07.MH_EBSOAWcfService.GetVendorContactInfo;
+import org.datacontract.schemas._2004._07.MH_EBSOAWcfService.GetVendorInfo;
+import org.datacontract.schemas._2004._07.MH_EBSOAWcfService_OAModel.QCTaskReminderModel;
+import org.datacontract.schemas._2004._07.MH_EBSOAWcfService_OAModel.ReturnModel;
+
 public class OAServiceContractProxy implements org.tempuri.OAServiceContract {
   private String _endpoint = null;
   private org.tempuri.OAServiceContract oAServiceContract = null;
@@ -44,16 +55,16 @@ public class OAServiceContractProxy implements org.tempuri.OAServiceContract {
     return oAServiceContract;
   }
   
-  public java.lang.String getProduct(org.datacontract.schemas._2004._07.MH_EBSOAWcfService.GetProductInfo productinfo, java.lang.String name, java.lang.String pwd) throws java.rmi.RemoteException{
-    if (oAServiceContract == null)
-      _initOAServiceContractProxy();
-    return oAServiceContract.getProduct(productinfo, name, pwd);
-  }
-  
   public java.lang.String getProductV2(org.datacontract.schemas._2004._07.MH_EBSOAWcfService.GetProductInfo productinfo, java.lang.String name, java.lang.String pwd) throws java.rmi.RemoteException{
 	  if (oAServiceContract == null)
 		  _initOAServiceContractProxy();
 	  return oAServiceContract.getProductV2(productinfo, name, pwd);
+  }
+  
+  public org.datacontract.schemas._2004._07.MH_EBSOAWcfService_OAModel.ReturnModel getGimmickDataV2(org.datacontract.schemas._2004._07.MH_EBSOAWcfService.GetGimmickData pinfo, java.lang.String name, java.lang.String pwd) throws java.rmi.RemoteException{
+	  if (oAServiceContract == null)
+		  _initOAServiceContractProxy();
+	  return oAServiceContract.getGimmickDataV2(pinfo, name, pwd);
   }
   
   public java.lang.String getSeasProduct(org.datacontract.schemas._2004._07.MH_EBSOAWcfService.GetProductInfo productinfo, java.lang.String name, java.lang.String pwd) throws java.rmi.RemoteException{
@@ -80,22 +91,10 @@ public class OAServiceContractProxy implements org.tempuri.OAServiceContract {
     return oAServiceContract.getVendorContact(vendorinfo, name, pwd);
   }
   
-  public java.lang.String getPoList(org.datacontract.schemas._2004._07.MH_EBSOAWcfService.GetPoListInfo piListinfo, java.lang.String name, java.lang.String pwd) throws java.rmi.RemoteException{
-    if (oAServiceContract == null)
-      _initOAServiceContractProxy();
-    return oAServiceContract.getPoList(piListinfo, name, pwd);
-  }
-  
   public java.lang.String getItemQty(org.datacontract.schemas._2004._07.MH_EBSOAWcfService.GetItemQtyInfo itemQtyInfo, java.lang.String name, java.lang.String pwd) throws java.rmi.RemoteException{
     if (oAServiceContract == null)
       _initOAServiceContractProxy();
     return oAServiceContract.getItemQty(itemQtyInfo, name, pwd);
-  }
-  
-  public java.lang.String createWorkflow() throws java.rmi.RemoteException{
-    if (oAServiceContract == null)
-      _initOAServiceContractProxy();
-    return oAServiceContract.createWorkflow();
   }
   
   public java.lang.String updatePoStatus(org.datacontract.schemas._2004._07.MH_EBSOAWcfService.UpdatePoStatusInfo poStatusInfo, java.lang.String name, java.lang.String pwd) throws java.rmi.RemoteException{
@@ -110,34 +109,18 @@ public class OAServiceContractProxy implements org.tempuri.OAServiceContract {
     return oAServiceContract.importOAItem(OAItemJson, name, pwd);
   }
   
-  public java.lang.String returnOAItemSKU(org.datacontract.schemas._2004._07.MH_EBSOAWcfService.ReturnOAItemSKUInfo OAItemSKUInfo, java.lang.String name, java.lang.String pwd) throws java.rmi.RemoteException{
-    if (oAServiceContract == null)
-      _initOAServiceContractProxy();
-    return oAServiceContract.returnOAItemSKU(OAItemSKUInfo, name, pwd);
-  }
-  
   public java.lang.String importOAORGItem(java.lang.String OAORGItemJson, java.lang.String name, java.lang.String pwd) throws java.rmi.RemoteException{
     if (oAServiceContract == null)
       _initOAServiceContractProxy();
     return oAServiceContract.importOAORGItem(OAORGItemJson, name, pwd);
   }
   
-  /**
-   * 推送报价单到Oracle
-   * 
-   * @author ycj@20180814
-   */
   public java.lang.String importOAQuote(java.lang.String OAQuoteJson, java.lang.String name, java.lang.String pwd) throws java.rmi.RemoteException{
 	  if (oAServiceContract == null)
 		  _initOAServiceContractProxy();
 	  return oAServiceContract.importOAQuote(OAQuoteJson, name, pwd);
   }
   
-  /**
-   * 更新报价单到Oracle
-   * 
-   * @author ycj@20180814
-   */
   public java.lang.String updateOAQuote(java.lang.String OAQuoteJson, java.lang.String name, java.lang.String pwd) throws java.rmi.RemoteException{
 	  if (oAServiceContract == null)
 		  _initOAServiceContractProxy();
@@ -209,6 +192,104 @@ public class OAServiceContractProxy implements org.tempuri.OAServiceContract {
       _initOAServiceContractProxy();
     return oAServiceContract.returnSKU();
   }
+
+@Override
+public String OAUpdateQCTaskStatus(String QCTaskStatusJson, String name,
+		String pwd) throws RemoteException {
+	// TODO Auto-generated method stub
+	return null;
+}
+
+@Override
+public String cliendTest() throws RemoteException {
+	// TODO Auto-generated method stub
+	return null;
+}
+
+@Override
+public String createPaymentPay() throws RemoteException {
+	// TODO Auto-generated method stub
+	return null;
+}
+
+@Override
+public String createPaymentPoListsNew() throws RemoteException {
+	// TODO Auto-generated method stub
+	return null;
+}
+
+@Override
+public String createPoLists() throws RemoteException {
+	// TODO Auto-generated method stub
+	return null;
+}
+
+@Override
+public String createQCTask() throws RemoteException {
+	// TODO Auto-generated method stub
+	return null;
+}
+
+@Override
+public ReturnModel createQCTaskReminder(QCTaskReminderModel QCTaskReminder,
+		String name, String pwd) throws RemoteException {
+	// TODO Auto-generated method stub
+	return null;
+}
+
+@Override
+public String getElectronic() throws RemoteException {
+	// TODO Auto-generated method stub
+	return null;
+}
+
+@Override
+public ReturnModel getItemQtyV2(GetItemQtyInfo itemQtyInfo, String name,
+		String pwd) throws RemoteException {
+	// TODO Auto-generated method stub
+	return null;
+}
+
+@Override
+public ReturnModel getPoQuoteListV2(GetPoQuoteListInfo poQuoteInfo,
+		String name, String pwd) throws RemoteException {
+	// TODO Auto-generated method stub
+	return null;
+}
+
+@Override
+public ReturnModel getSeasProductV2(GetProductInfo productinfo, String name,
+		String pwd) throws RemoteException {
+	// TODO Auto-generated method stub
+	return null;
+}
+
+@Override
+public ReturnModel getVendorAddressV2(GetVendorAddressInfo vendorinfo,
+		String name, String pwd) throws RemoteException {
+	// TODO Auto-generated method stub
+	return null;
+}
+
+@Override
+public ReturnModel getVendorContactV2(GetVendorContactInfo vendorinfo,
+		String name, String pwd) throws RemoteException {
+	// TODO Auto-generated method stub
+	return null;
+}
+
+@Override
+public ReturnModel getVendorV2(GetVendorInfo vendorinfo, String name, String pwd)
+		throws RemoteException {
+	// TODO Auto-generated method stub
+	return null;
+}
+
+@Override
+public void oracleIDTest(String userID) throws RemoteException {
+	// TODO Auto-generated method stub
+	
+}
   
   
 }

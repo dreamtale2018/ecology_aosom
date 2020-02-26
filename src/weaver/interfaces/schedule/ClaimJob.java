@@ -23,7 +23,7 @@ import com.weaver.ningb.logging.LogFactory;
  * @author liberal
  *
  */
-public class ClaimJob extends BaseCronJob {
+public class ClaimJob extends BaseCronJob { 
 
 	private static final Log logger = LogFactory.getLog(ClaimJob.class);
 	
