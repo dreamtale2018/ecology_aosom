@@ -98,7 +98,7 @@ public class CpzzfydJob extends BaseCronJob {
 					headContentMap.put("create_code", zdrGh);
 					headContentMap.put("create_name", zdrName);
 					headContentMap.put("create_date", zdrq);
-					headContentMap.put("deduction_type", "索赔单");
+					headContentMap.put("deduction_type", "证书制作");
 					headContentMap.put("comments", "");
 		        	po.setHeadContentMap(headContentMap);
 		        	List<Map<String, String>> detailContentList = new ArrayList<Map<String, String>>();
